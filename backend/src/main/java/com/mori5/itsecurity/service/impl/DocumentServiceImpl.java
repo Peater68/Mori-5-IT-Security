@@ -1,10 +1,11 @@
 package com.mori5.itsecurity.service.impl;
 
+import com.mori5.itsecurity.cpp.CPPParserCaller;
+import com.mori5.itsecurity.cpp.CreatorsImages;
 import com.mori5.itsecurity.domain.Document;
 import com.mori5.itsecurity.domain.DocumentType;
 import com.mori5.itsecurity.domain.User;
 import com.mori5.itsecurity.errorhandling.domain.ItSecurityErrors;
-import com.mori5.itsecurity.errorhandling.exception.ConflictException;
 import com.mori5.itsecurity.errorhandling.exception.EntityNotFoundException;
 import com.mori5.itsecurity.errorhandling.exception.UnprocessableEntityException;
 import com.mori5.itsecurity.repository.DocumentRepository;
@@ -19,10 +20,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import javax.imageio.ImageIO;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 
@@ -39,6 +45,7 @@ public class DocumentServiceImpl implements DocumentService {
     private final DocumentRepository documentRepository;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final CPPParserCaller cppParserCaller;
 
     // TODO paging!
 
@@ -69,11 +76,17 @@ public class DocumentServiceImpl implements DocumentService {
             throw new UnprocessableEntityException("Error while reading file", ItSecurityErrors.UNPROCESSABLE_ENTITY);
         }
 
-        // TODO itt kell majd áthívni a parserhez és a contentet beállítani, amit viszakapunk
+        CreatorsImages parsedCaff = cppParserCaller.parse("filenev");
+
+
+        //parsedCaff parsedCaff = caller.parse("szoveg");
+
+        byte[] imageInByte = getParsedPreview(parsedCaff);
+
         StorageObject storageObjectPreview = StorageObject.builder()
                 .fileName(fileName)
-                //.content()
-                //.contentType() valami kép
+                .content(imageInByte)
+                .contentType("bmp")
                 .bucket(DocumentType.PREVIEW.getBucket())
                 .build();
 
@@ -87,6 +100,7 @@ public class DocumentServiceImpl implements DocumentService {
         Document document = Document.builder()
                 .fileName(fileName)
                 .uploader(user)
+                .createdDate(LocalDateTime.of(parsedCaff.year, parsedCaff.month, parsedCaff.day, parsedCaff.hour, parsedCaff.minute).toInstant(ZoneOffset.UTC))
                 .customers(null)
                 .build();
 
@@ -96,6 +110,31 @@ public class DocumentServiceImpl implements DocumentService {
         // TODO itt még lehet nem kap ID-t a document, pedig az kell
 
         return document;
+    }
+
+    private byte[] getParsedPreview(CreatorsImages parsedCaff) {
+        BufferedImage bufferedImage = new BufferedImage((int) parsedCaff.images.width, (int) parsedCaff.images.height, BufferedImage.TYPE_INT_RGB);
+
+        int counter = 0;
+        for (int i = 0; i < (int) parsedCaff.images.height; i++) {
+            for (int j = 0; j < (int) parsedCaff.images.width; j++) {
+                int rgb = parsedCaff.images.pixels.get(counter).red;
+                rgb = (rgb << 8) + parsedCaff.images.pixels.get(counter).green;
+                rgb = (rgb << 8) + parsedCaff.images.pixels.get(counter++).blue;
+                bufferedImage.setRGB(j, i, rgb);
+            }
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        try {
+            ImageIO.write(bufferedImage, "bmp", baos);
+            baos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return baos.toByteArray();
     }
 
     @Override

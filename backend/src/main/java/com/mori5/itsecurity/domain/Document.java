@@ -46,6 +46,7 @@ public class Document {
     @GenericGenerator(name = "uuid_generator", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     private String fileName;
+    private Long contentSize;
     private String creator;
     private Instant createdDate;
     @ManyToOne(fetch = FetchType.LAZY)
