@@ -22,8 +22,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String LOGIN_USER_URL = "/auth/login";
-    private static final String TOKEN_REFRESH_USER_URL = "/auth/token";
+    private static final String LOGIN_USER_URL = "/api/auth/login";
+    private static final String TOKEN_REFRESH_USER_URL = "/api/auth/token";
 
     private final SecretService secretService;
 

@@ -37,7 +37,7 @@ public class Comment {
     private String id;
 
     @Column(nullable = false)
-    private String comment;
+    private String commentMessage;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Document document;

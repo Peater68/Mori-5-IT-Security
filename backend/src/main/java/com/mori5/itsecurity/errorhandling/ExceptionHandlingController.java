@@ -8,6 +8,7 @@ import com.mori5.itsecurity.errorhandling.exception.EntityNotFoundException;
 import com.mori5.itsecurity.errorhandling.exception.InvalidOperationException;
 import com.mori5.itsecurity.errorhandling.exception.InvalidTokenException;
 import com.mori5.itsecurity.errorhandling.exception.NoUserInContextException;
+import com.mori5.itsecurity.errorhandling.exception.UnprocessableEntityException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -53,6 +54,12 @@ public class ExceptionHandlingController {
     public Object handleInvalidTokenException(Exception ex) {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(ItSecurityErrors.UNAUTHORIZED, ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UnprocessableEntityException.class)
+    public Object handleUnprocessableEntityException(Exception ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ItSecurityErrors.UNPROCESSABLE_ENTITY, ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
 

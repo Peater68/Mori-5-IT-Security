@@ -46,6 +46,8 @@ public class Document {
     @GenericGenerator(name = "uuid_generator", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     private String fileName;
+    private String creator;
+    private Instant createdDate;
     @ManyToOne(fetch = FetchType.LAZY)
     private User uploader;
     @ManyToMany(mappedBy = "downloads", fetch = FetchType.LAZY)

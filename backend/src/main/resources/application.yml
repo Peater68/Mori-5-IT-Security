@@ -18,14 +18,17 @@ itsecurity:
 
 server:
   port: 8080
-  servlet:
-    context-path: /api
 
 spring:
   application:
     name: itsecurity
   main:
     allow-bean-definition-overriding: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
   jackson:
     serialization:
@@ -65,6 +68,7 @@ spring:
           useUnicode: true
         open-in-view: false
     generate-ddl: true
+
 logging:
   level:
     root: info

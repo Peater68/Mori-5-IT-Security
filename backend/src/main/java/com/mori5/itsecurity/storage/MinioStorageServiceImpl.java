@@ -31,6 +31,8 @@ public class MinioStorageServiceImpl implements StorageService {
         this.secretKey = secretKey;
     }
 
+    // TODO esetleg itt a hibakezelést lehetne csinosítani, ne csak log üzenetek legyenek, hanem szálljon el az egész, ha valami hiba van
+
     @PostConstruct
     private void init() {
         try {

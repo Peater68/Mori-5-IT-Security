@@ -29,4 +29,6 @@ public interface UserService {
 
     void makeAdmin(String id);
 
+    void banUserById(String userId);
+
 }

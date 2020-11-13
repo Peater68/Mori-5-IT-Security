@@ -4,13 +4,19 @@ import com.mori5.itsecurity.domain.Document;
 import com.mori5.itsecurity.storage.StorageObject;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
 public interface DocumentService {
 
     Document uploadCaff(MultipartFile file);
 
-    StorageObject downloadPreview(String documentId);
-
-    StorageObject downloadCaff(String documentId);
+    StorageObject downloadCaffOrPreview(String documentId, @NotNull @Valid String type);
 
     void deleteCaff(String documentId);
+
+    List<Document> getAllCaffs();
+
+    Document getCaffDetailsById(String documentId);
 }

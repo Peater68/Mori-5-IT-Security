@@ -36,6 +36,13 @@ public class UserController implements UserApi {
 
     @Override
     @Secured({AuthoritiesConstants.ROLE_ADMIN})
+    public ResponseEntity<Void> banUserById(String userId) {
+        userService.banUserById(userId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    @Secured({AuthoritiesConstants.ROLE_ADMIN})
     public ResponseEntity<Void> deleteUserById(String userId) {
         userService.deleteUser(userId);
         return ResponseEntity.noContent().build();

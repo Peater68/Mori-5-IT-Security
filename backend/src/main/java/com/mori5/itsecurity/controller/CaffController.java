@@ -63,7 +63,7 @@ public class CaffController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .contentLength(imageInByte.length)
-                .contentType(MediaType.parseMediaType("image/bmp"))
+                .contentType(MediaType.parseMediaType("image/bmp")) // TODO ilyen nincs is, hogy bmp szerintem
                 .body(resource);
 
 
