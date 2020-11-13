@@ -9,12 +9,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class CommentController implements CommentApi {
 
     private final CommentService commentService;
+
+    @Override
+    public ResponseEntity<List<CommentDTO>> getComments(String documentId) {
+        return ResponseEntity.ok(commentService.getComments(documentId));
+    }
 
     @Override
     public ResponseEntity<CommentDTO> postComments(String documentId, @Valid CommentUploadDTO commentUploadDTO) {

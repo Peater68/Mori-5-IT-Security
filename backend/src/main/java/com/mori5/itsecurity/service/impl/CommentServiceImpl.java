@@ -15,6 +15,8 @@ import com.mori5.itsecurity.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
@@ -24,8 +26,13 @@ public class CommentServiceImpl implements CommentService {
     private final DocumentRepository documentRepository;
 
     @Override
-    public CommentDTO getComments(String documentId) {
-        return null;
+    public List<CommentDTO> getComments(String documentId) {
+        Document existingDocument = documentRepository.findById(documentId)
+                .orElseThrow(() -> new EntityNotFoundException("Document has not been found.", ItSecurityErrors.ENTITY_NOT_FOUND));
+
+        List<Comment> comments = commentRepository.findByDocument(existingDocument);
+
+        return CommentMapper.mapCommentListToCommentDTOList(comments);
     }
 
     @Override

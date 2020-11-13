@@ -4,6 +4,8 @@ import com.mori5.itsecurity.api.model.CommentDTO;
 import com.mori5.itsecurity.domain.Comment;
 
 import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommentMapper {
 
@@ -18,6 +20,14 @@ public class CommentMapper {
                 .createdAt(comment.getCreatedAt().atOffset(ZoneOffset.UTC))
                 .user(UserMapper.mapUserToReducedUserDTO(comment.getUser()))
                 .build();
+    }
+
+    public static List<CommentDTO> mapCommentListToCommentDTOList(List<Comment> comments) {
+        List<CommentDTO> commentDTOS = new ArrayList<>();
+        for (Comment comment: comments) {
+            commentDTOS.add(mapCommentToCommentDTO(comment));
+        }
+        return commentDTOS;
     }
 
 }
