@@ -3,6 +3,10 @@ info:
   title: ITSECURITY API documentation
   version: '1.0'
   description: ITSECURITY API
+tags:
+  - name: auth
+  - name: user
+  - name: comment
 paths:
   /api/users:
     get:
@@ -336,6 +340,46 @@ paths:
         '500':
           description: Internal Server Error
       description: Make user admin by id
+  '/api/documents/{documentId}/comments':
+    parameters:
+      - schema:
+          type: string
+        name: documentId
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - comment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommentDTO'
+      operationId: get-comments
+      description: Returns comments of the specified document.
+    post:
+      summary: ''
+      tags:
+        - comment
+      operationId: post-comments
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentDTO'
+      description: Add a comment to the specified document.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentUploadDTO'
 components:
   schemas:
     PasswordChangeDTO:
@@ -439,4 +483,33 @@ components:
         lastName:
           type: string
         username:
+          type: string
+    CommentUploadDTO:
+      title: CommentUploadDTO
+      type: object
+      properties:
+        comment:
+          type: string
+    CommentDTO:
+      title: CommentDTO
+      type: object
+      properties:
+        id:
+          type: string
+        comment:
+          type: string
+        user:
+          $ref: '#/components/schemas/ReducedUserDTO'
+        createdAt:
+          type: string
+          format: date-time
+    ReducedUserDTO:
+      title: ReducedUserDTO
+      type: object
+      properties:
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
           type: string
