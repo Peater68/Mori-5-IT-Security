@@ -2,7 +2,7 @@ package hu.bme.caffshare
 
 import android.os.Bundle
 import co.zsmb.rainbowcake.navigation.SimpleNavActivity
-import hu.bme.caffshare.ui.blank.BlankFragment
+import hu.bme.caffshare.ui.cafflist.CaffListFragment
 
 class MainActivity : SimpleNavActivity() {
 
@@ -11,7 +11,7 @@ class MainActivity : SimpleNavActivity() {
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
-            navigator.add(BlankFragment())
+            navigator.add(CaffListFragment())
         }
     }
 

@@ -1,4 +1,4 @@
-package hu.bme.caffshare.ui.blank
+package hu.bme.caffshare.ui.cafflist
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,7 @@ import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import hu.bme.caffshare.R
 
-class BlankFragment : RainbowCakeFragment<BlankViewState, BlankViewModel>() {
+class CaffListFragment : RainbowCakeFragment<CaffListViewState, CaffListViewModel>() {
 
     override fun provideViewModel() = getViewModelFromFactory()
     override fun getViewResource() = R.layout.fragment_blank
@@ -23,7 +23,7 @@ class BlankFragment : RainbowCakeFragment<BlankViewState, BlankViewModel>() {
         viewModel.load()
     }
 
-    override fun render(viewState: BlankViewState) {
+    override fun render(viewState: CaffListViewState) {
         // TODO Render state
     }
 

@@ -5,7 +5,7 @@ import co.zsmb.rainbowcake.dagger.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import hu.bme.caffshare.ui.blank.BlankViewModel
+import hu.bme.caffshare.ui.cafflist.CaffListViewModel
 
 @Suppress("unused")
 @Module
@@ -13,7 +13,7 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(BlankViewModel::class)
-    abstract fun bindBlankViewModel(blankViewModel: BlankViewModel): ViewModel
+    @ViewModelKey(CaffListViewModel::class)
+    abstract fun bindBlankViewModel(caffListViewModel: CaffListViewModel): ViewModel
 
 }
