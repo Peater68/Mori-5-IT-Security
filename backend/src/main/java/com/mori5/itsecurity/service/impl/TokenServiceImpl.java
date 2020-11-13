@@ -10,6 +10,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.Date;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class TokenServiceImpl implements TokenService {
 
     public static final String USER_ID_CLAIM = "userid";
@@ -34,12 +36,7 @@ public class TokenServiceImpl implements TokenService {
     private static final int ACCESS_TOKEN_TTL = 30 * 60 * 1000; // 30 minutes
     private static final int REFRESH_TOKEN_TTL = 365; // 365 days
 
-    private SecretService secretService;
-
-    @Autowired
-    public TokenServiceImpl(SecretService secretService) {
-        this.secretService = secretService;
-    }
+    private final SecretService secretService;
 
     @Override
     public String generateAccessToken(String email, String id, Role role) {
