@@ -16,7 +16,7 @@ public class CommentMapper {
 
         return CommentDTO.builder()
                 .id(comment.getId())
-                .comment(comment.getComment())
+                .comment(comment.getCommentMessage())
                 .createdAt(comment.getCreatedAt().atOffset(ZoneOffset.UTC))
                 .user(UserMapper.mapUserToReducedUserDTO(comment.getUser()))
                 .build();

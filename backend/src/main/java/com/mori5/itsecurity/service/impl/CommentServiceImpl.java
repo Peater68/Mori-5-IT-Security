@@ -43,7 +43,7 @@ public class CommentServiceImpl implements CommentService {
         Comment newComment = Comment.builder()
                 .document(existingDocument)
                 .user(currentUser)
-                .comment(requestDTO.getComment())
+                .commentMessage(requestDTO.getComment())
                 .build();
         commentRepository.save(newComment);
 
@@ -61,7 +61,7 @@ public class CommentServiceImpl implements CommentService {
             throw new AccessDeniedException("Deleting has been refused because of access violation!");
         }
 
-        existingComment.setComment(requestDTO.getComment());
+        existingComment.setCommentMessage(requestDTO.getComment());
         commentRepository.save(existingComment);
 
         return existingComment;
