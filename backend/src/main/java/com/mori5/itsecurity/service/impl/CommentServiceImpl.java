@@ -13,7 +13,9 @@ import com.mori5.itsecurity.repository.DocumentRepository;
 import com.mori5.itsecurity.service.CommentService;
 import com.mori5.itsecurity.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,11 +28,13 @@ public class CommentServiceImpl implements CommentService {
     private final DocumentRepository documentRepository;
 
     @Override
+    @Transactional
     public List<Comment> getComments(String documentId) {
         return commentRepository.findByDocumentId(documentId);
     }
 
     @Override
+    @Transactional
     public Comment saveComment(String documentId, CommentUploadDTO requestDTO) {
         Document existingDocument = documentRepository.findById(documentId)
                 .orElseThrow(() -> new EntityNotFoundException("Document has not been found.", ItSecurityErrors.ENTITY_NOT_FOUND));
@@ -47,13 +51,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public Comment updateComment(String commentId, CommentUploadDTO requestDTO) {
         Comment existingComment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("Comment has not been found.", ItSecurityErrors.ENTITY_NOT_FOUND));
 
         User currentUser = userService.getCurrentUser();
-        if (!(existingComment.getUser() == currentUser || currentUser.getRole() == Role.ADMIN)) {
-            throw new InvalidOperationException("Deleting has been refused because of access violation!", ItSecurityErrors.ACCESS_DENIED);
+        if (!(existingComment.getUser().getId().equals(currentUser.getId()) || currentUser.getRole() == Role.ADMIN)) {
+            throw new AccessDeniedException("Deleting has been refused because of access violation!");
         }
 
         existingComment.setComment(requestDTO.getComment());
@@ -63,13 +68,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public void deleteComment(String commentId) {
         Comment existingComment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("Comment has not been found.", ItSecurityErrors.ENTITY_NOT_FOUND));
 
         User currentUser = userService.getCurrentUser();
         if (!(existingComment.getUser() == currentUser || currentUser.getRole() == Role.ADMIN)) {
-            throw new InvalidOperationException("Deleting has been refused because of access violation!", ItSecurityErrors.ACCESS_DENIED);
+            throw new AccessDeniedException("Deleting has been refused because of access violation!");
         }
 
         commentRepository.deleteById(commentId);
