@@ -26,6 +26,12 @@ public class CommentController implements CommentApi {
     @Override
     public ResponseEntity<CommentDTO> postComments(String documentId, @Valid CommentUploadDTO commentUploadDTO) {
         return ResponseEntity.ok(CommentMapper.mapCommentToCommentDTO(commentService.uploadComment(documentId, commentUploadDTO)));
+
     }
 
+    @Override
+    public ResponseEntity<Void> deleteComment(String commentId) {
+        commentService.deleteComment(commentId);
+        return ResponseEntity.noContent().build();
+    }
 }

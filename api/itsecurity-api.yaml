@@ -380,6 +380,21 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CommentUploadDTO'
+  '/api/comments/{commentId}':
+    parameters:
+      - schema:
+          type: string
+        name: commentId
+        in: path
+        required: true
+    delete:
+      summary: ''
+      tags:
+        - comment
+      operationId: delete-comment
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     PasswordChangeDTO:
