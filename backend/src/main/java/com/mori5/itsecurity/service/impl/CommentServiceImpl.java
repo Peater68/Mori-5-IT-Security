@@ -31,7 +31,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment uploadComment(String documentId, CommentUploadDTO requestDTO) {
+    public Comment saveComment(String documentId, CommentUploadDTO requestDTO) {
         Document existingDocument = documentRepository.findById(documentId)
                 .orElseThrow(() -> new EntityNotFoundException("Document has not been found.", ItSecurityErrors.ENTITY_NOT_FOUND));
         User currentUser = userService.getCurrentUser();
@@ -44,6 +44,22 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(newComment);
 
         return newComment;
+    }
+
+    @Override
+    public Comment updateComment(String commentId, CommentUploadDTO requestDTO) {
+        Comment existingComment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new EntityNotFoundException("Comment has not been found.", ItSecurityErrors.ENTITY_NOT_FOUND));
+
+        User currentUser = userService.getCurrentUser();
+        if (!(existingComment.getUser() == currentUser || currentUser.getRole() == Role.ADMIN)) {
+            throw new InvalidOperationException("Deleting has been refused because of access violation!", ItSecurityErrors.ACCESS_DENIED);
+        }
+
+        existingComment.setComment(requestDTO.getComment());
+        commentRepository.save(existingComment);
+
+        return existingComment;
     }
 
     @Override

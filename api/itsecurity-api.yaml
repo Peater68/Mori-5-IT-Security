@@ -395,6 +395,23 @@ paths:
       responses:
         '200':
           description: OK
+    put:
+      summary: ''
+      tags:
+        - comment
+      operationId: put-api-comments-commentId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentDTO'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentUploadDTO'
 components:
   schemas:
     PasswordChangeDTO:

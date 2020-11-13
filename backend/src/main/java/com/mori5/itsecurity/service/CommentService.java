@@ -9,7 +9,9 @@ public interface CommentService {
 
     List<Comment> getComments(String documentId);
 
-    Comment uploadComment(String documentId, CommentUploadDTO requestDTO);
+    Comment saveComment(String documentId, CommentUploadDTO requestDTO);
+
+    Comment updateComment(String commentId, CommentUploadDTO requestDTO);
 
     void deleteComment(String commentId);
 
