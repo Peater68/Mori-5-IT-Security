@@ -1,6 +1,7 @@
 package com.mori5.itsecurity.mapper;
 
 
+import com.mori5.itsecurity.api.model.ReducedUserDTO;
 import com.mori5.itsecurity.api.model.UserDTO;
 import com.mori5.itsecurity.api.model.UserRegistrationDTO;
 import com.mori5.itsecurity.domain.Role;
@@ -38,4 +39,13 @@ public class UserMapper {
                 .role(Role.valueOf(userRegistrationDTO.getRole().toString()))
                 .build();
     }
+
+    public static ReducedUserDTO mapUserToReducedUserDTO(User user) {
+        return ReducedUserDTO.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .username(user.getUsername())
+                .build();
+    }
+
 }
