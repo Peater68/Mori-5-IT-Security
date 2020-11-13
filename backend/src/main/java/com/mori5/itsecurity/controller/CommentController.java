@@ -3,6 +3,7 @@ package com.mori5.itsecurity.controller;
 import com.mori5.itsecurity.api.CommentApi;
 import com.mori5.itsecurity.api.model.CommentDTO;
 import com.mori5.itsecurity.api.model.CommentUploadDTO;
+import com.mori5.itsecurity.mapper.CommentMapper;
 import com.mori5.itsecurity.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,12 @@ public class CommentController implements CommentApi {
 
     @Override
     public ResponseEntity<List<CommentDTO>> getComments(String documentId) {
-        return ResponseEntity.ok(commentService.getComments(documentId));
+        return ResponseEntity.ok(CommentMapper.mapCommentListToCommentDTOList(commentService.getComments(documentId)));
     }
 
     @Override
     public ResponseEntity<CommentDTO> postComments(String documentId, @Valid CommentUploadDTO commentUploadDTO) {
-        return ResponseEntity.ok(commentService.uploadComment(documentId, commentUploadDTO));
+        return ResponseEntity.ok(CommentMapper.mapCommentToCommentDTO(commentService.uploadComment(documentId, commentUploadDTO)));
     }
 
 }

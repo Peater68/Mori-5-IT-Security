@@ -1,13 +1,11 @@
 package com.mori5.itsecurity.service.impl;
 
-import com.mori5.itsecurity.api.model.CommentDTO;
 import com.mori5.itsecurity.api.model.CommentUploadDTO;
 import com.mori5.itsecurity.domain.Comment;
 import com.mori5.itsecurity.domain.Document;
 import com.mori5.itsecurity.domain.User;
 import com.mori5.itsecurity.errorhandling.domain.ItSecurityErrors;
 import com.mori5.itsecurity.errorhandling.exception.EntityNotFoundException;
-import com.mori5.itsecurity.mapper.CommentMapper;
 import com.mori5.itsecurity.repository.CommentRepository;
 import com.mori5.itsecurity.repository.DocumentRepository;
 import com.mori5.itsecurity.service.CommentService;
@@ -26,17 +24,12 @@ public class CommentServiceImpl implements CommentService {
     private final DocumentRepository documentRepository;
 
     @Override
-    public List<CommentDTO> getComments(String documentId) {
-        Document existingDocument = documentRepository.findById(documentId)
-                .orElseThrow(() -> new EntityNotFoundException("Document has not been found.", ItSecurityErrors.ENTITY_NOT_FOUND));
-
-        List<Comment> comments = commentRepository.findByDocument(existingDocument);
-
-        return CommentMapper.mapCommentListToCommentDTOList(comments);
+    public List<Comment> getComments(String documentId) {
+        return commentRepository.findByDocumentId(documentId);
     }
 
     @Override
-    public CommentDTO uploadComment(String documentId, CommentUploadDTO requestDTO) {
+    public Comment uploadComment(String documentId, CommentUploadDTO requestDTO) {
         Document existingDocument = documentRepository.findById(documentId)
                 .orElseThrow(() -> new EntityNotFoundException("Document has not been found.", ItSecurityErrors.ENTITY_NOT_FOUND));
         User currentUser = userService.getCurrentUser();
@@ -48,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
                 .build();
         commentRepository.save(newComment);
 
-        return CommentMapper.mapCommentToCommentDTO(newComment);
+        return newComment;
     }
 
     @Override
