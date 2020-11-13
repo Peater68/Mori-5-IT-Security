@@ -7,6 +7,11 @@ itsecurity:
     username: admin
     password: admin
 
+  minio:
+    endpoint: http://localhost:9000
+    accesskey: minioadmin
+    secretkey: minioadmin
+
   security:
     token:
       secret: tokensecret
