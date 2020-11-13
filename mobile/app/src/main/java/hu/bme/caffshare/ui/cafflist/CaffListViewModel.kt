@@ -8,7 +8,9 @@ class CaffListViewModel @Inject constructor(
 ) : RainbowCakeViewModel<CaffListViewState>(Loading) {
 
     fun load() = execute {
-        viewState = CaffListContent(caffListPresenter.getData())
+        val caffList = caffListPresenter.getCaffFiles()
+
+        viewState = CaffListContent(caffList)
     }
 
 }
