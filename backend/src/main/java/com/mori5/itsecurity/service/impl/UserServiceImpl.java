@@ -107,6 +107,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public void banUserById(String userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
+        user.setIsBanned(true);
+    }
+
+    @Override
+    @Transactional
     public void makeAdmin(String id) {
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
         user.setRole(Role.ADMIN);

@@ -1,12 +1,13 @@
 package com.mori5.itsecurity.service.impl;
 
+import com.mori5.itsecurity.cpp.CPPParserCaller;
+import com.mori5.itsecurity.cpp.CreatorsImages;
 import com.mori5.itsecurity.domain.Document;
 import com.mori5.itsecurity.domain.DocumentType;
 import com.mori5.itsecurity.domain.User;
 import com.mori5.itsecurity.errorhandling.domain.ItSecurityErrors;
 import com.mori5.itsecurity.errorhandling.exception.EntityNotFoundException;
-import com.mori5.itsecurity.errorhandling.exception.InvalidOperationException;
-import com.mori5.itsecurity.errorhandling.exception.NoUserInContextException;
+import com.mori5.itsecurity.errorhandling.exception.UnprocessableEntityException;
 import com.mori5.itsecurity.repository.DocumentRepository;
 import com.mori5.itsecurity.repository.UserRepository;
 import com.mori5.itsecurity.service.DocumentService;
@@ -15,14 +16,21 @@ import com.mori5.itsecurity.storage.StorageObject;
 import com.mori5.itsecurity.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import javax.imageio.ImageIO;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -37,6 +45,9 @@ public class DocumentServiceImpl implements DocumentService {
     private final DocumentRepository documentRepository;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final CPPParserCaller cppParserCaller;
+
+    // TODO paging!
 
     @PostConstruct
     private void init() {
@@ -51,12 +62,9 @@ public class DocumentServiceImpl implements DocumentService {
         User user = userService.getCurrentUser();
 
         long currentTimeInMillis = new Date().getTime();
-        String fileName = currentTimeInMillis + "_" + file.getName();
+        String fileName = currentTimeInMillis + "_" + file.getName(); // TODO majd megnezni, ahogy Loki mondta
 
-        // TODO csekkolni a file nevet, nehogy valami izé legyen
-
-        // TODO ezt egyből lerakni
-        StorageObject storageObjectCaff = null;
+        StorageObject storageObjectCaff;
         try {
             storageObjectCaff = StorageObject.builder()
                     .fileName(fileName)
@@ -64,15 +72,21 @@ public class DocumentServiceImpl implements DocumentService {
                     .contentType(file.getContentType())
                     .bucket(DocumentType.CAFF.getBucket())
                     .build();
-        } catch (IOException e) { // Ezt majd szebben kezelni
-            e.printStackTrace();
+        } catch (IOException e) {
+            throw new UnprocessableEntityException("Error while reading file", ItSecurityErrors.UNPROCESSABLE_ENTITY);
         }
 
-        // TODO itt kell majd áthívni a parserhez és a contentet beállítani, amit viszakapunk
+        CreatorsImages parsedCaff = cppParserCaller.parse("filenev");
+
+
+        //parsedCaff parsedCaff = caller.parse("szoveg");
+
+        byte[] imageInByte = getParsedPreview(parsedCaff);
+
         StorageObject storageObjectPreview = StorageObject.builder()
                 .fileName(fileName)
-                //.content()
-                //.contentType() valami kép
+                .content(imageInByte)
+                .contentType("bmp")
                 .bucket(DocumentType.PREVIEW.getBucket())
                 .build();
 
@@ -86,6 +100,7 @@ public class DocumentServiceImpl implements DocumentService {
         Document document = Document.builder()
                 .fileName(fileName)
                 .uploader(user)
+                .createdDate(LocalDateTime.of(parsedCaff.year, parsedCaff.month, parsedCaff.day, parsedCaff.hour, parsedCaff.minute).toInstant(ZoneOffset.UTC))
                 .customers(null)
                 .build();
 
@@ -97,17 +112,47 @@ public class DocumentServiceImpl implements DocumentService {
         return document;
     }
 
-    @Override
-    public StorageObject downloadPreview(String documentId) {
-        return downloadFile(documentId, DocumentType.PREVIEW);
+    private byte[] getParsedPreview(CreatorsImages parsedCaff) {
+        BufferedImage bufferedImage = new BufferedImage((int) parsedCaff.images.width, (int) parsedCaff.images.height, BufferedImage.TYPE_INT_RGB);
+
+        int counter = 0;
+        for (int i = 0; i < (int) parsedCaff.images.height; i++) {
+            for (int j = 0; j < (int) parsedCaff.images.width; j++) {
+                int rgb = parsedCaff.images.pixels.get(counter).red;
+                rgb = (rgb << 8) + parsedCaff.images.pixels.get(counter).green;
+                rgb = (rgb << 8) + parsedCaff.images.pixels.get(counter++).blue;
+                bufferedImage.setRGB(j, i, rgb);
+            }
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        try {
+            ImageIO.write(bufferedImage, "bmp", baos);
+            baos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return baos.toByteArray();
     }
 
     @Override
-    public StorageObject downloadCaff(String documentId) {
-        // TODO csekkolni, hogy megvette-e már. Ha igen, esetleg hibaüzenet, hogy többet ne tudja
-        // TODO csekkolni, hogy aki feltöltötte, az is letudja tölteni?
-        // TODO így a szervezés lehet nem jó, mert aki letölti, ott be kell állítani a fieldeket, hogy ki mit töltött le
-        return downloadFile(documentId, DocumentType.CAFF);
+    public StorageObject downloadCaffOrPreview(String documentId, @NotNull @Valid String type) {
+        DocumentType documentType = null;
+
+        try {
+            documentType = DocumentType.valueOf(type);
+        } catch (Exception e) {
+            log.error("Error while parse document type: {}" + type);
+            throw new UnprocessableEntityException("Download type error", ItSecurityErrors.UNPROCESSABLE_ENTITY);
+        }
+
+        if (documentType == DocumentType.CAFF) {
+            return downloadCaff(documentId);
+        } else {
+            return downloadPreview(documentId);
+        }
     }
 
     @Override
@@ -119,6 +164,27 @@ public class DocumentServiceImpl implements DocumentService {
         // TODO hibakezelés
         storageService.deleteObject(DocumentType.CAFF.getBucket(), document.getFileName());
         storageService.deleteObject(DocumentType.PREVIEW.getBucket(), document.getFileName());
+    }
+
+    @Override
+    public List<Document> getAllCaffs() {
+        return documentRepository.findAll();
+    }
+
+    @Override
+    public Document getCaffDetailsById(String documentId) {
+        return documentRepository.findById(documentId).orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
+    }
+
+    private StorageObject downloadPreview(String documentId) {
+        return downloadFile(documentId, DocumentType.PREVIEW);
+    }
+
+    private StorageObject downloadCaff(String documentId) {
+        // TODO csekkolni, hogy megvette-e már. Ha igen, esetleg hibaüzenet, hogy többet ne tudja
+        // TODO csekkolni, hogy aki feltöltötte, az is letudja tölteni?
+        // TODO így a szervezés lehet nem jó, mert aki letölti, ott be kell állítani a fieldeket, hogy ki mit töltött le
+        return downloadFile(documentId, DocumentType.CAFF);
     }
 
     private StorageObject downloadFile(String documentId, DocumentType documentType) {

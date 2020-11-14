@@ -41,6 +41,8 @@ public class InitializationConfiguration {
                     .password(passwordEncoder.encode(defaultAdminPassword))
                     .firstName("Admin")
                     .lastName("Admin")
+                    .email("Email")
+                    .isBanned(false)
                     .role(Role.ADMIN)
                     .build();
             userRepository.save(user);

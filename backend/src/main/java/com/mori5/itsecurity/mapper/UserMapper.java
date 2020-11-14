@@ -33,10 +33,11 @@ public class UserMapper {
     public static User mapUserRegistrationDTOToUser(UserRegistrationDTO userRegistrationDTO) {
         return User.builder()
                 .firstName(userRegistrationDTO.getFirstName())
+                .email(userRegistrationDTO.getEmail())
                 .lastName(userRegistrationDTO.getLastName())
                 .username(userRegistrationDTO.getUsername())
                 .password(userRegistrationDTO.getPassword())
-                .role(Role.valueOf(userRegistrationDTO.getRole().toString()))
+                .isBanned(false)
                 .build();
     }
 

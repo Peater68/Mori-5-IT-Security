@@ -29,5 +29,6 @@ public class ItSecurityErrors implements Serializable {
     public static final ItSecurityErrors UNKNOWN = new ItSecurityErrors("UNKNOWN", 1007);
     public static final ItSecurityErrors ENTITY_NOT_FOUND = new ItSecurityErrors("ENTITY_NOT_FOUND", 1008);
     public static final ItSecurityErrors UNAUTHORIZED = new ItSecurityErrors("UNAUTHORIZED", 1009);
+    public static final ItSecurityErrors UNPROCESSABLE_ENTITY = new ItSecurityErrors("UNAUTHORIZED", 1010);
     public static final ItSecurityErrors USER_INFORMATION_NOT_EXISTS = new ItSecurityErrors("USER_INFORMATION_NOT_EXISTS", 1022);
 }
