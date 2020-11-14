@@ -9,7 +9,7 @@ import hu.bme.caffshare.di.ApplicationModule
 import hu.bme.caffshare.di.DaggerAppComponent
 import timber.log.Timber
 
-class BlankApplication : RainbowCakeApplication() {
+class CaffShareApplication : RainbowCakeApplication() {
 
     override lateinit var injector: AppComponent
 
