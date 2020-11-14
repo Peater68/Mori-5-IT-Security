@@ -22,5 +22,14 @@ class CaffDetailsViewModel @Inject constructor(
     }
 
     fun purchaseCaffFile() = execute {
+        (viewState as? CaffDetailsContent)?.let {
+            val purchaseResult = caffDetailsPresenter.purchaseCaffFile(it.caffDetails.id)
+
+            if (purchaseResult) {
+                postEvent(PurchaseSuccessful)
+            } else {
+                postEvent(PurchaseFailed)
+            }
+        }
     }
 }

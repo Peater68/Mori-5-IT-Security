@@ -2,6 +2,7 @@ package hu.bme.caffshare.ui.caffdetails
 
 import co.zsmb.rainbowcake.withIOContext
 import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
+import kotlinx.coroutines.delay
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -15,5 +16,10 @@ class CaffDetailsPresenter @Inject constructor() {
             caption = "Pres Béla is the new man in town",
             date = LocalDateTime.now().toString(),
         )
+    }
+
+    suspend fun purchaseCaffFile(id: String) = withIOContext {
+        delay(1000)
+        true
     }
 }

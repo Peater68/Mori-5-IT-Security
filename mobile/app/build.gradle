@@ -57,7 +57,4 @@ dependencies {
     implementation("com.github.bumptech.glide:okhttp3-integration:4.11.0") {
         exclude group: 'glide-parent'
     }
-
-    // LoadingButton
-    implementation 'br.com.simplepass:loading-button-android:2.2.0'
 }

@@ -1,5 +1,9 @@
 package hu.bme.caffshare.ui.caffdetails
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import co.zsmb.rainbowcake.base.OneShotEvent
@@ -10,9 +14,9 @@ import co.zsmb.rainbowcake.navigation.extensions.requireString
 import com.bumptech.glide.Glide
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
-import hu.bme.caffshare.util.showErrorSnackBar
 import hu.bme.caffshare.util.showSuccessSnackBar
 import kotlinx.android.synthetic.main.fragment_caff_details.*
+
 
 class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetailsViewModel> {
 
@@ -50,6 +54,15 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
         super.onViewCreated(view, savedInstanceState)
 
         initArguments()
+        setupPurchaseButton()
+    }
+
+    private fun setupPurchaseButton() {
+        purchaseButton.setOnClickListener {
+            purchaseProgressBar.visibility = View.VISIBLE
+
+            viewModel.purchaseCaffFile()
+        }
     }
 
     override fun onStart() {
@@ -62,9 +75,11 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
         when (event) {
             is CaffDetailsViewModel.PurchaseSuccessful -> {
                 showSuccessSnackBar("Successful purchase!")
+                purchaseProgressBar.visibility = View.GONE
             }
             is CaffDetailsViewModel.PurchaseFailed -> {
-                showErrorSnackBar("Error while purchasing CAFF file!")
+                showSuccessSnackBar("An error occurred while while purchasing the file!")
+                purchaseProgressBar.visibility = View.GONE
             }
         }
     }
@@ -98,5 +113,21 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
                 tagsText.append("\n")
             }
         }
+    }
+
+    fun drawableToBitmap(drawable: Drawable): Bitmap? {
+        if (drawable is BitmapDrawable) {
+            return drawable.bitmap
+        }
+        val bitmap =
+            Bitmap.createBitmap(
+                drawable.intrinsicWidth,
+                drawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+        return bitmap
     }
 }
