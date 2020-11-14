@@ -7,7 +7,6 @@ import com.mori5.itsecurity.domain.Role;
 import com.mori5.itsecurity.domain.User;
 import com.mori5.itsecurity.errorhandling.domain.ItSecurityErrors;
 import com.mori5.itsecurity.errorhandling.exception.EntityNotFoundException;
-import com.mori5.itsecurity.errorhandling.exception.InvalidOperationException;
 import com.mori5.itsecurity.repository.CommentRepository;
 import com.mori5.itsecurity.repository.DocumentRepository;
 import com.mori5.itsecurity.service.CommentService;
