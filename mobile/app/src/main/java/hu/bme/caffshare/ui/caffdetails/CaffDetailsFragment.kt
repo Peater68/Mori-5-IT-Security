@@ -7,9 +7,12 @@ import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.extensions.applyArgs
 import co.zsmb.rainbowcake.navigation.extensions.requireString
+import com.bumptech.glide.Glide
 import hu.bme.caffshare.R
+import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
 import hu.bme.caffshare.util.showErrorSnackBar
 import hu.bme.caffshare.util.showSuccessSnackBar
+import kotlinx.android.synthetic.main.fragment_caff_details.*
 
 class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetailsViewModel> {
 
@@ -68,11 +71,31 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
 
     override fun render(viewState: CaffDetailsViewState) {
         when (viewState) {
+            is CaffDetailsContent -> {
+                viewFlipper.displayedChild = 0
+
+                setupContentView(viewState.caffDetails)
+            }
             is Loading -> {
+                viewFlipper.displayedChild = 1
             }
             is Error -> {
+                viewFlipper.displayedChild = 2
             }
-            is CaffDetailsContent -> {
+        }
+    }
+
+    private fun setupContentView(caffDetails: CaffDetails) {
+        Glide.with(requireContext())
+            .load(caffDetails.imageUrl)
+            .into(caffImage)
+        authorText.text = caffDetails.author
+        captionText.text = caffDetails.caption
+        dateText.text = caffDetails.date
+        caffDetails.tags.forEachIndexed { index, s ->
+            tagsText.append(s)
+            if (index != caffDetails.tags.lastIndex) {
+                tagsText.append("\n")
             }
         }
     }

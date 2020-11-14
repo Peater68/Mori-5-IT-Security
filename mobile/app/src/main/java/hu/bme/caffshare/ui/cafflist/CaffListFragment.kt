@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
+import co.zsmb.rainbowcake.navigation.navigator
 import hu.bme.caffshare.R
+import hu.bme.caffshare.ui.caffdetails.CaffDetailsFragment
 import hu.bme.caffshare.ui.cafflist.adapter.CaffListAdapter
 import hu.bme.caffshare.ui.cafflist.adapter.SpacesItemDecoration
 import hu.bme.caffshare.ui.cafflist.model.CaffFile
@@ -34,7 +36,7 @@ class CaffListFragment : RainbowCakeFragment<CaffListViewState, CaffListViewMode
 
         adapter.listener = object : CaffListAdapter.Listener {
             override fun onAssetClicked(file: CaffFile) {
-                // TODO: navigate to details screen
+                navigator?.add(CaffDetailsFragment.newInstance(file.id))
             }
         }
         caffFileList.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
