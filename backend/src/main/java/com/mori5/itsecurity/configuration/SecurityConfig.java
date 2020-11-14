@@ -24,6 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String LOGIN_USER_URL = "/api/auth/login";
     private static final String TOKEN_REFRESH_USER_URL = "/api/auth/token";
+    private static final String HELLO = "/hello";
 
     private final SecretService secretService;
 
@@ -50,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, LOGIN_USER_URL).permitAll()
                 .antMatchers(HttpMethod.POST, TOKEN_REFRESH_USER_URL).permitAll()
+                .antMatchers(HttpMethod.POST, HELLO).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtTokenFilter(authenticationManager(), secretService.getHS512SecretBytes()), UsernamePasswordAuthenticationFilter.class)

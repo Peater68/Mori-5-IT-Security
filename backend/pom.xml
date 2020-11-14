@@ -11,7 +11,6 @@
     <groupId>com.mori5</groupId>
     <artifactId>it-security</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
     <name>it-security</name>
     <description>IT security home assignment</description>
 

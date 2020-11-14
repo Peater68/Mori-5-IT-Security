@@ -33,13 +33,13 @@ public:
     string creatorString;
     vector<Image> images;
     string error;
-    CreatorsImages(uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint64_t lengthOfCreator, string creatorString, vector<Image> &images);
+    CreatorsImages(uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint64_t lengthOfCreator, string &creatorString, vector<Image> &images);
     CreatorsImages();
 };
 
 namespace CaffReader
 {
-   CreatorsImages readCaffFromFile(const string &filename);
+   CreatorsImages readCaffFromFile(vector<signed char>& buffer, const bool generateImages);
 }
 
-#endif
+#endif /* main_h */

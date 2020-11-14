@@ -45,7 +45,7 @@ public class DocumentServiceImpl implements DocumentService {
     private final DocumentRepository documentRepository;
     private final UserService userService;
     private final UserRepository userRepository;
-    private final CPPParserCaller cppParserCaller;
+    //private final CPPParserCaller cppParserCaller;
 
     // TODO paging!
 
@@ -76,10 +76,14 @@ public class DocumentServiceImpl implements DocumentService {
             throw new UnprocessableEntityException("Error while reading file", ItSecurityErrors.UNPROCESSABLE_ENTITY);
         }
 
-        CreatorsImages parsedCaff = cppParserCaller.parse("filenev");
+        CPPParserCaller cppParserCaller = new CPPParserCaller();
 
-
-        //parsedCaff parsedCaff = caller.parse("szoveg");
+        CreatorsImages parsedCaff = null;
+        try {
+            parsedCaff = cppParserCaller.parse(file.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         byte[] imageInByte = getParsedPreview(parsedCaff);
 
@@ -100,7 +104,7 @@ public class DocumentServiceImpl implements DocumentService {
         Document document = Document.builder()
                 .fileName(fileName)
                 .uploader(user)
-                .createdDate(LocalDateTime.of(parsedCaff.year, parsedCaff.month, parsedCaff.day, parsedCaff.hour, parsedCaff.minute).toInstant(ZoneOffset.UTC))
+                .createdDate(LocalDateTime.of(parsedCaff.year, parsedCaff.month + 1, parsedCaff.day +1, parsedCaff.hour+1, parsedCaff.minute+1).toInstant(ZoneOffset.UTC))
                 .customers(null)
                 .build();
 

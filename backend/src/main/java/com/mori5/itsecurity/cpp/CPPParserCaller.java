@@ -1,14 +1,15 @@
 package com.mori5.itsecurity.cpp;
 
-import org.springframework.stereotype.Service;
-
-@Service // TODO a nem működne, lehet emiatt
 public class CPPParserCaller {
 
     static {
-        System.loadLibrary("parser");
+        try {
+            System.loadLibrary("parser");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public native CreatorsImages parse(String fileName);
+    public native CreatorsImages parse(byte[] caffArray);
 
 }
