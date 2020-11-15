@@ -1,12 +1,9 @@
-package com.mori5.itsecurity.service.impl;
+package com.mori5.itsecurity.logging.impl;
 
-import com.mori5.itsecurity.domain.RequestLog;
 import com.mori5.itsecurity.domain.User;
+import com.mori5.itsecurity.domain.log.RequestLog;
+import com.mori5.itsecurity.logging.RequestLoggingService;
 import com.mori5.itsecurity.repository.RequestLogRepository;
-import com.mori5.itsecurity.repository.UserRepository;
-import com.mori5.itsecurity.security.AuthUserDetails;
-import com.mori5.itsecurity.security.AuthenticationFacade;
-import com.mori5.itsecurity.service.LoggingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +14,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class LoggingServiceImpl implements LoggingService {
+public class RequestLoggingServiceImpl implements RequestLoggingService {
 
-    private final UserRepository userRepository;
     private final RequestLogRepository requestLogRepository;
-    private final AuthenticationFacade authenticationFacade;
 
     private final List<String> specialLoggingPresentedFor = Arrays.asList(
             "/error",
@@ -29,15 +24,14 @@ public class LoggingServiceImpl implements LoggingService {
     );
 
     @Override
-    public void logRequest(HttpServletRequest request, HttpServletResponse response) {
+    public void logRequest(User actor, HttpServletRequest request, HttpServletResponse response) {
         if (specialLoggingPresentedFor.contains(request.getServletPath())) {
             return; // Do not log.
         }
 
-        User currentUser = getCurrentUser();
         requestLogRepository.save(
                 RequestLog.builder()
-                        .actor(currentUser)
+                        .actor(actor)
                         .method(request.getMethod())
                         .path(request.getServletPath())
                         .responseCode(response.getStatus())
@@ -45,13 +39,4 @@ public class LoggingServiceImpl implements LoggingService {
         );
     }
 
-    private User getCurrentUser() {
-        AuthUserDetails currentUserDetails = authenticationFacade.getCurrentUserFromContext();
-        if (currentUserDetails == null) {
-            return null;
-        }
-
-        return userRepository.findById(currentUserDetails.getUserId()).orElse(null);
-    }
-    
 }

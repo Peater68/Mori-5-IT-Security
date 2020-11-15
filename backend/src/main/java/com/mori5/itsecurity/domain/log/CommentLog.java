@@ -1,5 +1,8 @@
-package com.mori5.itsecurity.domain;
+package com.mori5.itsecurity.domain.log;
 
+import com.mori5.itsecurity.domain.Comment;
+import com.mori5.itsecurity.domain.Document;
+import com.mori5.itsecurity.domain.User;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,9 +17,9 @@ import java.time.Instant;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "request_log")
+@Table(name = "comment_log")
 @EntityListeners(AuditingEntityListener.class)
-public class RequestLog {
+public class CommentLog {
     @Id
     @Column(length = 36)
     @GeneratedValue(generator = "uuid_generator")
@@ -25,11 +28,13 @@ public class RequestLog {
 
     @ManyToOne
     private User actor;
+    private String operation;
 
-    private String method;
-    private String path;
-
-    private int responseCode;
+    @ManyToOne
+    private User commentOf;
+    @ManyToOne
+    private Document atDocument;
+    private String withCommentMessage;
 
     @CreatedDate
     private Instant loggedAt;

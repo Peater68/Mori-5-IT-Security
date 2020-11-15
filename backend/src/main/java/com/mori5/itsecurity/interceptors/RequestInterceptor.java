@@ -1,6 +1,6 @@
 package com.mori5.itsecurity.interceptors;
 
-import com.mori5.itsecurity.service.LoggingService;
+import com.mori5.itsecurity.logging.LoggingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -15,7 +15,7 @@ public class RequestInterceptor implements HandlerInterceptor {
     private final LoggingService loggingService;
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
        loggingService.logRequest(request, response);
     }
 
