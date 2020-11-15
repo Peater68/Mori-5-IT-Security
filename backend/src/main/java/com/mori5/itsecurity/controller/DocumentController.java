@@ -3,6 +3,7 @@ package com.mori5.itsecurity.controller;
 import com.mori5.itsecurity.api.CaffApi;
 import com.mori5.itsecurity.api.model.CaffDetailsDTO;
 import com.mori5.itsecurity.api.model.CaffSumDTO;
+import com.mori5.itsecurity.domain.DocumentType;
 import com.mori5.itsecurity.mapper.DocumentMapper;
 import com.mori5.itsecurity.service.DocumentService;
 import com.mori5.itsecurity.storage.StorageObject;
@@ -49,7 +50,7 @@ public class DocumentController implements CaffApi {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, ATTACHMENT_FILENAME + storageObject.getFileName());
 
-        MediaType mediaType = storageObject.getContentType().equals(JPEG) ? MediaType.IMAGE_JPEG : MediaType.APPLICATION_OCTET_STREAM;
+        MediaType mediaType = type.equals(DocumentType.PREVIEW.getName()) ? MediaType.IMAGE_JPEG : MediaType.APPLICATION_OCTET_STREAM;
 
         return ResponseEntity.ok()
                 .headers(headers)
