@@ -3,10 +3,7 @@ package com.mori5.itsecurity.logging.service.impl;
 import com.mori5.itsecurity.domain.Comment;
 import com.mori5.itsecurity.domain.Document;
 import com.mori5.itsecurity.domain.User;
-import com.mori5.itsecurity.logging.service.CommentLoggingService;
-import com.mori5.itsecurity.logging.service.DocumentLoggingService;
-import com.mori5.itsecurity.logging.service.LoggingService;
-import com.mori5.itsecurity.logging.service.RequestLoggingService;
+import com.mori5.itsecurity.logging.service.*;
 import com.mori5.itsecurity.repository.UserRepository;
 import com.mori5.itsecurity.security.AuthUserDetails;
 import com.mori5.itsecurity.security.AuthenticationFacade;
@@ -26,6 +23,7 @@ public class LoggingServiceImpl implements LoggingService {
     private final RequestLoggingService requestLoggingService;
     private final CommentLoggingService commentLoggingService;
     private final DocumentLoggingService documentLoggingService;
+    private final UserLoggingService userLoggingService;
 
     @Override
     public void logRequest(HttpServletRequest request, HttpServletResponse response) {
@@ -38,6 +36,8 @@ public class LoggingServiceImpl implements LoggingService {
             commentLoggingService.logSave(getCurrentUser(), (Comment) entity);
         } else if (entity instanceof Document) {
             documentLoggingService.logSave(getCurrentUser(), (Document) entity);
+        } else if (entity instanceof User) {
+            userLoggingService.logSave(getCurrentUser(), (User) entity);
         }
     }
 
@@ -45,8 +45,10 @@ public class LoggingServiceImpl implements LoggingService {
     public void logDeleting(Object entity) {
         if (entity instanceof Comment) {
             commentLoggingService.logDeleting(getCurrentUser(), (Comment) entity);
-        }else if (entity instanceof Document) {
+        } else if (entity instanceof Document) {
             documentLoggingService.logDeleting(getCurrentUser(), (Document) entity);
+        } else if (entity instanceof User) {
+            userLoggingService.logDeleting(getCurrentUser(), (User) entity);
         }
     }
 
