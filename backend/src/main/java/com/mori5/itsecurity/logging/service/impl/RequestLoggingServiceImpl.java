@@ -1,9 +1,9 @@
-package com.mori5.itsecurity.logging.impl;
+package com.mori5.itsecurity.logging.service.impl;
 
 import com.mori5.itsecurity.domain.User;
-import com.mori5.itsecurity.domain.log.RequestLog;
-import com.mori5.itsecurity.logging.RequestLoggingService;
-import com.mori5.itsecurity.repository.RequestLogRepository;
+import com.mori5.itsecurity.logging.domain.RequestLog;
+import com.mori5.itsecurity.logging.repository.RequestLogRepository;
+import com.mori5.itsecurity.logging.service.RequestLoggingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

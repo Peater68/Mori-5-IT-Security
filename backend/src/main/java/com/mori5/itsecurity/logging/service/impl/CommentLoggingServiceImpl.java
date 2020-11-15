@@ -1,10 +1,10 @@
-package com.mori5.itsecurity.logging.impl;
+package com.mori5.itsecurity.logging.service.impl;
 
 import com.mori5.itsecurity.domain.Comment;
 import com.mori5.itsecurity.domain.User;
-import com.mori5.itsecurity.domain.log.CommentLog;
-import com.mori5.itsecurity.logging.CommentLoggingService;
-import com.mori5.itsecurity.repository.CommentLogRepository;
+import com.mori5.itsecurity.logging.domain.CommentLog;
+import com.mori5.itsecurity.logging.service.CommentLoggingService;
+import com.mori5.itsecurity.logging.repository.CommentLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
-package com.mori5.itsecurity.interceptors;
+package com.mori5.itsecurity.logging.interceptors;
 
-import com.mori5.itsecurity.logging.LoggingService;
+import com.mori5.itsecurity.logging.service.LoggingService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;

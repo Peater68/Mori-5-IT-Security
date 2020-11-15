@@ -1,17 +1,15 @@
-package com.mori5.itsecurity.logging.impl;
+package com.mori5.itsecurity.logging.service.impl;
 
 import com.mori5.itsecurity.domain.Comment;
-import com.mori5.itsecurity.domain.log.CommentLog;
-import com.mori5.itsecurity.domain.log.RequestLog;
+import com.mori5.itsecurity.domain.Document;
 import com.mori5.itsecurity.domain.User;
-import com.mori5.itsecurity.logging.CommentLoggingService;
-import com.mori5.itsecurity.logging.RequestLoggingService;
-import com.mori5.itsecurity.repository.CommentLogRepository;
-import com.mori5.itsecurity.repository.RequestLogRepository;
+import com.mori5.itsecurity.logging.service.CommentLoggingService;
+import com.mori5.itsecurity.logging.service.DocumentLoggingService;
+import com.mori5.itsecurity.logging.service.LoggingService;
+import com.mori5.itsecurity.logging.service.RequestLoggingService;
 import com.mori5.itsecurity.repository.UserRepository;
 import com.mori5.itsecurity.security.AuthUserDetails;
 import com.mori5.itsecurity.security.AuthenticationFacade;
-import com.mori5.itsecurity.logging.LoggingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +25,7 @@ public class LoggingServiceImpl implements LoggingService {
 
     private final RequestLoggingService requestLoggingService;
     private final CommentLoggingService commentLoggingService;
+    private final DocumentLoggingService documentLoggingService;
 
     @Override
     public void logRequest(HttpServletRequest request, HttpServletResponse response) {
@@ -36,17 +35,19 @@ public class LoggingServiceImpl implements LoggingService {
     @Override
     public void logSave(Object entity) {
         if (entity instanceof Comment) {
-            commentLoggingService.logDeleting(getCurrentUser(), (Comment) entity);
+            commentLoggingService.logSave(getCurrentUser(), (Comment) entity);
+        } else if (entity instanceof Document) {
+            documentLoggingService.logSave(getCurrentUser(), (Document) entity);
         }
-
     }
 
     @Override
     public void logDeleting(Object entity) {
         if (entity instanceof Comment) {
             commentLoggingService.logDeleting(getCurrentUser(), (Comment) entity);
+        }else if (entity instanceof Document) {
+            documentLoggingService.logDeleting(getCurrentUser(), (Document) entity);
         }
-
     }
 
 

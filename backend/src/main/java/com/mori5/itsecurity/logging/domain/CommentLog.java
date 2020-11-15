@@ -1,6 +1,5 @@
-package com.mori5.itsecurity.domain.log;
+package com.mori5.itsecurity.logging.domain;
 
-import com.mori5.itsecurity.domain.Comment;
 import com.mori5.itsecurity.domain.Document;
 import com.mori5.itsecurity.domain.User;
 import lombok.*;

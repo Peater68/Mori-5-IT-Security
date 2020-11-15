@@ -1,6 +1,6 @@
 package com.mori5.itsecurity.configuration;
 
-import com.mori5.itsecurity.interceptors.RequestInterceptor;
+import com.mori5.itsecurity.logging.interceptors.RequestInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
