@@ -42,10 +42,10 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
         }
     }
 
-    private var assetId: String = ""
+    private var caffFileId: String = ""
 
     private fun initArguments() {
-        assetId = requireArguments().requireString(CAFF_FILE_ID)
+        caffFileId = requireArguments().requireString(CAFF_FILE_ID)
     }
 
     //endregion
@@ -68,7 +68,7 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
     override fun onStart() {
         super.onStart()
 
-        viewModel.load(assetId)
+        viewModel.load(caffFileId)
     }
 
     override fun onEvent(event: OneShotEvent) {
