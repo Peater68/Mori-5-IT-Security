@@ -11,6 +11,7 @@ import co.zsmb.rainbowcake.navigation.extensions.applyArgs
 import co.zsmb.rainbowcake.navigation.extensions.requireString
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.comments.adapter.CommentsAdapter
+import hu.bme.caffshare.ui.comments.model.Comment
 import hu.bme.caffshare.util.hideKeyboard
 import hu.bme.caffshare.util.showErrorSnackBar
 import kotlinx.android.synthetic.main.fragment_caff_details.viewFlipper
@@ -62,6 +63,12 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
 
     private fun setupRecyclerView() {
         adapter = CommentsAdapter()
+        adapter.listener = object : CommentsAdapter.Listener {
+            override fun deleteComment(comment: Comment) {
+                commentHandlingProgressBar.visibility = View.VISIBLE
+                viewModel.deleteComment(comment.id)
+            }
+        }
         commentList.adapter = adapter
     }
 
@@ -79,7 +86,7 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
     private fun setupSendCommentButton() {
         sendCommentButton.isEnabled = false
         sendCommentButton.setOnClickListener {
-            commentSentProgressBar.visibility = View.VISIBLE
+            commentHandlingProgressBar.visibility = View.VISIBLE
             viewModel.addComment(commentInput.text.toString())
         }
     }
@@ -97,13 +104,18 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
                 hideKeyboard()
                 commentInput.setText("")
                 commentInput.clearFocus()
-                commentSentProgressBar.visibility = View.GONE
             }
             is CommentsViewModel.CommentSendingError -> {
                 showErrorSnackBar("Error while posting comment!")
-                commentSentProgressBar.visibility = View.GONE
+            }
+            is CommentsViewModel.CommentDeletedSuccessfully -> {
+                viewModel.load(caffFileId)
+            }
+            is CommentsViewModel.CommentDeletingError -> {
+                showErrorSnackBar("Error while deleting comment!")
             }
         }
+        commentHandlingProgressBar.visibility = View.GONE
     }
 
     override fun render(viewState: CommentsViewState) {

@@ -11,6 +11,9 @@ class CommentsViewModel @Inject constructor(
     object CommentSentSuccessfully : OneShotEvent
     object CommentSendingError : OneShotEvent
 
+    object CommentDeletedSuccessfully : OneShotEvent
+    object CommentDeletingError : OneShotEvent
+
     fun load(caffFileId: String) = execute {
         val comments = commentsPresenter.getCommentsForCaffFile(caffFileId)
 
@@ -32,6 +35,16 @@ class CommentsViewModel @Inject constructor(
             postEvent(CommentSentSuccessfully)
         } else {
             postEvent(CommentSendingError)
+        }
+    }
+
+    fun deleteComment(commentId: String) = execute {
+        val isSuccessful = commentsPresenter.deleteComment(commentId)
+
+        if (isSuccessful) {
+            postEvent(CommentDeletedSuccessfully)
+        } else {
+            postEvent(CommentDeletingError)
         }
     }
 }

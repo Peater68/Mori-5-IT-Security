@@ -43,4 +43,9 @@ class CommentsPresenter @Inject constructor() {
         delay(1000)
         true
     }
+
+    suspend fun deleteComment(commentId: String): Boolean = withIOContext {
+        delay(1000)
+        true
+    }
 }
