@@ -12,4 +12,6 @@
     <string name="register_sign_in">Already have an account?</string>
     <string name="login">Login</string>
     <string name="purchase">Purchase</string>
+    <string name="write_your_comment_here">Write your comment here</string>
+    <string name="no_comments">There are no comments for this CAFF file yet!</string>
 </resources>
