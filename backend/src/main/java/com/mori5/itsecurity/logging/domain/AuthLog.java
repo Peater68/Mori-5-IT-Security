@@ -15,9 +15,9 @@ import java.time.Instant;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user_log")
+@Table(name = "auth_log")
 @EntityListeners(AuditingEntityListener.class)
-public class UserLog {
+public class AuthLog {
     @Id
     @Column(length = 36)
     @GeneratedValue(generator = "uuid_generator")
@@ -27,9 +27,7 @@ public class UserLog {
     @ManyToOne
     private User actor;
     private String operation;
-
-    @ManyToOne
-    private User profileOf;
+    private Boolean success;
 
     @CreatedDate
     private Instant loggedAt;

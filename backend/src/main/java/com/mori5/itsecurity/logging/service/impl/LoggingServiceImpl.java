@@ -3,6 +3,8 @@ package com.mori5.itsecurity.logging.service.impl;
 import com.mori5.itsecurity.domain.Comment;
 import com.mori5.itsecurity.domain.Document;
 import com.mori5.itsecurity.domain.User;
+import com.mori5.itsecurity.logging.domain.AuthLog;
+import com.mori5.itsecurity.logging.repository.AuthLogRepository;
 import com.mori5.itsecurity.logging.service.*;
 import com.mori5.itsecurity.repository.UserRepository;
 import com.mori5.itsecurity.security.AuthUserDetails;
@@ -24,6 +26,7 @@ public class LoggingServiceImpl implements LoggingService {
     private final CommentLoggingService commentLoggingService;
     private final DocumentLoggingService documentLoggingService;
     private final UserLoggingService userLoggingService;
+    private final AuthLogRepository authLogRepository;
 
     @Override
     public void logRequest(HttpServletRequest request, HttpServletResponse response) {
@@ -50,6 +53,28 @@ public class LoggingServiceImpl implements LoggingService {
         } else if (entity instanceof User) {
             userLoggingService.logDeleting(getCurrentUser(), (User) entity);
         }
+    }
+
+    @Override
+    public void logLogin(User actor, Boolean success) {
+        authLogRepository.save(
+                AuthLog.builder()
+                        .actor(actor)
+                        .operation("LOGIN")
+                        .success(success)
+                        .build()
+        );
+    }
+
+    @Override
+    public void logRenew(User actor, Boolean success) {
+        authLogRepository.save(
+                AuthLog.builder()
+                        .actor(actor)
+                        .operation("RENEW")
+                        .success(success)
+                        .build()
+        );
     }
 
 
