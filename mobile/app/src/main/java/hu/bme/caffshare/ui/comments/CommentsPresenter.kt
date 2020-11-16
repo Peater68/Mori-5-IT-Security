@@ -2,6 +2,7 @@ package hu.bme.caffshare.ui.comments
 
 import co.zsmb.rainbowcake.withIOContext
 import hu.bme.caffshare.ui.comments.model.Comment
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class CommentsPresenter @Inject constructor() {
@@ -38,7 +39,8 @@ class CommentsPresenter @Inject constructor() {
         )
     }
 
-    suspend fun addComment(comment: String) = withIOContext {
-        // TODO
+    suspend fun addComment(comment: String): Boolean = withIOContext {
+        delay(1000)
+        true
     }
 }

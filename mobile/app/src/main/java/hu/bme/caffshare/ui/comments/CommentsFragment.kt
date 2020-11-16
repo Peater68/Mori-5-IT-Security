@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.Toast
+import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.extensions.applyArgs
 import co.zsmb.rainbowcake.navigation.extensions.requireString
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.comments.adapter.CommentsAdapter
+import hu.bme.caffshare.util.showErrorSnackBar
 import kotlinx.android.synthetic.main.fragment_caff_details.viewFlipper
 import kotlinx.android.synthetic.main.fragment_comments.*
 
@@ -77,7 +78,7 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
     private fun setupSendCommentButton() {
         sendCommentButton.isEnabled = false
         sendCommentButton.setOnClickListener {
-            Toast.makeText(requireContext(), "ASdjiashdu", Toast.LENGTH_SHORT).show()
+            commentSentProgressBar.visibility = View.VISIBLE
             viewModel.addComment(commentInput.text.toString())
         }
     }
@@ -86,6 +87,19 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
         super.onStart()
 
         viewModel.load(caffFileId)
+    }
+
+    override fun onEvent(event: OneShotEvent) {
+        when (event) {
+            is CommentsViewModel.CommentSentSuccessfully -> {
+                viewModel.load(caffFileId)
+                commentSentProgressBar.visibility = View.GONE
+            }
+            is CommentsViewModel.CommentSendingError -> {
+                showErrorSnackBar("Error while posting comment!")
+                commentSentProgressBar.visibility = View.GONE
+            }
+        }
     }
 
     override fun render(viewState: CommentsViewState) {

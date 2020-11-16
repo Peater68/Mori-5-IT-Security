@@ -11,6 +11,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <ProgressBar
+            android:id="@+id/commentSentProgressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
         <ViewFlipper
             android:id="@+id/contentViewFlipper"
             android:layout_width="match_parent"

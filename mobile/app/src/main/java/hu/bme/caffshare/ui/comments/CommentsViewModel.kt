@@ -1,11 +1,15 @@
 package hu.bme.caffshare.ui.comments
 
+import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeViewModel
 import javax.inject.Inject
 
 class CommentsViewModel @Inject constructor(
     private val commentsPresenter: CommentsPresenter
 ) : RainbowCakeViewModel<CommentsViewState>(Loading) {
+
+    object CommentSentSuccessfully : OneShotEvent
+    object CommentSendingError : OneShotEvent
 
     fun load(caffFileId: String) = execute {
         val comments = commentsPresenter.getCommentsForCaffFile(caffFileId)
@@ -22,6 +26,12 @@ class CommentsViewModel @Inject constructor(
     }
 
     fun addComment(comment: String) = execute {
-        commentsPresenter.addComment(comment)
+        val isSuccessful = commentsPresenter.addComment(comment)
+
+        if (isSuccessful) {
+            postEvent(CommentSentSuccessfully)
+        } else {
+            postEvent(CommentSendingError)
+        }
     }
 }
