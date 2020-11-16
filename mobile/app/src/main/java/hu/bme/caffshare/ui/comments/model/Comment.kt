@@ -5,4 +5,5 @@ data class Comment(
     val text: String,
     val author: String,
     val date: String,
+    val isDeletable: Boolean,
 )

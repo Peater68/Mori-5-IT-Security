@@ -8,16 +8,15 @@ class CommentsViewModel @Inject constructor(
 ) : RainbowCakeViewModel<CommentsViewState>(Loading) {
 
     fun load(caffFileId: String) = execute {
-        val comments = commentsPresenter.getCommentsForCaffFile(caffFileId)
-        val userData = commentsPresenter.getCurrentUserData()
+        val commentsData = commentsPresenter.getCommentsForCaffFile(caffFileId)
 
-        viewState = if (comments == null || userData == null) {
+        viewState = if (commentsData == null) {
             Error
         } else {
-            if (comments.isEmpty()) {
+            if (commentsData.comments.isEmpty()) {
                 Empty
             } else {
-                CommentsContent(comments = comments, userData = userData)
+                CommentsContent(commentsData)
             }
         }
     }

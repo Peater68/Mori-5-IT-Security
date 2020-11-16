@@ -3,10 +3,13 @@ package hu.bme.caffshare.ui.comments.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.comments.model.Comment
+import kotlinx.android.synthetic.main.row_comment.view.*
 
 class CommentsAdapter :
     ListAdapter<Comment, CommentsAdapter.CommentViewHolder>(CommentsComparator) {
@@ -26,6 +29,9 @@ class CommentsAdapter :
     }
 
     inner class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val author: TextView = itemView.commentAuthorText
+        val text: TextView = itemView.commentText
+        val deleteButton: ImageView = itemView.deleteCommentButton
 
         var comment: Comment? = null
 
