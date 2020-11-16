@@ -5,6 +5,7 @@ import co.zsmb.rainbowcake.dagger.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import hu.bme.caffshare.ui.caffdetails.CaffDetailsViewModel
 import hu.bme.caffshare.ui.cafflist.CaffListViewModel
 import hu.bme.caffshare.ui.login.LoginViewModel
 import hu.bme.caffshare.ui.register.RegisterViewModel
@@ -27,4 +28,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(RegisterViewModel::class)
     abstract fun bindRegisterViewModel(registerViewModel: RegisterViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CaffDetailsViewModel::class)
+    abstract fun bindCaffDetailsViewModel(caffDetailsViewModel: CaffDetailsViewModel): ViewModel
 }
