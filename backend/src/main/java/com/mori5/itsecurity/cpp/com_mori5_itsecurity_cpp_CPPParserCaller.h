@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     com_mori5_itsecurity_cpp_CPPParserCaller
  * Method:    parse
- * Signature: (Ljava/lang/String;)Lcom/mori5/itsecurity/cpp/CreatorsImages;
+ * Signature: ([B)Lcom/mori5/itsecurity/cpp/CreatorsImages;
  */
 JNIEXPORT jobject JNICALL Java_com_mori5_itsecurity_cpp_CPPParserCaller_parse
-  (JNIEnv *, jobject, jstring);
+  (JNIEnv *, jobject, jbyteArray);
 
 #ifdef __cplusplus
 }

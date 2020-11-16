@@ -31,7 +31,7 @@ public class CaffController {
 
         CPPParserCaller caller = new CPPParserCaller();
 
-        CreatorsImages creatorsImages = caller.parse("szoveg");
+        CreatorsImages creatorsImages = caller.parse(file.getBytes());
 
         BufferedImage bufferedImage = new BufferedImage((int)creatorsImages.images.width,(int)creatorsImages.images.height,BufferedImage.TYPE_INT_RGB);
 
@@ -66,6 +66,7 @@ public class CaffController {
                 .contentType(MediaType.parseMediaType("image/bmp")) // TODO ilyen nincs is, hogy bmp szerintem
                 .body(resource);
 
+        //return ResponseEntity.ok(creatorsImages.images.width);
 
     }
 
