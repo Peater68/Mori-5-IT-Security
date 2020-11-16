@@ -37,4 +37,8 @@ class CommentsPresenter @Inject constructor() {
             ),
         )
     }
+
+    suspend fun addComment(comment: String) = withIOContext {
+        // TODO
+    }
 }

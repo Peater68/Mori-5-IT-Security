@@ -1,7 +1,10 @@
 package hu.bme.caffshare.ui.comments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.extensions.applyArgs
@@ -51,11 +54,32 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
 
         initArguments()
         setupRecyclerView()
+        setupCommentInput()
+        setupSendCommentButton()
     }
 
     private fun setupRecyclerView() {
         adapter = CommentsAdapter()
         commentList.adapter = adapter
+    }
+
+    private fun setupCommentInput() {
+        commentInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
+            override fun afterTextChanged(p0: Editable?) = Unit
+
+            override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                sendCommentButton.isEnabled = text.isNullOrBlank().not()
+            }
+        })
+    }
+
+    private fun setupSendCommentButton() {
+        sendCommentButton.isEnabled = false
+        sendCommentButton.setOnClickListener {
+            Toast.makeText(requireContext(), "ASdjiashdu", Toast.LENGTH_SHORT).show()
+            viewModel.addComment(commentInput.text.toString())
+        }
     }
 
     override fun onStart() {

@@ -20,4 +20,8 @@ class CommentsViewModel @Inject constructor(
             }
         }
     }
+
+    fun addComment(comment: String) = execute {
+        commentsPresenter.addComment(comment)
+    }
 }
