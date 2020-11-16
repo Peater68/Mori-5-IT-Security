@@ -11,6 +11,7 @@ import co.zsmb.rainbowcake.navigation.extensions.applyArgs
 import co.zsmb.rainbowcake.navigation.extensions.requireString
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.comments.adapter.CommentsAdapter
+import hu.bme.caffshare.util.hideKeyboard
 import hu.bme.caffshare.util.showErrorSnackBar
 import kotlinx.android.synthetic.main.fragment_caff_details.viewFlipper
 import kotlinx.android.synthetic.main.fragment_comments.*
@@ -93,6 +94,9 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
         when (event) {
             is CommentsViewModel.CommentSentSuccessfully -> {
                 viewModel.load(caffFileId)
+                hideKeyboard()
+                commentInput.setText("")
+                commentInput.clearFocus()
                 commentSentProgressBar.visibility = View.GONE
             }
             is CommentsViewModel.CommentSendingError -> {
