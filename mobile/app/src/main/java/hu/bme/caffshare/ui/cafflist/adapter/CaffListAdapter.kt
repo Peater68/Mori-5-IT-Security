@@ -43,12 +43,12 @@ class CaffListAdapter :
 
         init {
             itemView.setOnClickListener {
-                caffFile?.let { listener?.onAssetClicked(it) }
+                caffFile?.let { listener?.onCaffFileClicked(it) }
             }
         }
     }
 
     interface Listener {
-        fun onAssetClicked(file: CaffFile)
+        fun onCaffFileClicked(file: CaffFile)
     }
 }

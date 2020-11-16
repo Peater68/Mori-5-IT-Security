@@ -35,7 +35,7 @@ class CaffListFragment : RainbowCakeFragment<CaffListViewState, CaffListViewMode
         adapter = CaffListAdapter()
 
         adapter.listener = object : CaffListAdapter.Listener {
-            override fun onAssetClicked(file: CaffFile) {
+            override fun onCaffFileClicked(file: CaffFile) {
                 navigator?.add(CaffDetailsFragment.newInstance(file.id))
             }
         }

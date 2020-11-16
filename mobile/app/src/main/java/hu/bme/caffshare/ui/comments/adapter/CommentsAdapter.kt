@@ -26,23 +26,33 @@ class CommentsAdapter :
         val comment: Comment = getItem(position)
         holder.comment = comment
 
+        with(holder) {
+            text.text = comment.text
+            author.text = comment.author
+            if (comment.isDeletable) {
+                deleteButton.visibility = View.VISIBLE
+            } else {
+                deleteButton.visibility = View.GONE
+            }
+        }
     }
 
     inner class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val author: TextView = itemView.commentAuthorText
         val text: TextView = itemView.commentText
         val deleteButton: ImageView = itemView.deleteCommentButton
+        // TODO: add date field for view
 
         var comment: Comment? = null
 
         init {
-            itemView.setOnClickListener {
-                comment?.let { listener?.onAssetClicked(it) }
+            deleteButton.setOnClickListener {
+                comment?.let { listener?.deleteComment(it) }
             }
         }
     }
 
     interface Listener {
-        fun onAssetClicked(comment: Comment)
+        fun deleteComment(comment: Comment)
     }
 }
