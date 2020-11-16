@@ -11,9 +11,11 @@ import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.extensions.applyArgs
 import co.zsmb.rainbowcake.navigation.extensions.requireString
+import co.zsmb.rainbowcake.navigation.navigator
 import com.bumptech.glide.Glide
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
+import hu.bme.caffshare.ui.comments.CommentsFragment
 import hu.bme.caffshare.util.showSuccessSnackBar
 import kotlinx.android.synthetic.main.fragment_caff_details.*
 
@@ -54,7 +56,14 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
         super.onViewCreated(view, savedInstanceState)
 
         initArguments()
+        setupCommentsButton()
         setupPurchaseButton()
+    }
+
+    private fun setupCommentsButton() {
+        commentsButton.setOnClickListener {
+            navigator?.add(CommentsFragment.newInstance(caffFileId))
+        }
     }
 
     private fun setupPurchaseButton() {

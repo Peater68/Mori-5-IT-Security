@@ -1,6 +1,6 @@
 package hu.bme.caffshare.ui.comments
 
-import hu.bme.caffshare.ui.comments.model.CommentsData
+import hu.bme.caffshare.ui.comments.model.Comment
 
 sealed class CommentsViewState
 
@@ -11,5 +11,5 @@ object Error : CommentsViewState()
 object Empty : CommentsViewState()
 
 data class CommentsContent(
-    val commentsData: CommentsData,
+    val comments: List<Comment>,
 ) : CommentsViewState()

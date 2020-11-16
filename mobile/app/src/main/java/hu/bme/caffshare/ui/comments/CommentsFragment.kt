@@ -7,7 +7,9 @@ import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.extensions.applyArgs
 import co.zsmb.rainbowcake.navigation.extensions.requireString
 import hu.bme.caffshare.R
-import kotlinx.android.synthetic.main.fragment_caff_details.*
+import hu.bme.caffshare.ui.comments.adapter.CommentsAdapter
+import kotlinx.android.synthetic.main.fragment_caff_details.viewFlipper
+import kotlinx.android.synthetic.main.fragment_comments.*
 
 
 class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewModel> {
@@ -34,6 +36,8 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
         }
     }
 
+    private lateinit var adapter: CommentsAdapter
+
     private var caffFileId: String = ""
 
     private fun initArguments() {
@@ -46,6 +50,12 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
         super.onViewCreated(view, savedInstanceState)
 
         initArguments()
+        setupRecyclerView()
+    }
+
+    private fun setupRecyclerView() {
+        adapter = CommentsAdapter()
+        commentList.adapter = adapter
     }
 
     override fun onStart() {
@@ -58,7 +68,9 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
         when (viewState) {
             is CommentsContent -> {
                 viewFlipper.displayedChild = 0
+                contentViewFlipper.displayedChild = 0
 
+                adapter.submitList(viewState.comments)
             }
             is Loading -> {
                 viewFlipper.displayedChild = 1
@@ -66,7 +78,8 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
             is Error -> {
                 viewFlipper.displayedChild = 2
             }
-            Empty -> {
+            is Empty -> {
+                contentViewFlipper.displayedChild = 1
             }
         }
     }

@@ -2,13 +2,11 @@ package hu.bme.caffshare.ui.comments
 
 import co.zsmb.rainbowcake.withIOContext
 import hu.bme.caffshare.ui.comments.model.Comment
-import hu.bme.caffshare.ui.comments.model.CommentsData
-import hu.bme.caffshare.ui.comments.model.UserRole
 import javax.inject.Inject
 
 class CommentsPresenter @Inject constructor() {
-    suspend fun getCommentsForCaffFile(caffFileId: String): CommentsData? = withIOContext {
-        val comments = listOf(
+    suspend fun getCommentsForCaffFile(caffFileId: String): List<Comment>? = withIOContext {
+        listOf(
             Comment(
                 id = "id",
                 text = "Fullos, patika",
@@ -38,7 +36,5 @@ class CommentsPresenter @Inject constructor() {
                 isDeletable = false
             ),
         )
-
-        CommentsData(comments = comments, role = UserRole.USER)
     }
 }
