@@ -6,7 +6,7 @@ import javax.inject.Inject
 class ProfilePresenter @Inject constructor(
 ) {
 
-    suspend fun loadProfileData() = withIOContext {
-
+    suspend fun loadProfileData(): String? = withIOContext {
+        "Borsy Pres Béla"
     }
 }

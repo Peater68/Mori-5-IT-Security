@@ -5,9 +5,15 @@ import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
     private val profilePresenter: ProfilePresenter
-) : RainbowCakeViewModel<ProfileViewState>(Ready) {
+) : RainbowCakeViewModel<ProfileViewState>(Loading) {
 
     fun load() = execute {
-        profilePresenter.loadProfileData()
+        val userName = profilePresenter.loadProfileData()
+
+        viewState = if (userName == null) {
+            Error
+        } else {
+            ProfileContent(userName)
+        }
     }
 }
