@@ -119,15 +119,23 @@
                 </androidx.cardview.widget.CardView>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/purchaseButton"
+                    android:id="@+id/commentsButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginVertical="28dp"
                     android:background="@drawable/button_background"
-                    android:text="@string/purchase"
-                    android:textColor="@android:color/white" />
+                    android:text="@string/comments" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/purchaseButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/button_background"
+                    android:text="@string/purchase" />
 
             </LinearLayout>
 

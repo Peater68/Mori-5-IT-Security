@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import hu.bme.caffshare.ui.caffdetails.CaffDetailsViewModel
 import hu.bme.caffshare.ui.cafflist.CaffListViewModel
+import hu.bme.caffshare.ui.comments.CommentsViewModel
 import hu.bme.caffshare.ui.login.LoginViewModel
 import hu.bme.caffshare.ui.register.RegisterViewModel
 
@@ -33,4 +34,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CaffDetailsViewModel::class)
     abstract fun bindCaffDetailsViewModel(caffDetailsViewModel: CaffDetailsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CommentsViewModel::class)
+    abstract fun bindCommentsViewModel(commentsViewModel: CommentsViewModel): ViewModel
 }
