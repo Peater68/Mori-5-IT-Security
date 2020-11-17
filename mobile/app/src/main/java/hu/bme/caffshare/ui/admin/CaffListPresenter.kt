@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class UserListPresenter @Inject constructor() {
 
-    suspend fun getUsers(): List<User> = withIOContext {
+    suspend fun getUsers(): List<User>? = withIOContext {
         listOf(
             User(
                 id = "0",

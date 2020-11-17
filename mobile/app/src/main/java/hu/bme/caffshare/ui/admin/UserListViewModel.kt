@@ -10,7 +10,17 @@ class UserListViewModel @Inject constructor(
     fun load() = execute {
         val usersList = userListPresenter.getUsers()
 
-        viewState = UserListContent(usersList)
+        viewState = when {
+            usersList == null -> {
+                Error
+            }
+            usersList.isEmpty() -> {
+                Empty
+            }
+            else -> {
+                UserListContent(usersList)
+            }
+        }
     }
 
 }
