@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/userCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@android:color/holo_green_light">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="12dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/user_firstName_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:maxLines="2"
+            android:textSize="20sp"
+            tools:text="Erikk" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/user_lastName_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            app:textAllCaps="true"
+            android:textSize="24sp"
+            tools:text="Kapitány" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/user_email_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:drawablePadding="12dp"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            app:drawableStartCompat="@drawable/ic_email"
+            tools:text="email@email.com" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/user_username_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawablePadding="12dp"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            app:drawableStartCompat="@drawable/ic_person"
+            tools:text="username1" />
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
