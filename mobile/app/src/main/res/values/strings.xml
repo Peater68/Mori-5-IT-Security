@@ -2,6 +2,7 @@
     <string name="app_name">Blank</string>
     <string name="error_occurred">An error occurred</string>
     <string name="no_caff_files_found">No CAFF files found!</string>
+    <string name="no_users_found">No users found</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="forget_password">Forget password?</string>
