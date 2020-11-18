@@ -13,7 +13,7 @@ import hu.bme.caffshare.ui.caffdetails.CaffDetailsFragment
 import hu.bme.caffshare.ui.cafflist.adapter.CaffListAdapter
 import hu.bme.caffshare.ui.cafflist.adapter.SpacesItemDecoration
 import hu.bme.caffshare.ui.cafflist.model.CaffFile
-import kotlinx.android.synthetic.main.fragment_caff_list.*
+import kotlinx.android.synthetic.main.fragment_bought_caff_list.*
 
 class BoughtCaffListFragment :
     RainbowCakeFragment<BoughtCaffListViewState, BoughtCaffListViewModel>() {
@@ -23,7 +23,7 @@ class BoughtCaffListFragment :
     }
 
     override fun provideViewModel() = getViewModelFromFactory(scope = ViewModelScope.ParentFragment)
-    override fun getViewResource() = R.layout.fragment_caff_list
+    override fun getViewResource() = R.layout.fragment_bought_caff_list
 
     private lateinit var adapter: CaffListAdapter
 
