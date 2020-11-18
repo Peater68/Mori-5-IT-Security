@@ -43,7 +43,7 @@
             app:layout_constraintTop_toTopOf="@id/profileImage"
             tools:text="Borsy President Béla" />
 
-        <androidx.viewpager2.widget.ViewPager2
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/profileViewPager"
             android:layout_width="0dp"
             android:layout_height="0dp"

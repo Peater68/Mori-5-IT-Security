@@ -9,6 +9,9 @@ import hu.bme.caffshare.ui.caffdetails.CaffDetailsViewModel
 import hu.bme.caffshare.ui.cafflist.CaffListViewModel
 import hu.bme.caffshare.ui.comments.CommentsViewModel
 import hu.bme.caffshare.ui.login.LoginViewModel
+import hu.bme.caffshare.ui.profile.ProfileViewModel
+import hu.bme.caffshare.ui.profile.boughtcafflist.BoughtCaffListViewModel
+import hu.bme.caffshare.ui.profile.uploadedcafflist.UploadedCaffListViewModel
 import hu.bme.caffshare.ui.register.RegisterViewModel
 
 @Suppress("unused")
@@ -39,4 +42,19 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CommentsViewModel::class)
     abstract fun bindCommentsViewModel(commentsViewModel: CommentsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileViewModel::class)
+    abstract fun bindProfileViewModel(profileViewModel: ProfileViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(BoughtCaffListViewModel::class)
+    abstract fun bindBoughtCaffListViewModel(boughtCaffListViewModel: BoughtCaffListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UploadedCaffListViewModel::class)
+    abstract fun bindUploadedCaffListViewModel(uploadedCaffListViewModel: UploadedCaffListViewModel): ViewModel
 }
