@@ -16,11 +16,12 @@ class CaffDetailsViewModel @Inject constructor(
 
     fun load(caffFileId: String) = execute {
         val details = caffDetailsPresenter.getCaffFileDetails(caffFileId)
+        val isUserAdmin = caffDetailsPresenter.isUserAdmin()
 
         viewState = if (details == null) {
             Error
         } else {
-            CaffDetailsContent(details)
+            CaffDetailsContent(details, isUserAdmin)
         }
     }
 

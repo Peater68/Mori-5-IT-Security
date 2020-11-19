@@ -54,7 +54,6 @@ class BoughtCaffDetailsFragment :
         initArguments()
         setupCommentsButton()
         setupDownloadButton()
-        setupDeleteButton()
     }
 
     private fun setupCommentsButton() {
@@ -64,16 +63,14 @@ class BoughtCaffDetailsFragment :
     }
 
     private fun setupDownloadButton() {
-        mainActionButton.text = getString(R.string.download)
-        mainActionButton.setOnClickListener {
-            // TODO
-            viewModel.downloadCaffFile()
-            progressBar.visibility = View.VISIBLE
+        mainActionButton.apply {
+            text = getString(R.string.download)
+            setOnClickListener {
+                // TODO
+                viewModel.downloadCaffFile()
+                progressBar.visibility = View.VISIBLE
+            }
         }
-    }
-
-    private fun setupDeleteButton() {
-        deleteButton.visibility = View.GONE
     }
 
     override fun onStart() {

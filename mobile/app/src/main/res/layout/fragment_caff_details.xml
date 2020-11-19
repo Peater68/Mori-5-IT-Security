@@ -38,6 +38,7 @@
             android:layout_margin="12dp"
             android:background="#22000000"
             android:src="@drawable/ic_delete"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -141,8 +142,8 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="16dp"
             android:text="@string/comments"
-            app:cornerRadius="16dp"
             android:textAllCaps="false"
+            app:cornerRadius="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/mainActionButton"
             app:layout_constraintStart_toStartOf="parent" />
@@ -152,8 +153,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textAllCaps="false"
             android:layout_marginHorizontal="16dp"
+            android:textAllCaps="false"
             app:cornerRadius="16dp"
             app:layout_constraintBottom_toBottomOf="@id/commentsButton"
             app:layout_constraintEnd_toEndOf="parent"

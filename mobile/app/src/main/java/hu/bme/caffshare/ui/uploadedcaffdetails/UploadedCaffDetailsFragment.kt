@@ -68,19 +68,24 @@ class UploadedCaffDetailsFragment :
     }
 
     private fun setupDownloadButton() {
-        mainActionButton.text = getString(R.string.download)
-        mainActionButton.setOnClickListener {
-            progressBar.visibility = View.VISIBLE
+        mainActionButton.apply {
+            text = getString(R.string.download)
+            setOnClickListener {
+                progressBar.visibility = View.VISIBLE
 
-            viewModel.downloadCaffFile()
+                viewModel.downloadCaffFile()
+            }
         }
     }
 
     private fun setupDeleteButton() {
-        deleteButton.setOnClickListener {
-            progressBar.visibility = View.VISIBLE
+        deleteButton.apply {
+            visibility = View.VISIBLE
+            setOnClickListener {
+                progressBar.visibility = View.VISIBLE
 
-            viewModel.deleteCaffFile()
+                viewModel.deleteCaffFile()
+            }
         }
     }
 
@@ -103,7 +108,7 @@ class UploadedCaffDetailsFragment :
                 showErrorSnackBar("An error occurred while while downloading the file!")
             }
             is UploadedCaffDetailsViewModel.DeleteSuccessful -> {
-                showSuccessSnackBar("Successful deletion!")
+                showSuccessSnackBar("File deleted successfully!")
                 navigator?.pop()
             }
             is UploadedCaffDetailsViewModel.DeleteFailed -> {

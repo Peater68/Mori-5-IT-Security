@@ -64,11 +64,13 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
     }
 
     private fun setupPurchaseButton() {
-        mainActionButton.text = getString(R.string.purchase)
-        mainActionButton.setOnClickListener {
-            progressBar.visibility = View.VISIBLE
+        mainActionButton.apply {
+            text = getString(R.string.purchase)
+            setOnClickListener {
+                progressBar.visibility = View.VISIBLE
 
-            viewModel.purchaseCaffFile()
+                viewModel.purchaseCaffFile()
+            }
         }
     }
 
@@ -95,7 +97,7 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
                 showErrorSnackBar("An error occurred while while purchasing the file!")
             }
             is CaffDetailsViewModel.DeleteSuccessful -> {
-                // TODO: show something
+                showSuccessSnackBar("File deleted successfully!")
                 navigator?.pop()
             }
             is CaffDetailsViewModel.DeleteFailed -> {
@@ -111,6 +113,9 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
                 viewFlipper.displayedChild = 0
 
                 setupContentView(viewState.caffDetails)
+                if (viewState.isUserAdmin) {
+                    deleteButton.visibility = View.VISIBLE
+                }
             }
             is Loading -> {
                 viewFlipper.displayedChild = 1
