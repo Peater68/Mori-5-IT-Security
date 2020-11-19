@@ -143,8 +143,8 @@ paths:
         - auth
       operationId: change-password
       responses:
-        '200':
-          description: OK
+        '204':
+          description: Password has been changed
         '400':
           description: Bad Request
         '401':
@@ -317,6 +317,30 @@ paths:
         '500':
           description: Internal Server Error
       description: Delete user by id
+  '/api/users/{userId}/ban':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    put:
+      tags:
+        - user
+      summary: ''
+      operationId: ban-user-by-id
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Ban user by id
   '/api/user/{userId}/makeadmin':
     parameters:
       - schema:
@@ -341,78 +365,6 @@ paths:
         '500':
           description: Internal Server Error
       description: Make user admin by id
-  '/api/documents/{documentId}/comments':
-    parameters:
-      - schema:
-          type: string
-        name: documentId
-        in: path
-        required: true
-    get:
-      summary: Your GET endpoint
-      tags:
-        - comment
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CommentDTO'
-      operationId: get-comments
-      description: Returns comments of the specified document.
-    post:
-      summary: ''
-      tags:
-        - comment
-      operationId: post-comments
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommentDTO'
-      description: Add a comment to the specified document.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CommentUploadDTO'
-  '/api/comments/{commentId}':
-    parameters:
-      - schema:
-          type: string
-        name: commentId
-        in: path
-        required: true
-    delete:
-      summary: ''
-      tags:
-        - comment
-      operationId: delete-comment
-      responses:
-        '200':
-          description: OK
-    put:
-      summary: ''
-      tags:
-        - comment
-      operationId: put-comment
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommentDTO'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CommentUploadDTO'
   /api/caffs:
     get:
       summary: Your GET endpoint
@@ -506,6 +458,58 @@ paths:
         '500':
           description: Internal Server Error
       description: Delete caff file by id
+  '/api/caffs/{caffId}/comments':
+    parameters:
+      - schema:
+          type: string
+        name: caffId
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - comment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommentDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: get-comments
+      description: Returns comments of the specified document.
+    post:
+      summary: ''
+      tags:
+        - comment
+      operationId: post-comments
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: Add a comment to the specified document.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentUploadDTO'
   '/api/caffs/{caffId}/download':
     parameters:
       - schema:
@@ -546,30 +550,50 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-  '/api/users/{userId}/ban':
+  '/api/comments/{commentId}':
     parameters:
       - schema:
           type: string
-        name: userId
+        name: commentId
         in: path
         required: true
-    put:
-      tags:
-        - user
+    delete:
       summary: ''
-      operationId: ban-user-by-id
+      tags:
+        - comment
+      operationId: delete-comment
       responses:
         '204':
-          description: No Content
+          description: No content
         '401':
           description: Unauthorized
         '403':
           description: Forbidden
         '404':
           description: Not Found
-        '500':
-          description: Internal Server Error
-      description: Ban user by id
+    put:
+      summary: ''
+      tags:
+        - comment
+      operationId: put-comment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentUploadDTO'
 components:
   schemas:
     PasswordChangeDTO:
@@ -739,3 +763,6 @@ components:
           type: string
         lastName:
           type: string
+servers:
+  - url: 'http://localhost:8080'
+    description: Debug
