@@ -11,75 +11,118 @@
 #include <sstream>
 
 #include "main.h"
-#include "EasyBMP.hpp"
 
 using namespace std;
 
-JNIEXPORT jobject JNICALL Java_com_mori5_itsecurity_cpp_CPPParserCaller_parse
-  (JNIEnv *env, jobject thisObject, jbyteArray caffArray){
+JNIEXPORT jobject JNICALL Java_com_mori5_itsecurity_cpp_CPPParserCaller_parse(JNIEnv *env, jobject thisObject, jbyteArray caffArray)
+{
+    // Array to vector
+    jsize sizeOfCaffArray = env->GetArrayLength(caffArray);
+    std::vector<signed char> caffVector(sizeOfCaffArray);
+    env->GetByteArrayRegion(caffArray, jsize{0}, sizeOfCaffArray, &caffVector[0]);
 
-      jsize size = env->GetArrayLength(caffArray);
-      std::vector<signed char> input2(size);
-      env->GetByteArrayRegion(caffArray, jsize{0}, size, &input2[0]);
+    // Call parser
+    CreatorsImages image = CaffReader::readCaffFromFile(caffVector, false);
 
-    CreatorsImages image = CaffReader::readCaffFromFile(input2, false);
+    // Convert objects
 
-    jclass creatorsClass = env->FindClass("com/mori5/itsecurity/cpp/CreatorsImages");
-    jobject newCreatorsImages = env->AllocObject(creatorsClass);
+    // CreatorsImages
 
-    jfieldID creatorName = env->GetFieldID(creatorsClass , "creatorString", "Ljava/lang/String;");
+    jclass creatorsImagesClass = env->FindClass("com/mori5/itsecurity/cpp/CreatorsImages");
+    jobject newCreatorsImages = env->AllocObject(creatorsImagesClass);
 
-    uint64_t string_length;
-    string_length = image.creatorString.length();
-    char creator[string_length + 1];
+    jfieldID caffImageField = env->GetFieldID(creatorsImagesClass, "images", "Lcom/mori5/itsecurity/cpp/CaffImage;");
+    jfieldID creatorString = env->GetFieldID(creatorsImagesClass, "creatorString", "Ljava/lang/String;");
+    jfieldID errorMessage = env->GetFieldID(creatorsImagesClass, "error", "Ljava/lang/String;");
+    jfieldID lengthOfCreator = env->GetFieldID(creatorsImagesClass, "lengthOfCreator", "J");
+    jfieldID month = env->GetFieldID(creatorsImagesClass, "month", "B");
+    jfieldID day = env->GetFieldID(creatorsImagesClass, "day", "B");
+    jfieldID hour = env->GetFieldID(creatorsImagesClass, "hour", "B");
+    jfieldID minute = env->GetFieldID(creatorsImagesClass, "minute", "B");
+    jfieldID year = env->GetFieldID(creatorsImagesClass, "year", "S");
+
+    env->SetLongField(newCreatorsImages, lengthOfCreator, (jlong)image.lengthOfCreator);
+    env->SetByteField(newCreatorsImages, day, (jbyte)image.day);
+    env->SetByteField(newCreatorsImages, month, (jbyte)image.month);
+    env->SetByteField(newCreatorsImages, hour, (jbyte)image.hour);
+    env->SetByteField(newCreatorsImages, minute, (jbyte)image.minute);
+    env->SetShortField(newCreatorsImages, year, (jshort)image.year);
+
+    uint64_t string_length_creator;
+    string_length_creator = image.creatorString.length();
+    char creator[string_length_creator + 1];
     strcpy(creator, image.creatorString.c_str());
     jstring jstrCreator = env->NewStringUTF(creator);
-    env->SetObjectField(newCreatorsImages, creatorName, jstrCreator);
+    env->SetObjectField(newCreatorsImages, creatorString, jstrCreator);
 
-    Image temp2 = image.images[0];
+    uint64_t string_length_error;
+    string_length_error = image.error.length();
+    char error[string_length_error + 1];
+    strcpy(error, image.error.c_str());
+    jstring jstrError = env->NewStringUTF(error);
+    env->SetObjectField(newCreatorsImages, errorMessage, jstrError);
 
-    jclass imageClass = env->FindClass("com/mori5/itsecurity/cpp/CaffImage");
-    jobject newImage = env->AllocObject(imageClass);
+    // Preview
 
-    jfieldID content_size = env->GetFieldID(imageClass , "content_size", "J");
-    jfieldID height = env->GetFieldID(imageClass , "height", "J");
-    jfieldID width = env->GetFieldID(imageClass , "width", "J");
+    Image preview = image.images[0];
 
-    env->SetLongField(newImage, content_size, (jlong) temp2.content_size);
-    env->SetLongField(newImage, height, (jlong) temp2.height);
-    env->SetLongField(newImage, width, (jlong) temp2.width);
+    jclass caffImageClass = env->FindClass("com/mori5/itsecurity/cpp/CaffImage");
+    jobject newImage = env->AllocObject(caffImageClass);
 
-    jfieldID imageJfield = env->GetFieldID(creatorsClass , "images", "Lcom/mori5/itsecurity/cpp/CaffImage;");
+    jfieldID content_size = env->GetFieldID(caffImageClass, "content_size", "J");
+    jfieldID height = env->GetFieldID(caffImageClass, "height", "J");
+    jfieldID width = env->GetFieldID(caffImageClass, "width", "J");
+    jfieldID duration = env->GetFieldID(caffImageClass, "duration", "J");
+    jfieldID pixels = env->GetFieldID(caffImageClass, "pixels", "Ljava/util/ArrayList;");
+    jfieldID tags = env->GetFieldID(caffImageClass, "tags", "Ljava/lang/String;");
+    jfieldID caption = env->GetFieldID(caffImageClass, "caption", "Ljava/lang/String;");
 
-    jfieldID pixels = env->GetFieldID(imageClass , "pixels", "Ljava/util/ArrayList;");
+    env->SetLongField(newImage, content_size, (jlong)preview.content_size);
+    env->SetLongField(newImage, height, (jlong)preview.height);
+    env->SetLongField(newImage, width, (jlong)preview.width);
+    env->SetLongField(newImage, duration, (jlong)preview.duration);
+
+    uint64_t string_length_tag;
+    string_length_tag = preview.tags.length();
+    char preview_tags[string_length_tag + 1];
+    strcpy(preview_tags, preview.tags.c_str());
+    jstring jstrTags = env->NewStringUTF(preview_tags);
+    env->SetObjectField(newImage, tags, jstrTags);
+
+    uint64_t string_length_caption;
+    string_length_caption = preview.caption.length();
+    char preview_caption[string_length_caption + 1];
+    strcpy(preview_caption, preview.caption.c_str());
+    jstring jstrCaption = env->NewStringUTF(preview_caption);
+    env->SetObjectField(newImage, caption, jstrCaption);
+
+    // Pixels
 
     jclass clazz = env->FindClass("java/util/ArrayList");
     jobject obj = env->NewObject(clazz, env->GetMethodID(clazz, "<init>", "()V"));
-    for (int n=0;n<temp2.pixels.size();n++)
+    for (int n = 0; n < preview.pixels.size(); n++)
     {
-       Pixel temp;
-       temp = temp2.pixels[n];
+        Pixel temp;
+        temp = preview.pixels[n];
 
-       jclass pixelClass = env->FindClass("Lcom/mori5/itsecurity/cpp/CaffPixel;");
-       jobject newPixels = env->AllocObject(pixelClass);
+        jclass pixelClass = env->FindClass("Lcom/mori5/itsecurity/cpp/CaffPixel;");
+        jobject newPixels = env->AllocObject(pixelClass);
 
-       jfieldID red = env->GetFieldID(pixelClass , "red", "B");
-       jfieldID green = env->GetFieldID(pixelClass , "green", "B");
-       jfieldID blue = env->GetFieldID(pixelClass , "blue", "B");
+        jfieldID red = env->GetFieldID(pixelClass, "red", "B");
+        jfieldID green = env->GetFieldID(pixelClass, "green", "B");
+        jfieldID blue = env->GetFieldID(pixelClass, "blue", "B");
 
-       env->SetLongField(newPixels, red, (jbyte)temp.red);
-       env->SetLongField(newPixels, green, (jbyte)temp.green);
-       env->SetLongField(newPixels, blue, (jbyte)temp.blue);
-       env->CallBooleanMethod(obj, env->GetMethodID(clazz, "add", "(Ljava/lang/Object;)Z"), newPixels);
+        env->SetLongField(newPixels, red, (jbyte)temp.red);
+        env->SetLongField(newPixels, green, (jbyte)temp.green);
+        env->SetLongField(newPixels, blue, (jbyte)temp.blue);
+        env->CallBooleanMethod(obj, env->GetMethodID(clazz, "add", "(Ljava/lang/Object;)Z"), newPixels);
     }
 
     env->SetObjectField(newImage, pixels, obj);
-    env->SetObjectField(newCreatorsImages, imageJfield, newImage);
+    env->SetObjectField(newCreatorsImages, caffImageField, newImage);
 
     return newCreatorsImages;
- }
-
-
+}
 
 Image::Image(vector<Pixel> &pixels, uint64_t content_size, uint64_t width, uint64_t height, uint64_t duration, string tags, string caption)
 {
@@ -110,49 +153,11 @@ CreatorsImages::CreatorsImages()
 
 namespace CaffReader
 {
-    void generateJpegImages(vector<Image> images,
-                            string creatorString,
-                            uint16_t year,
-                            uint8_t month,
-                            uint8_t day,
-                            uint8_t hour,
-                            uint8_t minute)
-    {
-        uint64_t counter = 0;
-        for (Image image : images)
-        {
-            std::vector<Pixel>::iterator it = image.pixels.begin();
-            EasyBMP::RGBColor black(0, 0, 0);
-            // sizeX, sizeY, FileName, BackgroundColor
-            string filename = creatorString + "_" +
-                              std::to_string(year) + "_" +
-                              std::to_string(month) + "_" +
-                              std::to_string(day) + "_" +
-                              std::to_string(hour) + "_" +
-                              std::to_string(minute) + "_" +
-                              std::to_string(counter) + ".jpg";
-            EasyBMP::Image img(image.width, image.height,
-                               filename, black);
-            counter++;
 
-            for (int i = 0; i < image.height; i++)
-            {
-                for (int j = 0; j < image.width; j++)
-                {
-                    Pixel p = *it;
-                    it++;
-                    img.SetPixel(j, i, EasyBMP::RGBColor(p.red, p.green, p.blue));
-                }
-            }
-
-            img.Write();
-        }
-    }
-
-    CreatorsImages readCaffFromFile(vector<signed char>& buffer, const bool generateImages)
+    CreatorsImages readCaffFromFile(vector<signed char> &buffer, const bool generateImages)
     {
         stringstream stream;
-        stream.rdbuf()->pubsetbuf(reinterpret_cast<char*>(&buffer[0]), buffer.size());
+        stream.rdbuf()->pubsetbuf(reinterpret_cast<char *>(&buffer[0]), buffer.size());
 
         stream.seekg(0, ios::end);
         std::streampos totalFileSize;
@@ -266,9 +271,6 @@ namespace CaffReader
             if (stream.tellg() == totalFileSize)
                 break;
         }
-
-        if (generateImages)
-            generateJpegImages(images, creatorString, year, month, day, hour, minute);
 
         CreatorsImages creatorsImages(year, month, day, hour, minute, lengthOfCreator, creatorString, images);
 
