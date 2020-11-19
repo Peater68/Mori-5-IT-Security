@@ -39,6 +39,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private static final String INVALID_PASSWORD = "Invalid current password during password change";
     private static final String ACCESS_DENIED = "Access denied";
     private static final String USER_NOT_FOUND = "User not found";
+    private static final String USER_BANNED = "User is banned!";
 
     private final LoggingService loggingService;
     private final UserRepository userRepository;
@@ -61,7 +62,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         User user = optionalUser.get();
         if (user.getIsBanned()) {
-            throw new UserIsBannedException("User is banned!", ItSecurityErrors.USER_BANNED);
+            throw new UserIsBannedException(USER_BANNED, ItSecurityErrors.USER_BANNED);
         }
 
         if (passwordEncoder.matches(loginRequestDTO.getPassword(), user.getPassword())) {
@@ -113,12 +114,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         Optional<User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isEmpty()) {
-            throw new InvalidTokenException("Access denied", ItSecurityErrors.ACCESS_DENIED);
+            throw new InvalidTokenException(ACCESS_DENIED, ItSecurityErrors.ACCESS_DENIED);
         }
 
         User user = optionalUser.get();
         if (user.getIsBanned()) {
-            throw new UserIsBannedException("User is banned!", ItSecurityErrors.USER_BANNED);
+            throw new UserIsBannedException(USER_BANNED, ItSecurityErrors.USER_BANNED);
         }
 
         String accessToken = tokenService.generateAccessToken(user.getUsername(), user.getId(), user.getRole());

@@ -75,4 +75,10 @@ public class DocumentController implements CaffApi {
     public ResponseEntity<CaffDetailsDTO> getCaffDetailsById(String caffId) {
         return ResponseEntity.ok(DocumentMapper.mapDocumentToCaffDetailsDTO(documentService.getCaffDetailsById(caffId)));
     }
+
+    @Override
+    public ResponseEntity<CaffDetailsDTO> buyCaff(String caffId) {
+        return ResponseEntity.ok(DocumentMapper.mapDocumentToCaffDetailsDTO(documentService.buyCaff(caffId)));
+    }
+
 }

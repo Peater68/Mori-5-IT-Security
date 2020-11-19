@@ -142,6 +142,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    @Transactional
     public StorageObject downloadCaffOrPreview(String documentId, @NotNull @Valid String type) {
         DocumentType documentType = null;
 
@@ -160,6 +161,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    @Transactional
     public void deleteCaff(String documentId) {
         // TODO kidobni a previewt és a caffot is, de előtte mindenféle ellenőrzést, hogy tuti a megfelelő user törli-e (vagy admin)
         User user = userService.getCurrentUser();
@@ -171,13 +173,31 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    @Transactional
     public List<Document> getAllCaffs() {
         return documentRepository.findAll();
     }
 
     @Override
+    @Transactional
     public Document getCaffDetailsById(String documentId) {
-        return documentRepository.findById(documentId).orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
+        return documentRepository.findById(documentId)
+                .orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
+    }
+
+    @Override
+    @Transactional
+    public Document buyCaff(String caffId) {
+        User user = userService.getCurrentUser();
+
+        Document document = documentRepository.findById(caffId)
+                .orElseThrow(() -> new EntityNotFoundException("", ItSecurityErrors.ENTITY_NOT_FOUND));
+        document.getCustomers().add(user);
+
+        user.getDownloads().add(document);
+        userRepository.save(user);
+
+        return documentRepository.save(document);
     }
 
     private StorageObject downloadPreview(String documentId) {
@@ -195,4 +215,5 @@ public class DocumentServiceImpl implements DocumentService {
         Document document = documentRepository.findById(documentId).orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
         return storageService.getObject(documentType.getBucket(), document.getFileName());
     }
+
 }
