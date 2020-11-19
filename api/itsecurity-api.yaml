@@ -400,7 +400,7 @@ paths:
       summary: ''
       tags:
         - comment
-      operationId: put-api-comments-commentId
+      operationId: put-comment
       responses:
         '200':
           description: OK

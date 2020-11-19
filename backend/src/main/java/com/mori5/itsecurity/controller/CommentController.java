@@ -26,11 +26,10 @@ public class CommentController implements CommentApi {
     @Override
     public ResponseEntity<CommentDTO> postComments(String documentId, @Valid CommentUploadDTO commentUploadDTO) {
         return ResponseEntity.ok(CommentMapper.mapCommentToCommentDTO(commentService.saveComment(documentId, commentUploadDTO)));
-
     }
 
     @Override
-    public ResponseEntity<CommentDTO> putApiCommentsCommentId(String commentId, @Valid CommentUploadDTO commentUploadDTO) {
+    public ResponseEntity<CommentDTO> putComment(String commentId, @Valid CommentUploadDTO commentUploadDTO) {
         return ResponseEntity.ok(CommentMapper.mapCommentToCommentDTO(commentService.updateComment(commentId, commentUploadDTO)));
     }
 

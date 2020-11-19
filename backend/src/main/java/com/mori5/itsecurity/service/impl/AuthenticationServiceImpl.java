@@ -10,6 +10,7 @@ import com.mori5.itsecurity.errorhandling.domain.ItSecurityErrors;
 import com.mori5.itsecurity.errorhandling.exception.CredentialException;
 import com.mori5.itsecurity.errorhandling.exception.EntityNotFoundException;
 import com.mori5.itsecurity.errorhandling.exception.InvalidTokenException;
+import com.mori5.itsecurity.logging.service.LoggingService;
 import com.mori5.itsecurity.mapper.UserMapper;
 import com.mori5.itsecurity.repository.UserRepository;
 import com.mori5.itsecurity.service.AuthenticationService;
@@ -38,6 +39,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private static final String ACCESS_DENIED = "Access denied";
     private static final String USER_NOT_FOUND = "User not found";
 
+    private final LoggingService loggingService;
     private final UserRepository userRepository;
     private final TokenService tokenService;
     private final PasswordEncoder passwordEncoder;
@@ -59,8 +61,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = optionalUser.get();
 
         if (passwordEncoder.matches(loginRequestDTO.getPassword(), user.getPassword())) {
+            loggingService.logLogin(user, true);
             return createLoginResponseDTO(user);
         } else {
+            loggingService.logLogin(user, false);
             throw new CredentialException(INVALID_PASSWORD, ItSecurityErrors.INVALID_PASSWORD);
         }
     }
@@ -113,6 +117,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String accessToken = tokenService.generateAccessToken(user.getUsername(), user.getId(), user.getRole());
         String refreshToken = tokenService.generateRefreshToken(user.getUsername(), user.getId(), user.getRole());
 
+        loggingService.logRenew(user, true);
         return TokensDTO.builder().accessToken(accessToken).refreshToken(refreshToken).build();
     }
 
