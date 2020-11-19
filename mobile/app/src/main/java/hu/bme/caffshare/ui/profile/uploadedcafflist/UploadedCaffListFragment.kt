@@ -9,10 +9,10 @@ import co.zsmb.rainbowcake.base.ViewModelScope
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.navigator
 import hu.bme.caffshare.R
-import hu.bme.caffshare.ui.caffdetails.CaffDetailsFragment
 import hu.bme.caffshare.ui.cafflist.adapter.CaffListAdapter
 import hu.bme.caffshare.ui.cafflist.adapter.SpacesItemDecoration
 import hu.bme.caffshare.ui.cafflist.model.CaffFile
+import hu.bme.caffshare.ui.uploadedcaffdetails.UploadedCaffDetailsFragment
 import kotlinx.android.synthetic.main.fragment_uploaded_caff_list.*
 
 class UploadedCaffListFragment :
@@ -38,7 +38,7 @@ class UploadedCaffListFragment :
 
         adapter.listener = object : CaffListAdapter.Listener {
             override fun onCaffFileClicked(file: CaffFile) {
-                navigator?.add(CaffDetailsFragment.newInstance(file.id))
+                navigator?.add(UploadedCaffDetailsFragment.newInstance(file.id))
             }
         }
         caffFileList.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)

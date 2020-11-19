@@ -14,6 +14,7 @@ import hu.bme.caffshare.ui.profile.ProfileViewModel
 import hu.bme.caffshare.ui.profile.boughtcafflist.BoughtCaffListViewModel
 import hu.bme.caffshare.ui.profile.uploadedcafflist.UploadedCaffListViewModel
 import hu.bme.caffshare.ui.register.RegisterViewModel
+import hu.bme.caffshare.ui.uploadedcaffdetails.UploadedCaffDetailsViewModel
 
 @Suppress("unused")
 @Module
@@ -63,4 +64,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(BoughtCaffDetailsViewModel::class)
     abstract fun bindBoughtCaffDetailsViewModel(boughtCaffDetailsViewModel: BoughtCaffDetailsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UploadedCaffDetailsViewModel::class)
+    abstract fun bindUploadedCaffDetailsViewModel(uploadedCaffListViewModel: UploadedCaffDetailsViewModel): ViewModel
 }

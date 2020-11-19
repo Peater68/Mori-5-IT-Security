@@ -11,6 +11,9 @@ class CaffDetailsViewModel @Inject constructor(
     object PurchaseSuccessful : OneShotEvent
     object PurchaseFailed : OneShotEvent
 
+    object DeleteSuccessful : OneShotEvent
+    object DeleteFailed : OneShotEvent
+
     fun load(caffFileId: String) = execute {
         val details = caffDetailsPresenter.getCaffFileDetails(caffFileId)
 
@@ -29,6 +32,18 @@ class CaffDetailsViewModel @Inject constructor(
                 postEvent(PurchaseSuccessful)
             } else {
                 postEvent(PurchaseFailed)
+            }
+        }
+    }
+
+    fun deleteCaffFile() = execute {
+        (viewState as? CaffDetailsContent)?.let {
+            val deleteResult = caffDetailsPresenter.deleteCaffFile(it.caffDetails.id)
+
+            if (deleteResult) {
+                postEvent(DeleteSuccessful)
+            } else {
+                postEvent(DeleteFailed)
             }
         }
     }

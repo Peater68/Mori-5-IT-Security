@@ -1,9 +1,5 @@
 package hu.bme.caffshare.ui.caffdetails
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import co.zsmb.rainbowcake.base.OneShotEvent
@@ -16,9 +12,9 @@ import com.bumptech.glide.Glide
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
 import hu.bme.caffshare.ui.comments.CommentsFragment
+import hu.bme.caffshare.util.showErrorSnackBar
 import hu.bme.caffshare.util.showSuccessSnackBar
 import kotlinx.android.synthetic.main.fragment_caff_details.*
-
 
 class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetailsViewModel> {
 
@@ -58,6 +54,7 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
         initArguments()
         setupCommentsButton()
         setupPurchaseButton()
+        setupDeleteButton()
     }
 
     private fun setupCommentsButton() {
@@ -67,10 +64,19 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
     }
 
     private fun setupPurchaseButton() {
-        purchaseButton.setOnClickListener {
-            purchaseProgressBar.visibility = View.VISIBLE
+        mainActionButton.text = getString(R.string.purchase)
+        mainActionButton.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
 
             viewModel.purchaseCaffFile()
+        }
+    }
+
+    private fun setupDeleteButton() {
+        deleteButton.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
+
+            viewModel.deleteCaffFile()
         }
     }
 
@@ -84,13 +90,19 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
         when (event) {
             is CaffDetailsViewModel.PurchaseSuccessful -> {
                 showSuccessSnackBar("Successful purchase!")
-                purchaseProgressBar.visibility = View.GONE
             }
             is CaffDetailsViewModel.PurchaseFailed -> {
-                showSuccessSnackBar("An error occurred while while purchasing the file!")
-                purchaseProgressBar.visibility = View.GONE
+                showErrorSnackBar("An error occurred while while purchasing the file!")
+            }
+            is CaffDetailsViewModel.DeleteSuccessful -> {
+                // TODO: show something
+                navigator?.pop()
+            }
+            is CaffDetailsViewModel.DeleteFailed -> {
+                showErrorSnackBar("An error occurred while while deleting the file!")
             }
         }
+        progressBar.visibility = View.GONE
     }
 
     override fun render(viewState: CaffDetailsViewState) {
@@ -122,21 +134,5 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
                 tagsText.append("\n")
             }
         }
-    }
-
-    fun drawableToBitmap(drawable: Drawable): Bitmap? {
-        if (drawable is BitmapDrawable) {
-            return drawable.bitmap
-        }
-        val bitmap =
-            Bitmap.createBitmap(
-                drawable.intrinsicWidth,
-                drawable.intrinsicHeight,
-                Bitmap.Config.ARGB_8888
-            )
-        val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, canvas.width, canvas.height)
-        drawable.draw(canvas)
-        return bitmap
     }
 }

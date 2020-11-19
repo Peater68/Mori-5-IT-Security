@@ -1,6 +1,7 @@
-package hu.bme.caffshare.ui.boughtcaffdetails
+package hu.bme.caffshare.ui.uploadedcaffdetails
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
@@ -12,11 +13,13 @@ import com.bumptech.glide.Glide
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
 import hu.bme.caffshare.ui.comments.CommentsFragment
+import hu.bme.caffshare.util.showErrorSnackBar
 import hu.bme.caffshare.util.showSuccessSnackBar
 import kotlinx.android.synthetic.main.fragment_caff_details.*
 
-class BoughtCaffDetailsFragment :
-    RainbowCakeFragment<BoughtCaffDetailsViewState, BoughtCaffDetailsViewModel> {
+
+class UploadedCaffDetailsFragment :
+    RainbowCakeFragment<UploadedCaffDetailsViewState, UploadedCaffDetailsViewModel> {
 
     override fun provideViewModel() = getViewModelFromFactory()
     override fun getViewResource() = R.layout.fragment_caff_details
@@ -33,8 +36,8 @@ class BoughtCaffDetailsFragment :
         private const val CAFF_FILE_ID = "CAFF_FILE_ID"
 
         @Suppress("DEPRECATION")
-        fun newInstance(caffFileId: String): BoughtCaffDetailsFragment {
-            return BoughtCaffDetailsFragment().applyArgs {
+        fun newInstance(caffFileId: String): UploadedCaffDetailsFragment {
+            return UploadedCaffDetailsFragment().applyArgs {
                 putString(CAFF_FILE_ID, caffFileId)
             }
         }
@@ -55,6 +58,7 @@ class BoughtCaffDetailsFragment :
         setupCommentsButton()
         setupDownloadButton()
         setupDeleteButton()
+        setupTagsTextView()
     }
 
     private fun setupCommentsButton() {
@@ -66,14 +70,22 @@ class BoughtCaffDetailsFragment :
     private fun setupDownloadButton() {
         mainActionButton.text = getString(R.string.download)
         mainActionButton.setOnClickListener {
-            // TODO
-            viewModel.downloadCaffFile()
             progressBar.visibility = View.VISIBLE
+
+            viewModel.downloadCaffFile()
         }
     }
 
     private fun setupDeleteButton() {
-        deleteButton.visibility = View.GONE
+        deleteButton.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
+
+            viewModel.deleteCaffFile()
+        }
+    }
+
+    private fun setupTagsTextView() {
+        tagsText.movementMethod = ScrollingMovementMethod()
     }
 
     override fun onStart() {
@@ -84,20 +96,26 @@ class BoughtCaffDetailsFragment :
 
     override fun onEvent(event: OneShotEvent) {
         when (event) {
-            is BoughtCaffDetailsViewModel.DownloadSuccessful -> {
+            is UploadedCaffDetailsViewModel.DownloadSuccessful -> {
                 showSuccessSnackBar("Successful download!")
-                progressBar.visibility = View.GONE
             }
-            is BoughtCaffDetailsViewModel.DownloadFailed -> {
-                showSuccessSnackBar("An error occurred while while downloading the file!")
-                progressBar.visibility = View.GONE
+            is UploadedCaffDetailsViewModel.DownloadFailed -> {
+                showErrorSnackBar("An error occurred while while downloading the file!")
+            }
+            is UploadedCaffDetailsViewModel.DeleteSuccessful -> {
+                showSuccessSnackBar("Successful deletion!")
+                navigator?.pop()
+            }
+            is UploadedCaffDetailsViewModel.DeleteFailed -> {
+                showErrorSnackBar("An error occurred while while deleting the file!")
             }
         }
+        progressBar.visibility = View.GONE
     }
 
-    override fun render(viewState: BoughtCaffDetailsViewState) {
+    override fun render(viewState: UploadedCaffDetailsViewState) {
         when (viewState) {
-            is BoughtCaffDetailsContent -> {
+            is UploadedCaffDetailsContent -> {
                 viewFlipper.displayedChild = 0
 
                 setupContentView(viewState.caffDetails)
