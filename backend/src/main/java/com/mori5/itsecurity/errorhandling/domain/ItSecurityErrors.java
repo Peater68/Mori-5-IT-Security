@@ -31,4 +31,6 @@ public class ItSecurityErrors implements Serializable {
     public static final ItSecurityErrors UNAUTHORIZED = new ItSecurityErrors("UNAUTHORIZED", 1009);
     public static final ItSecurityErrors UNPROCESSABLE_ENTITY = new ItSecurityErrors("UNAUTHORIZED", 1010);
     public static final ItSecurityErrors USER_INFORMATION_NOT_EXISTS = new ItSecurityErrors("USER_INFORMATION_NOT_EXISTS", 1022);
+    public static final ItSecurityErrors USER_BANNED = new ItSecurityErrors("USER_BANNED", 1023);
+
 }

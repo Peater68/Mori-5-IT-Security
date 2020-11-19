@@ -22,7 +22,6 @@ public class UserController implements UserApi {
     private final UserService userService;
 
     @Override
-    @Secured({AuthoritiesConstants.ROLE_ADMIN, AuthoritiesConstants.ROLE_CUSTOMER})
     public ResponseEntity<UserDTO> createUser(@Valid UserRegistrationDTO userRegistrationDTO) {
         return ResponseEntity.ok(UserMapper.mapUserToUserDTO(userService.createUser(userRegistrationDTO)));
     }
