@@ -38,8 +38,8 @@ paths:
         - user
       operationId: create-user
       responses:
-        '201':
-          description: Created
+        '200':
+          description: OK
           content:
             application/json:
               schema:
@@ -73,6 +73,8 @@ paths:
                 $ref: '#/components/schemas/LoginResponseDTO'
         '401':
           description: Unauthorized
+        '403':
+          description: User banned
         '500':
           description: Created
       description: Login to the application with username and password
@@ -128,6 +130,8 @@ paths:
                 $ref: '#/components/schemas/TokensDTO'
         '400':
           description: Not Implemented
+        '403':
+          description: User banned
         '500':
           description: Internal Server Error
       description: Get access token with refresh token
