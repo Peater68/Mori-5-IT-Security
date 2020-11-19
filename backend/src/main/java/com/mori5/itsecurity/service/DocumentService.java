@@ -20,6 +20,6 @@ public interface DocumentService {
 
     Document getCaffDetailsById(String documentId);
 
-    Document buyCaff(String caffId);
+    Document buyCaff(String documentId);
 
 }

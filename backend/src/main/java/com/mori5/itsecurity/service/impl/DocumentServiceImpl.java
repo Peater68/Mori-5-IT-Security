@@ -7,6 +7,7 @@ import com.mori5.itsecurity.domain.DocumentType;
 import com.mori5.itsecurity.domain.User;
 import com.mori5.itsecurity.errorhandling.domain.ItSecurityErrors;
 import com.mori5.itsecurity.errorhandling.exception.EntityNotFoundException;
+import com.mori5.itsecurity.errorhandling.exception.InvalidOperationException;
 import com.mori5.itsecurity.errorhandling.exception.UnprocessableEntityException;
 import com.mori5.itsecurity.repository.DocumentRepository;
 import com.mori5.itsecurity.repository.UserRepository;
@@ -40,6 +41,7 @@ public class DocumentServiceImpl implements DocumentService {
     private static final String USER_NOT_FOUND = "User not found";
     private static final String DOCUMENT_NOT_FOUND = "Document not found";
     private static final String NOT_LOGGED_IN = "There is not logged in user";
+    private static final String CAFF_NOT_BOUGHT = "Caff must be bought before downloading";
 
     private final StorageService storageService;
     private final DocumentRepository documentRepository;
@@ -187,11 +189,11 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional
-    public Document buyCaff(String caffId) {
+    public Document buyCaff(String documentId) {
         User user = userService.getCurrentUser();
 
-        Document document = documentRepository.findById(caffId)
-                .orElseThrow(() -> new EntityNotFoundException("", ItSecurityErrors.ENTITY_NOT_FOUND));
+        Document document = documentRepository.findById(documentId)
+                .orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
         document.getCustomers().add(user);
 
         user.getDownloads().add(document);
@@ -205,9 +207,15 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     private StorageObject downloadCaff(String documentId) {
-        // TODO csekkolni, hogy megvette-e már. Ha igen, esetleg hibaüzenet, hogy többet ne tudja
-        // TODO csekkolni, hogy aki feltöltötte, az is letudja tölteni?
-        // TODO így a szervezés lehet nem jó, mert aki letölti, ott be kell állítani a fieldeket, hogy ki mit töltött le
+        User user = userService.getCurrentUser();
+
+        Document document = documentRepository.findById(documentId)
+                .orElseThrow(() -> new EntityNotFoundException("", ItSecurityErrors.ENTITY_NOT_FOUND));
+
+        if (!(user.getDownloads().contains(document) || document.getUploader().getId().equals(user.getId()))) {
+            throw new InvalidOperationException(CAFF_NOT_BOUGHT, ItSecurityErrors.INVALID_OPERATION);
+        }
+
         return downloadFile(documentId, DocumentType.CAFF);
     }
 
