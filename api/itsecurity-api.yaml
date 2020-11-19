@@ -649,7 +649,7 @@ components:
           type: string
           enum:
             - ADMIN
-            - WORKER
+            - CUSTOMER
         createdAt:
           type: string
           format: date-time

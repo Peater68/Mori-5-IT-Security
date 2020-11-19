@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mori5.itsecurity.errorhandling.exception.UserIsBannedException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,11 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
             ErrorResponseDTO errorResponse = new ErrorResponseDTO(ItSecurityErrors.ACCESS_DENIED, e.getMessage());
 
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.getWriter().write(convertObjectToJson(errorResponse));
+        } catch (UserIsBannedException e ){
+            ErrorResponseDTO errorResponse = new ErrorResponseDTO(ItSecurityErrors.USER_BANNED, e.getMessage());
+
+            response.setStatus(HttpStatus.FORBIDDEN.value());
             response.getWriter().write(convertObjectToJson(errorResponse));
         }
     }
