@@ -15,8 +15,6 @@ public interface UserService {
 
     User updateCurrentUserProfile(UserUpdateDTO profileDTO);
 
-    void deleteCurrentUserProfile();
-
     User getCurrentUser();
 
     List<User> getUsers();
@@ -24,8 +22,6 @@ public interface UserService {
     User getUserById(String id);
 
     User updateUser(String id, UserUpdateDTO updateUser);
-
-    void deleteUser(String id);
 
     void makeAdmin(String id);
 

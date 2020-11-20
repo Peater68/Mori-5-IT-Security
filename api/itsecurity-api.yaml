@@ -233,21 +233,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UserUpdateDTO'
-    delete:
-      summary: ''
-      tags:
-        - user
-      operationId: delete-me
-      responses:
-        '204':
-          description: Non-Authoritative Information
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '500':
-          description: Internal Server Error
-      description: Delete current user profile
   '/api/users/{userId}':
     parameters:
       - schema:
@@ -304,23 +289,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UserUpdateDTO'
-    delete:
-      summary: ''
-      tags:
-        - user
-      operationId: delete-user-by-id
-      responses:
-        '204':
-          description: Payment Required
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-      description: Delete user by id
   '/api/users/{userId}/ban':
     parameters:
       - schema:

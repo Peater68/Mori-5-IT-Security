@@ -114,9 +114,9 @@ public class DocumentServiceImpl implements DocumentService {
                 .creator(parsedCaff.creatorString)
                 .createdDate(LocalDateTime.of(parsedCaff.year, parsedCaff.month + 1, parsedCaff.day +1, parsedCaff.hour+1, parsedCaff.minute+1).toInstant(ZoneOffset.UTC))
                 .build();
+        documentRepository.save(document);
 
         user.getUploads().add(document);
-
         userRepository.save(user);
         // TODO itt még lehet nem kap ID-t a document, pedig az kell
 
