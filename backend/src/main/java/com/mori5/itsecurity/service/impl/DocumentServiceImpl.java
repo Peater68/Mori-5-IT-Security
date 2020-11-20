@@ -181,6 +181,8 @@ public class DocumentServiceImpl implements DocumentService {
         // TODO hibakezelés: Itt nincs autómatikus rollback minden módosításra? Az lenne a legegyszerűbb. Csak gondolom a storageService-től vissza kéne szállni az error-nak a @Transactional-ig.
         storageService.deleteObject(DocumentType.CAFF.getBucket(), document.getFileName());
         storageService.deleteObject(DocumentType.PREVIEW.getBucket(), document.getFileName());
+
+        documentRepository.delete(document);
     }
 
     @Override

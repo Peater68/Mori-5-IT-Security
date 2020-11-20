@@ -39,9 +39,8 @@ public class DocumentController implements CaffApi {
 
     @Override
     @Secured({AuthoritiesConstants.ROLE_ADMIN, AuthoritiesConstants.ROLE_CUSTOMER})
-    public ResponseEntity<Void> uploadCaff(@Valid MultipartFile file) {
-        documentService.uploadCaff(file);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<CaffDetailsDTO> uploadCaff(@Valid MultipartFile file) {
+        return ResponseEntity.ok(DocumentMapper.mapDocumentToCaffDetailsDTO(documentService.uploadCaff(file)));
     }
 
     @Override

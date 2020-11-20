@@ -365,8 +365,12 @@ paths:
       summary: ''
       operationId: upload-caff
       responses:
-        '204':
-          description: No Content
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaffDetailsDTO'
         '400':
           description: Bad Request
         '401':
@@ -734,6 +738,10 @@ components:
       properties:
         comment:
           type: string
+        dummy_not_to_use_field:
+          type: string
+      required:
+        - comment
     CommentDTO:
       title: CommentDTO
       type: object
