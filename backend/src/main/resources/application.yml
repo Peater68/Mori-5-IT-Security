@@ -67,6 +67,8 @@ spring:
           CharSet: utf-8
           useUnicode: true
         open-in-view: false
+        ejb:
+          interceptor: com.mori5.itsecurity.logging.interceptors.HibernateInterceptor
     generate-ddl: true
 
 logging:
