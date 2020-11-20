@@ -4,6 +4,7 @@ import com.mori5.itsecurity.cpp.CPPParserCaller;
 import com.mori5.itsecurity.cpp.CreatorsImages;
 import com.mori5.itsecurity.domain.Document;
 import com.mori5.itsecurity.domain.DocumentType;
+import com.mori5.itsecurity.domain.Role;
 import com.mori5.itsecurity.domain.User;
 import com.mori5.itsecurity.errorhandling.domain.ItSecurityErrors;
 import com.mori5.itsecurity.errorhandling.exception.EntityNotFoundException;
@@ -17,6 +18,7 @@ import com.mori5.itsecurity.storage.StorageObject;
 import com.mori5.itsecurity.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -146,7 +148,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional
     public StorageObject downloadCaffOrPreview(String documentId, @NotNull @Valid String type) {
-        DocumentType documentType = null;
+        DocumentType documentType;
 
         try {
             documentType = DocumentType.valueOf(type);
@@ -165,11 +167,15 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     @Transactional
     public void deleteCaff(String documentId) {
-        // TODO kidobni a previewt és a caffot is, de előtte mindenféle ellenőrzést, hogy tuti a megfelelő user törli-e (vagy admin)
-        User user = userService.getCurrentUser();
-        Document document = documentRepository.findById(documentId).orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
+        Document document = documentRepository.findById(documentId)
+                .orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
 
-        // TODO hibakezelés
+        User user = userService.getCurrentUser();
+        if (!(document.getUploader().getId().equals(user.getId()) || user.getRole().equals(Role.ADMIN))) {
+            throw new AccessDeniedException("Deleting has been refused because of access violation!");
+        }
+
+        // TODO hibakezelés: Itt nincs autómatikus rollback minden módosításra? Az lenne a legegyszerűbb. Csak gondolom a storageService-től vissza kéne szállni az error-nak a @Transactional-ig.
         storageService.deleteObject(DocumentType.CAFF.getBucket(), document.getFileName());
         storageService.deleteObject(DocumentType.PREVIEW.getBucket(), document.getFileName());
     }
@@ -220,7 +226,9 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     private StorageObject downloadFile(String documentId, DocumentType documentType) {
-        Document document = documentRepository.findById(documentId).orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
+        Document document = documentRepository.findById(documentId)
+                .orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
+
         return storageService.getObject(documentType.getBucket(), document.getFileName());
     }
 
