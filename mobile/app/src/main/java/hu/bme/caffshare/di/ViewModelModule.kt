@@ -5,6 +5,7 @@ import co.zsmb.rainbowcake.dagger.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import hu.bme.caffshare.ui.admin.UserListViewModel
 import hu.bme.caffshare.ui.caffdetails.CaffDetailsViewModel
 import hu.bme.caffshare.ui.cafflist.CaffListViewModel
 import hu.bme.caffshare.ui.comments.CommentsViewModel
@@ -39,4 +40,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CommentsViewModel::class)
     abstract fun bindCommentsViewModel(commentsViewModel: CommentsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UserListViewModel::class)
+    abstract fun bindUserListViewModel(userListViewModel: UserListViewModel): ViewModel
 }
