@@ -748,8 +748,6 @@ components:
           type: string
         caption:
           type: string
-        uploader:
-          type: string
     CaffSumDTO:
       title: CaffSumDTO
       type: object
@@ -761,8 +759,6 @@ components:
           type: string
           format: date-time
         creator:
-          type: string
-        uploader:
           type: string
     CommentUploadDTO:
       title: CommentUploadDTO
