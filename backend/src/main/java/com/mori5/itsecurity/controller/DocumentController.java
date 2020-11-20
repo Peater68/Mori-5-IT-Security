@@ -12,12 +12,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.util.MimeType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.print.attribute.standard.Media;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -55,13 +61,46 @@ public class DocumentController implements CaffApi {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, ATTACHMENT_FILENAME + storageObject.getFileName());
 
-        MediaType mediaType = type.equals(DocumentType.PREVIEW.getName()) ? MediaType.IMAGE_JPEG : MediaType.APPLICATION_OCTET_STREAM;
+        if (type.equals(DocumentType.PREVIEW.getName())) {
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(storageObject.getContent().length)
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(resource);
+        } else {
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(storageObject.getContent().length)
+                    .body(resource);
+        }
 
-        return ResponseEntity.ok()
-                .headers(headers)
-                .contentLength(storageObject.getContent().length)
-                .contentType(mediaType)
-                .body(resource);
+    }
+
+    @GetMapping(value = "/api/caffss/{caffId}/asd", produces = { "*/*"})
+    public ResponseEntity<Resource> downloadPreviewOrCaffFile2(@PathVariable String caffId, @NotNull @Valid String type) {
+        StorageObject storageObject = documentService.downloadCaffOrPreview(caffId, type);
+
+        ByteArrayResource resource = new ByteArrayResource(storageObject.getContent());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, ATTACHMENT_FILENAME + storageObject.getFileName() +".caff");
+        headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
+
+        if (type.equals(DocumentType.PREVIEW.getName())) {
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(storageObject.getContent().length)
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(resource);
+        } else {
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(storageObject.getContent().length)
+                    .body(resource);
+
+        }
+
     }
 
     @Override

@@ -69,7 +69,7 @@ public class DocumentServiceImpl implements DocumentService {
             storageObjectCaff = StorageObject.builder()
                     .fileName(fileName)
                     .content(file.getBytes())
-                    .contentType(file.getContentType())
+                    .contentType("caff")
                     .bucket(DocumentType.CAFF.getBucket())
                     .build();
         } catch (IOException e) {
@@ -99,13 +99,16 @@ public class DocumentServiceImpl implements DocumentService {
         storageService.uploadObject(storageObjectCaff);
         storageService.uploadObject(storageObjectPreview);
 
-
         // TODO cascadet megnezni, ha torlunk usert, toroljuk a feltltott kepeit is?
         Document document = Document.builder()
                 .fileName(fileName)
                 .uploader(user)
+                .caffContentSize(file.getSize())
+                .duration(parsedCaff.images.duration)
+                .tags(parsedCaff.images.tags)
+                .caption(parsedCaff.images.caption)
+                .creator(parsedCaff.creatorString)
                 .createdDate(LocalDateTime.of(parsedCaff.year, parsedCaff.month + 1, parsedCaff.day +1, parsedCaff.hour+1, parsedCaff.minute+1).toInstant(ZoneOffset.UTC))
-                .customers(null)
                 .build();
 
         user.getUploads().add(document);
