@@ -19,4 +19,7 @@ public interface DocumentService {
     List<Document> getAllCaffs();
 
     Document getCaffDetailsById(String documentId);
+
+    Document buyCaff(String documentId);
+
 }

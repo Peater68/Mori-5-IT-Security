@@ -46,15 +46,21 @@ public class Document {
     @GenericGenerator(name = "uuid_generator", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     private String fileName;
-    private Long contentSize;
+
     private String creator;
     private Instant createdDate;
+    private String tags;
+    private String caption;
+    private Long duration;
+    private Long caffContentSize;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User uploader;
     @ManyToMany(mappedBy = "downloads", fetch = FetchType.LAZY)
     private List<User> customers;
     @OneToMany(mappedBy = "document", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
+
     @CreatedDate
     private Instant createdAt;
     @LastModifiedDate

@@ -67,7 +67,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "document_id"))
     private List<Document> downloads;
 
-    @OneToMany(mappedBy = "uploader", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // TODO kell ez (cascade)?
+    // TODO: Így a dokumentumok megmaradnak, de a user törlődik innen és a kapcsolótáblákból is?
+    @OneToMany(mappedBy = "uploader", fetch = FetchType.LAZY)
     private List<Document> uploads;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
@@ -80,4 +81,5 @@ public class User {
     private Instant createdAt;
     @LastModifiedDate
     private Instant updatedAt;
+
 }

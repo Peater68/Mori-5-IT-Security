@@ -4,9 +4,11 @@ import com.mori5.itsecurity.cpp.CPPParserCaller;
 import com.mori5.itsecurity.cpp.CreatorsImages;
 import com.mori5.itsecurity.domain.Document;
 import com.mori5.itsecurity.domain.DocumentType;
+import com.mori5.itsecurity.domain.Role;
 import com.mori5.itsecurity.domain.User;
 import com.mori5.itsecurity.errorhandling.domain.ItSecurityErrors;
 import com.mori5.itsecurity.errorhandling.exception.EntityNotFoundException;
+import com.mori5.itsecurity.errorhandling.exception.InvalidOperationException;
 import com.mori5.itsecurity.errorhandling.exception.UnprocessableEntityException;
 import com.mori5.itsecurity.repository.DocumentRepository;
 import com.mori5.itsecurity.repository.UserRepository;
@@ -16,6 +18,7 @@ import com.mori5.itsecurity.storage.StorageObject;
 import com.mori5.itsecurity.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,6 +43,7 @@ public class DocumentServiceImpl implements DocumentService {
     private static final String USER_NOT_FOUND = "User not found";
     private static final String DOCUMENT_NOT_FOUND = "Document not found";
     private static final String NOT_LOGGED_IN = "There is not logged in user";
+    private static final String CAFF_NOT_BOUGHT = "Caff must be bought before downloading";
 
     private final StorageService storageService;
     private final DocumentRepository documentRepository;
@@ -69,7 +73,7 @@ public class DocumentServiceImpl implements DocumentService {
             storageObjectCaff = StorageObject.builder()
                     .fileName(fileName)
                     .content(file.getBytes())
-                    .contentType(file.getContentType())
+                    .contentType("caff")
                     .bucket(DocumentType.CAFF.getBucket())
                     .build();
         } catch (IOException e) {
@@ -99,13 +103,16 @@ public class DocumentServiceImpl implements DocumentService {
         storageService.uploadObject(storageObjectCaff);
         storageService.uploadObject(storageObjectPreview);
 
-
         // TODO cascadet megnezni, ha torlunk usert, toroljuk a feltltott kepeit is?
         Document document = Document.builder()
                 .fileName(fileName)
                 .uploader(user)
+                .caffContentSize(file.getSize())
+                .duration(parsedCaff.images.duration)
+                .tags(parsedCaff.images.tags)
+                .caption(parsedCaff.images.caption)
+                .creator(parsedCaff.creatorString)
                 .createdDate(LocalDateTime.of(parsedCaff.year, parsedCaff.month + 1, parsedCaff.day +1, parsedCaff.hour+1, parsedCaff.minute+1).toInstant(ZoneOffset.UTC))
-                .customers(null)
                 .build();
 
         user.getUploads().add(document);
@@ -142,8 +149,9 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    @Transactional
     public StorageObject downloadCaffOrPreview(String documentId, @NotNull @Valid String type) {
-        DocumentType documentType = null;
+        DocumentType documentType;
 
         try {
             documentType = DocumentType.valueOf(type);
@@ -160,24 +168,47 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    @Transactional
     public void deleteCaff(String documentId) {
-        // TODO kidobni a previewt és a caffot is, de előtte mindenféle ellenőrzést, hogy tuti a megfelelő user törli-e (vagy admin)
-        User user = userService.getCurrentUser();
-        Document document = documentRepository.findById(documentId).orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
+        Document document = documentRepository.findById(documentId)
+                .orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
 
-        // TODO hibakezelés
+        User user = userService.getCurrentUser();
+        if (!(document.getUploader().getId().equals(user.getId()) || user.getRole().equals(Role.ADMIN))) {
+            throw new AccessDeniedException("Deleting has been refused because of access violation!");
+        }
+
+        // TODO hibakezelés: Itt nincs autómatikus rollback minden módosításra? Az lenne a legegyszerűbb. Csak gondolom a storageService-től vissza kéne szállni az error-nak a @Transactional-ig.
         storageService.deleteObject(DocumentType.CAFF.getBucket(), document.getFileName());
         storageService.deleteObject(DocumentType.PREVIEW.getBucket(), document.getFileName());
     }
 
     @Override
+    @Transactional
     public List<Document> getAllCaffs() {
         return documentRepository.findAll();
     }
 
     @Override
+    @Transactional
     public Document getCaffDetailsById(String documentId) {
-        return documentRepository.findById(documentId).orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
+        return documentRepository.findById(documentId)
+                .orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
+    }
+
+    @Override
+    @Transactional
+    public Document buyCaff(String documentId) {
+        User user = userService.getCurrentUser();
+
+        Document document = documentRepository.findById(documentId)
+                .orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
+        document.getCustomers().add(user);
+
+        user.getDownloads().add(document);
+        userRepository.save(user);
+
+        return documentRepository.save(document);
     }
 
     private StorageObject downloadPreview(String documentId) {
@@ -185,14 +216,23 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     private StorageObject downloadCaff(String documentId) {
-        // TODO csekkolni, hogy megvette-e már. Ha igen, esetleg hibaüzenet, hogy többet ne tudja
-        // TODO csekkolni, hogy aki feltöltötte, az is letudja tölteni?
-        // TODO így a szervezés lehet nem jó, mert aki letölti, ott be kell állítani a fieldeket, hogy ki mit töltött le
+        User user = userService.getCurrentUser();
+
+        Document document = documentRepository.findById(documentId)
+                .orElseThrow(() -> new EntityNotFoundException("", ItSecurityErrors.ENTITY_NOT_FOUND));
+
+        if (!(user.getDownloads().contains(document) || document.getUploader().getId().equals(user.getId()))) {
+            throw new InvalidOperationException(CAFF_NOT_BOUGHT, ItSecurityErrors.INVALID_OPERATION);
+        }
+
         return downloadFile(documentId, DocumentType.CAFF);
     }
 
     private StorageObject downloadFile(String documentId, DocumentType documentType) {
-        Document document = documentRepository.findById(documentId).orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
+        Document document = documentRepository.findById(documentId)
+                .orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
+
         return storageService.getObject(documentType.getBucket(), document.getFileName());
     }
+
 }

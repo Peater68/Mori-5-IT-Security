@@ -1,8 +1,11 @@
 package com.mori5.itsecurity.security;
 
-
+import com.mori5.itsecurity.domain.User;
 import com.mori5.itsecurity.errorhandling.domain.ItSecurityErrors;
 import com.mori5.itsecurity.errorhandling.exception.InvalidTokenException;
+import com.mori5.itsecurity.errorhandling.exception.UserIsBannedException;
+import com.mori5.itsecurity.repository.UserRepository;
+import com.mori5.itsecurity.service.SecretService;
 import com.mori5.itsecurity.service.impl.TokenServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -11,13 +14,14 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -26,19 +30,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 
 @Slf4j
-public class JwtTokenFilter extends BasicAuthenticationFilter {
+@Component
+public class JwtTokenFilter extends OncePerRequestFilter {
 
     private static final String HEADER_STRING = "Authorization";
     private static final String TOKEN_PREFIX = "Bearer ";
 
-    private byte[] secret;
+    private final byte[] secret;
 
-    public JwtTokenFilter(AuthenticationManager authenticationManager, byte[] hs512SecretBytes) {
-        super(authenticationManager);
+    private final UserRepository userRepository;
 
-        this.secret = hs512SecretBytes;
+    @Autowired
+    public JwtTokenFilter(SecretService secretService, UserRepository userRepository) {
+        this.secret = secretService.getHS512SecretBytes();
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -76,6 +84,10 @@ public class JwtTokenFilter extends BasicAuthenticationFilter {
                         .authorities(authorities)
                         .build();
 
+                if (isUserBanned(userDetails)) {
+                    throw new UserIsBannedException("User is banned!", ItSecurityErrors.USER_BANNED);
+                }
+
                 return new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
             } else {
                 throw new InvalidTokenException("Access denied", ItSecurityErrors.ACCESS_DENIED);
@@ -92,6 +104,15 @@ public class JwtTokenFilter extends BasicAuthenticationFilter {
         }
 
         return null;
+    }
+
+    private boolean isUserBanned(AuthUserDetails userDetails) {
+        Optional<User> optionalUser = userRepository.findByUsername(userDetails.getUsername());
+        if (optionalUser.isEmpty()){
+            return true;
+        }
+
+        return optionalUser.get().getIsBanned();
     }
 
     private boolean validateToken(String authToken) {

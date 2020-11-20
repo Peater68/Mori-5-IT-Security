@@ -2,13 +2,7 @@ package com.mori5.itsecurity.errorhandling;
 
 import com.mori5.itsecurity.errorhandling.domain.ErrorResponseDTO;
 import com.mori5.itsecurity.errorhandling.domain.ItSecurityErrors;
-import com.mori5.itsecurity.errorhandling.exception.ConflictException;
-import com.mori5.itsecurity.errorhandling.exception.CredentialException;
-import com.mori5.itsecurity.errorhandling.exception.EntityNotFoundException;
-import com.mori5.itsecurity.errorhandling.exception.InvalidOperationException;
-import com.mori5.itsecurity.errorhandling.exception.InvalidTokenException;
-import com.mori5.itsecurity.errorhandling.exception.NoUserInContextException;
-import com.mori5.itsecurity.errorhandling.exception.UnprocessableEntityException;
+import com.mori5.itsecurity.errorhandling.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -18,6 +12,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class ExceptionHandlingController {
+
+    @ExceptionHandler(UserIsBannedException.class)
+    public Object handleUserIsBannedException(Exception ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ItSecurityErrors.USER_BANNED, ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    }
 
     @ExceptionHandler(AccessDeniedException.class)
     public Object handleAccessDeniedException(Exception ex) {
@@ -49,7 +49,6 @@ public class ExceptionHandlingController {
         return new ResponseEntity<>(errorResponse, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
-
     @ExceptionHandler(InvalidTokenException.class)
     public Object handleInvalidTokenException(Exception ex) {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(ItSecurityErrors.UNAUTHORIZED, ex.getMessage());
@@ -61,6 +60,5 @@ public class ExceptionHandlingController {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(ItSecurityErrors.UNPROCESSABLE_ENTITY, ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
     }
-
 
 }

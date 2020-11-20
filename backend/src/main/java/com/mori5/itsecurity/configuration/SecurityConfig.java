@@ -23,15 +23,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String LOGIN_USER_URL = "/api/auth/login";
+    private static final String REGISTER_USER_URL = "/api/users";
     private static final String TOKEN_REFRESH_USER_URL = "/api/auth/token";
     private static final String HELLO = "/hello";
 
-    private final SecretService secretService;
+    private final JwtTokenFilter jwtTokenFilter;
 
     @Autowired
-    public SecurityConfig(SecretService secretService) {
+    public SecurityConfig(JwtTokenFilter jwtTokenFilter) {
         super();
-        this.secretService = secretService;
+
+        this.jwtTokenFilter = jwtTokenFilter;
         SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
     }
 
@@ -50,11 +52,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, LOGIN_USER_URL).permitAll()
+                .antMatchers(HttpMethod.POST, REGISTER_USER_URL).permitAll()
                 .antMatchers(HttpMethod.POST, TOKEN_REFRESH_USER_URL).permitAll()
                 .antMatchers(HttpMethod.POST, HELLO).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JwtTokenFilter(authenticationManager(), secretService.getHS512SecretBytes()), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 }
