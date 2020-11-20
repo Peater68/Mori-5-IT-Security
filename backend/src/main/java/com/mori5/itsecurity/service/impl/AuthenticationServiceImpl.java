@@ -10,6 +10,7 @@ import com.mori5.itsecurity.errorhandling.domain.ItSecurityErrors;
 import com.mori5.itsecurity.errorhandling.exception.CredentialException;
 import com.mori5.itsecurity.errorhandling.exception.EntityNotFoundException;
 import com.mori5.itsecurity.errorhandling.exception.InvalidTokenException;
+import com.mori5.itsecurity.errorhandling.exception.UserIsBannedException;
 import com.mori5.itsecurity.logging.service.LoggingService;
 import com.mori5.itsecurity.mapper.UserMapper;
 import com.mori5.itsecurity.repository.UserRepository;
@@ -38,6 +39,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private static final String INVALID_PASSWORD = "Invalid current password during password change";
     private static final String ACCESS_DENIED = "Access denied";
     private static final String USER_NOT_FOUND = "User not found";
+    private static final String USER_BANNED = "User is banned!";
 
     private final LoggingService loggingService;
     private final UserRepository userRepository;
@@ -59,6 +61,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         User user = optionalUser.get();
+        if (user.getIsBanned()) {
+            throw new UserIsBannedException(USER_BANNED, ItSecurityErrors.USER_BANNED);
+        }
 
         if (passwordEncoder.matches(loginRequestDTO.getPassword(), user.getPassword())) {
             loggingService.logLogin(user, true);
@@ -107,12 +112,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public TokensDTO refreshToken(String rt) {
         String username = tokenService.validateRefreshToken(rt);
 
-        Optional<User> u = userRepository.findByUsername(username);
-        if (u.isEmpty()) {
-            throw new InvalidTokenException("Access denied", ItSecurityErrors.ACCESS_DENIED);
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isEmpty()) {
+            throw new InvalidTokenException(ACCESS_DENIED, ItSecurityErrors.ACCESS_DENIED);
         }
 
-        User user = u.get();
+        User user = optionalUser.get();
+        if (user.getIsBanned()) {
+            throw new UserIsBannedException(USER_BANNED, ItSecurityErrors.USER_BANNED);
+        }
 
         String accessToken = tokenService.generateAccessToken(user.getUsername(), user.getId(), user.getRole());
         String refreshToken = tokenService.generateRefreshToken(user.getUsername(), user.getId(), user.getRole());
