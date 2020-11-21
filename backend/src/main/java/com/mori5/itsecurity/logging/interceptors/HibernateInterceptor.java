@@ -4,6 +4,7 @@ import com.mori5.itsecurity.configuration.SpringContextAware;
 import com.mori5.itsecurity.logging.service.LoggingService;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -16,8 +17,9 @@ public class HibernateInterceptor extends EmptyInterceptor {
     @Override
     public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
         loadLoggingServiceIfNeeded();
-
-        loggingService.logSave(entity);
+        if (loggingService != null) {
+            loggingService.logSave(entity);
+        }
 
         return super.onSave(entity, id, state, propertyNames, types);
     }
@@ -25,8 +27,9 @@ public class HibernateInterceptor extends EmptyInterceptor {
     @Override
     public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
         loadLoggingServiceIfNeeded();
-
-        loggingService.logDeleting(entity);
+        if (loggingService != null) {
+            loggingService.logDeleting(entity);
+        }
 
         super.onDelete(entity, id, state, propertyNames, types);
     }
@@ -36,7 +39,10 @@ public class HibernateInterceptor extends EmptyInterceptor {
             return;
         }
 
-        loggingService = SpringContextAware.getApplicationContext().getBean(LoggingService.class);
+        ApplicationContext context = SpringContextAware.getApplicationContext();
+        if (context != null) {
+            loggingService = context.getBean(LoggingService.class);
+        }
     }
 
 }

@@ -22,7 +22,7 @@ class CommentLoggingServiceImpl implements CommentLoggingService {
                         .actorRole(actor.getRole())
                         .operation("DELETE")
                         .commentOf(comment.getUser())
-                        .atDocument(comment.getDocument())
+                        .atDocument(comment.getDocument().getId())
                         .withCommentMessage(comment.getCommentMessage())
                         .build()
         );
@@ -36,7 +36,7 @@ class CommentLoggingServiceImpl implements CommentLoggingService {
                         .actorRole(actor.getRole())
                         .operation("SAVE")
                         .commentOf(comment.getUser())
-                        .atDocument(comment.getDocument())
+                        .atDocument(comment.getDocument().getId())
                         .withCommentMessage(comment.getCommentMessage())
                         .build()
         );

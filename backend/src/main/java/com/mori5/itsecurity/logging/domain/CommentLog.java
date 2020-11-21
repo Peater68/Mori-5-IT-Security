@@ -34,8 +34,8 @@ public class CommentLog {
 
     @ManyToOne
     private User commentOf;
-    @ManyToOne
-    private Document atDocument;
+    @Column(name = "atDocumentId")
+    private String atDocument;
     private String withCommentMessage;
 
     @CreatedDate
