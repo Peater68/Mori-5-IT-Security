@@ -100,8 +100,8 @@ public class DocumentController implements CaffApi {
 
     @Override
     @Secured({AuthoritiesConstants.ROLE_ADMIN, AuthoritiesConstants.ROLE_CUSTOMER})
-    public ResponseEntity<List<CaffSumDTO>> getAllCaffs() {
-        return ResponseEntity.ok(DocumentMapper.mapDocumentsListToCaffSumDTOList(documentService.getAllCaffs()));
+    public ResponseEntity<List<CaffSumDTO>> getAllCaffs(String filterKey) {
+        return ResponseEntity.ok(DocumentMapper.mapDocumentsListToCaffSumDTOList(documentService.getAllCaffs(filterKey)));
     }
 
     @Override

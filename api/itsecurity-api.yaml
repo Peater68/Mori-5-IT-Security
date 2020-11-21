@@ -359,6 +359,12 @@ paths:
           description: Internal Server Error
       operationId: get-all-caffs
       description: Get all caff wit summarized details
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: filterKey
+          description: ''
     post:
       tags:
         - caff
