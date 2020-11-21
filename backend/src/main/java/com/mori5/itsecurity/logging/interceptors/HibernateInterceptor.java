@@ -1,6 +1,6 @@
 package com.mori5.itsecurity.logging.interceptors;
 
-import com.mori5.itsecurity.configuration.SpringContextUtil;
+import com.mori5.itsecurity.configuration.SpringContextAware;
 import com.mori5.itsecurity.logging.service.LoggingService;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
@@ -36,7 +36,7 @@ public class HibernateInterceptor extends EmptyInterceptor {
             return;
         }
 
-        loggingService = SpringContextUtil.getApplicationContext().getBean(LoggingService.class);
+        loggingService = SpringContextAware.getApplicationContext().getBean(LoggingService.class);
     }
 
 }
