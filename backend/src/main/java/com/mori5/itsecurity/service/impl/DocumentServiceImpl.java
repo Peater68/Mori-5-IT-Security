@@ -191,7 +191,7 @@ public class DocumentServiceImpl implements DocumentService {
         if (filterKey == null) {
             return documentRepository.findAll();
         } else {
-            return documentRepository.findAllTagsStartingWith(filterKey);
+            return documentRepository.findByTagsStartingWith(filterKey);
         }
     }
 

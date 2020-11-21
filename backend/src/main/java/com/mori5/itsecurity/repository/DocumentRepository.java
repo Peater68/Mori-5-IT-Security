@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, String> {
-    List<Document> findAllTagsStartingWith(String filterKey);
+    List<Document> findByTagsStartingWith(String filterKey);
 }
