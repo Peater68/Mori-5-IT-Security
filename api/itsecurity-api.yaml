@@ -738,7 +738,7 @@ components:
       properties:
         comment:
           type: string
-        dummy_not_to_use_field:
+        commentt:
           type: string
       required:
         - comment
