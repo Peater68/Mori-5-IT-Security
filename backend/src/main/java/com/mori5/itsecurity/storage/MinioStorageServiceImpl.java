@@ -1,8 +1,12 @@
 package com.mori5.itsecurity.storage;
 
 
+import com.mori5.itsecurity.errorhandling.domain.ItSecurityErrors;
+import com.mori5.itsecurity.errorhandling.exception.EntityNotFoundException;
+import com.mori5.itsecurity.errorhandling.exception.OperationFailedException;
 import io.minio.MinioClient;
 import io.minio.Result;
+import io.minio.errors.ErrorResponseException;
 import io.minio.messages.Item;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,8 +35,6 @@ public class MinioStorageServiceImpl implements StorageService {
         this.secretKey = secretKey;
     }
 
-    // TODO esetleg itt a hibakezelést lehetne csinosítani, ne csak log üzenetek legyenek, hanem szálljon el az egész, ha valami hiba van
-
     @PostConstruct
     private void init() {
         try {
@@ -47,7 +49,7 @@ public class MinioStorageServiceImpl implements StorageService {
         try (InputStream is = new ByteArrayInputStream(object.getContent())) {
             minioClient.putObject(object.getBucket(), object.getFileName(), is, (long) is.available(), null, null, object.getContentType());
         } catch (Exception e) {
-            log.error("Could not upload file!", e);
+            throw new OperationFailedException("Could not upload file!", ItSecurityErrors.FAILED_OPERATION);
         }
     }
 
@@ -59,9 +61,10 @@ public class MinioStorageServiceImpl implements StorageService {
                     .fileName(fileName)
                     .content(toByteArray(stream))
                     .build();
+        } catch (ErrorResponseException e) {
+            throw new EntityNotFoundException("File has not been found!", ItSecurityErrors.ENTITY_NOT_FOUND);
         } catch (Exception e) {
-            log.error("Could not get object (bucket: {}, fileName: {}) from storage!", bucket, fileName, e);
-            return StorageObject.builder().build();
+            throw new OperationFailedException("Unexpected error happened!", ItSecurityErrors.FAILED_OPERATION);
         }
     }
 

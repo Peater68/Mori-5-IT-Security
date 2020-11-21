@@ -40,18 +40,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService {
 
-    private static final String USER_NOT_FOUND = "User not found";
     private static final String DOCUMENT_NOT_FOUND = "Document not found";
-    private static final String NOT_LOGGED_IN = "There is not logged in user";
     private static final String CAFF_NOT_BOUGHT = "Caff must be bought before downloading";
 
     private final StorageService storageService;
     private final DocumentRepository documentRepository;
     private final UserService userService;
     private final UserRepository userRepository;
-    //private final CPPParserCaller cppParserCaller;
-
-    // TODO paging!
 
     @PostConstruct
     private void init() {
@@ -66,7 +61,7 @@ public class DocumentServiceImpl implements DocumentService {
         User user = userService.getCurrentUser();
 
         long currentTimeInMillis = new Date().getTime();
-        String fileName = currentTimeInMillis + "_" + file.getName(); // TODO majd megnezni, ahogy Loki mondta
+        String fileName = currentTimeInMillis + "_" + file.getName();
 
         StorageObject storageObjectCaff;
         try {
@@ -98,12 +93,16 @@ public class DocumentServiceImpl implements DocumentService {
                 .bucket(DocumentType.PREVIEW.getBucket())
                 .build();
 
+        try {
+            storageService.uploadObject(storageObjectCaff);
+            storageService.uploadObject(storageObjectPreview);
+        } catch (Exception ex) {
+            storageService.deleteObject(DocumentType.CAFF.getBucket(), fileName);
+            storageService.deleteObject(DocumentType.PREVIEW.getBucket(), fileName);
 
-        // TODO hibakezelést megvalósítani, hogy vagy egybe sikerül, vagy sehogy se. Tranzakció?
-        storageService.uploadObject(storageObjectCaff);
-        storageService.uploadObject(storageObjectPreview);
+            throw ex;
+        }
 
-        // TODO cascadet megnezni, ha torlunk usert, toroljuk a feltltott kepeit is?
         Document document = Document.builder()
                 .fileName(fileName)
                 .uploader(user)
@@ -118,7 +117,6 @@ public class DocumentServiceImpl implements DocumentService {
 
         user.getUploads().add(document);
         userRepository.save(user);
-        // TODO itt még lehet nem kap ID-t a document, pedig az kell
 
         return document;
     }
@@ -178,7 +176,6 @@ public class DocumentServiceImpl implements DocumentService {
             throw new AccessDeniedException("Deleting has been refused because of access violation!");
         }
 
-        // TODO hibakezelés: Itt nincs autómatikus rollback minden módosításra? Az lenne a legegyszerűbb. Csak gondolom a storageService-től vissza kéne szállni az error-nak a @Transactional-ig.
         storageService.deleteObject(DocumentType.CAFF.getBucket(), document.getFileName());
         storageService.deleteObject(DocumentType.PREVIEW.getBucket(), document.getFileName());
 
