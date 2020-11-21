@@ -213,6 +213,16 @@ public class DocumentServiceImpl implements DocumentService {
         return documentRepository.save(document);
     }
 
+    @Override
+    public List<Document> getBoughtCaffs() {
+        return userService.getCurrentUser().getDownloads();
+    }
+
+    @Override
+    public List<Document> getUpdatedCaffs() {
+        return userService.getCurrentUser().getUploads();
+    }
+
     private StorageObject downloadPreview(String documentId) {
         return downloadFile(documentId, DocumentType.PREVIEW);
     }

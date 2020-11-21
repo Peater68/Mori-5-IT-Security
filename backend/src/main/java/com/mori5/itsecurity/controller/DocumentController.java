@@ -12,18 +12,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.util.MimeType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.print.attribute.standard.Media;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -115,8 +111,21 @@ public class DocumentController implements CaffApi {
     }
 
     @Override
+    @Secured({AuthoritiesConstants.ROLE_ADMIN, AuthoritiesConstants.ROLE_CUSTOMER})
     public ResponseEntity<CaffDetailsDTO> buyCaff(String caffId) {
         return ResponseEntity.ok(DocumentMapper.mapDocumentToCaffDetailsDTO(documentService.buyCaff(caffId)));
+    }
+
+    @Override
+    @Secured({AuthoritiesConstants.ROLE_ADMIN, AuthoritiesConstants.ROLE_CUSTOMER})
+    public ResponseEntity<List<CaffSumDTO>> getBoughtCaffs() {
+        return ResponseEntity.ok(DocumentMapper.mapDocumentsListToCaffSumDTOList(documentService.getBoughtCaffs()));
+    }
+
+    @Override
+    @Secured({AuthoritiesConstants.ROLE_ADMIN, AuthoritiesConstants.ROLE_CUSTOMER})
+    public ResponseEntity<List<CaffSumDTO>> getUpdatedCaffs() {
+        return ResponseEntity.ok(DocumentMapper.mapDocumentsListToCaffSumDTOList(documentService.getUpdatedCaffs()));
     }
 
 }

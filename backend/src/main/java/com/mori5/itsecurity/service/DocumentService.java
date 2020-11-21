@@ -22,4 +22,8 @@ public interface DocumentService {
 
     Document buyCaff(String documentId);
 
+    List<Document> getBoughtCaffs();
+
+    List<Document> getUpdatedCaffs();
+
 }
