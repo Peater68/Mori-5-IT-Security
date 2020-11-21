@@ -176,10 +176,13 @@ public class DocumentServiceImpl implements DocumentService {
             throw new AccessDeniedException("Deleting has been refused because of access violation!");
         }
 
+        for (User u : document.getCustomers()) {
+            u.getDownloads().remove(document);
+        }
+        documentRepository.delete(document);
+
         storageService.deleteObject(DocumentType.CAFF.getBucket(), document.getFileName());
         storageService.deleteObject(DocumentType.PREVIEW.getBucket(), document.getFileName());
-
-        documentRepository.delete(document);
     }
 
     @Override
