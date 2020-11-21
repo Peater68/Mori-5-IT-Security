@@ -1,7 +1,9 @@
 package hu.bme.caffshare.ui.profile.uploadedcafflist
 
+import android.net.Uri
 import co.zsmb.rainbowcake.withIOContext
 import hu.bme.caffshare.ui.cafflist.model.CaffFile
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class UploadedCaffListPresenter @Inject constructor() {
@@ -19,6 +21,11 @@ class UploadedCaffListPresenter @Inject constructor() {
                 imageUrl = "https://cf.bstatic.com/images/hotel/max500/211/211169617.jpg",
             ),
         )
+    }
+
+    suspend fun uploadFile(uri: Uri) = withIOContext {
+        delay(1000)
+        true
     }
 
 }
