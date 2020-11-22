@@ -1,4 +1,4 @@
-package hu.bme.caffshare.ui.caffdetails
+package hu.bme.caffshare.ui.boughtcaffdetails
 
 import co.zsmb.rainbowcake.withIOContext
 import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
@@ -6,7 +6,7 @@ import kotlinx.coroutines.delay
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-class CaffDetailsPresenter @Inject constructor() {
+class BoughtCaffDetailsPresenter @Inject constructor() {
     suspend fun getCaffFileDetails(caffFileId: String): CaffDetails? = withIOContext {
         CaffDetails(
             id = caffFileId,
@@ -18,18 +18,8 @@ class CaffDetailsPresenter @Inject constructor() {
         )
     }
 
-    suspend fun purchaseCaffFile(id: String) = withIOContext {
+    suspend fun downloadCaffFile(id: String) = withIOContext {
         delay(1000)
         true
-    }
-
-    suspend fun deleteCaffFile(id: String): Boolean = withIOContext {
-        delay(1000)
-        true
-    }
-
-    suspend fun isUserAdmin(): Boolean = withIOContext {
-        delay(1000)
-        false
     }
 }

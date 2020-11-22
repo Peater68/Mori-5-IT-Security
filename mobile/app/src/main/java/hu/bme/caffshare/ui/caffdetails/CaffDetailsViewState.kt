@@ -10,4 +10,5 @@ object Error : CaffDetailsViewState()
 
 data class CaffDetailsContent(
     val caffDetails: CaffDetails,
+    val isUserAdmin: Boolean
 ) : CaffDetailsViewState()

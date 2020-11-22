@@ -1,4 +1,4 @@
-package hu.bme.caffshare.ui.caffdetails
+package hu.bme.caffshare.ui.boughtcaffdetails
 
 import android.os.Bundle
 import android.view.View
@@ -12,11 +12,11 @@ import com.bumptech.glide.Glide
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
 import hu.bme.caffshare.ui.comments.CommentsFragment
-import hu.bme.caffshare.util.showErrorSnackBar
 import hu.bme.caffshare.util.showSuccessSnackBar
 import kotlinx.android.synthetic.main.fragment_caff_details.*
 
-class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetailsViewModel> {
+class BoughtCaffDetailsFragment :
+    RainbowCakeFragment<BoughtCaffDetailsViewState, BoughtCaffDetailsViewModel> {
 
     override fun provideViewModel() = getViewModelFromFactory()
     override fun getViewResource() = R.layout.fragment_caff_details
@@ -33,8 +33,8 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
         private const val CAFF_FILE_ID = "CAFF_FILE_ID"
 
         @Suppress("DEPRECATION")
-        fun newInstance(caffFileId: String): CaffDetailsFragment {
-            return CaffDetailsFragment().applyArgs {
+        fun newInstance(caffFileId: String): BoughtCaffDetailsFragment {
+            return BoughtCaffDetailsFragment().applyArgs {
                 putString(CAFF_FILE_ID, caffFileId)
             }
         }
@@ -53,8 +53,7 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
 
         initArguments()
         setupCommentsButton()
-        setupPurchaseButton()
-        setupDeleteButton()
+        setupDownloadButton()
     }
 
     private fun setupCommentsButton() {
@@ -63,22 +62,14 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
         }
     }
 
-    private fun setupPurchaseButton() {
+    private fun setupDownloadButton() {
         mainActionButton.apply {
-            text = getString(R.string.purchase)
+            text = getString(R.string.download)
             setOnClickListener {
+                // TODO
+                viewModel.downloadCaffFile()
                 progressBar.visibility = View.VISIBLE
-
-                viewModel.purchaseCaffFile()
             }
-        }
-    }
-
-    private fun setupDeleteButton() {
-        deleteButton.setOnClickListener {
-            progressBar.visibility = View.VISIBLE
-
-            viewModel.deleteCaffFile()
         }
     }
 
@@ -90,32 +81,23 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
 
     override fun onEvent(event: OneShotEvent) {
         when (event) {
-            is CaffDetailsViewModel.PurchaseSuccessful -> {
-                showSuccessSnackBar("Successful purchase!")
+            is BoughtCaffDetailsViewModel.DownloadSuccessful -> {
+                showSuccessSnackBar("Successful download!")
+                progressBar.visibility = View.GONE
             }
-            is CaffDetailsViewModel.PurchaseFailed -> {
-                showErrorSnackBar("An error occurred while while purchasing the file!")
-            }
-            is CaffDetailsViewModel.DeleteSuccessful -> {
-                showSuccessSnackBar("File deleted successfully!")
-                navigator?.pop()
-            }
-            is CaffDetailsViewModel.DeleteFailed -> {
-                showErrorSnackBar("An error occurred while while deleting the file!")
+            is BoughtCaffDetailsViewModel.DownloadFailed -> {
+                showSuccessSnackBar("An error occurred while while downloading the file!")
+                progressBar.visibility = View.GONE
             }
         }
-        progressBar.visibility = View.GONE
     }
 
-    override fun render(viewState: CaffDetailsViewState) {
+    override fun render(viewState: BoughtCaffDetailsViewState) {
         when (viewState) {
-            is CaffDetailsContent -> {
+            is BoughtCaffDetailsContent -> {
                 viewFlipper.displayedChild = 0
 
                 setupContentView(viewState.caffDetails)
-                if (viewState.isUserAdmin) {
-                    deleteButton.visibility = View.VISIBLE
-                }
             }
             is Loading -> {
                 viewFlipper.displayedChild = 1
