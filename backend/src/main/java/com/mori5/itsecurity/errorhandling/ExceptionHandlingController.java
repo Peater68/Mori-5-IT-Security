@@ -19,6 +19,12 @@ public class ExceptionHandlingController {
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(OperationFailedException.class)
+    public Object handleOperationFailedException(Exception ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ItSecurityErrors.FAILED_OPERATION, ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
     @ExceptionHandler(AccessDeniedException.class)
     public Object handleAccessDeniedException(Exception ex) {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(ItSecurityErrors.ACCESS_DENIED, ex.getMessage());

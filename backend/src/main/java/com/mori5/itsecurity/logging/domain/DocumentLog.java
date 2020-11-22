@@ -29,7 +29,7 @@ public class DocumentLog {
     private User actor;
     private String operation;
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role actorRole;
 
     @ManyToOne
     private User documentOf;

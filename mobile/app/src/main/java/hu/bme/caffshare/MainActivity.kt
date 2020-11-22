@@ -2,8 +2,7 @@ package hu.bme.caffshare
 
 import android.os.Bundle
 import co.zsmb.rainbowcake.navigation.SimpleNavActivity
-import hu.bme.caffshare.ui.admin.UserListFragment
-import hu.bme.caffshare.ui.cafflist.CaffListFragment
+import hu.bme.caffshare.ui.profile.ProfileFragment
 
 class MainActivity : SimpleNavActivity() {
 
@@ -12,7 +11,7 @@ class MainActivity : SimpleNavActivity() {
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
-            navigator.add(UserListFragment())
+            navigator.add(ProfileFragment())
         }
     }
 

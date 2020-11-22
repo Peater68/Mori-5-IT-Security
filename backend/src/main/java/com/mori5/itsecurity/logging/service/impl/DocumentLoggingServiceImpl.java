@@ -18,7 +18,7 @@ public class DocumentLoggingServiceImpl implements DocumentLoggingService {
         documentLogRepository.save(
                 DocumentLog.builder()
                         .actor(actor)
-                        .role(actor.getRole())
+                        .actorRole(actor.getRole())
                         .documentOf(entity.getUploader())
                         .operation("DELETE")
                         .build()
@@ -29,7 +29,7 @@ public class DocumentLoggingServiceImpl implements DocumentLoggingService {
         documentLogRepository.save(
                 DocumentLog.builder()
                         .actor(actor)
-                        .role(actor.getRole())
+                        .actorRole(actor.getRole())
                         .documentOf(entity.getUploader())
                         .operation("SAVE")
                         .build()

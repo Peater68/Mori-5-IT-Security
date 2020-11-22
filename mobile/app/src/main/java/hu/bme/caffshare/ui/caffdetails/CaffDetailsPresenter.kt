@@ -22,4 +22,14 @@ class CaffDetailsPresenter @Inject constructor() {
         delay(1000)
         true
     }
+
+    suspend fun deleteCaffFile(id: String): Boolean = withIOContext {
+        delay(1000)
+        true
+    }
+
+    suspend fun isUserAdmin(): Boolean = withIOContext {
+        delay(1000)
+        false
+    }
 }

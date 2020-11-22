@@ -233,21 +233,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UserUpdateDTO'
-    delete:
-      summary: ''
-      tags:
-        - user
-      operationId: delete-me
-      responses:
-        '204':
-          description: Non-Authoritative Information
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '500':
-          description: Internal Server Error
-      description: Delete current user profile
   '/api/users/{userId}':
     parameters:
       - schema:
@@ -304,23 +289,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UserUpdateDTO'
-    delete:
-      summary: ''
-      tags:
-        - user
-      operationId: delete-user-by-id
-      responses:
-        '204':
-          description: Payment Required
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-      description: Delete user by id
   '/api/users/{userId}/ban':
     parameters:
       - schema:
@@ -391,14 +359,24 @@ paths:
           description: Internal Server Error
       operationId: get-all-caffs
       description: Get all caff wit summarized details
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: filterKey
+          description: ''
     post:
       tags:
         - caff
       summary: ''
       operationId: upload-caff
       responses:
-        '204':
-          description: No Content
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaffDetailsDTO'
         '400':
           description: Bad Request
         '401':
@@ -580,6 +558,46 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+  /api/caffs/bought:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - caff
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CaffSumDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      operationId: get-bought-caffs
+      description: Returns the user's bought caffs.
+  /api/caffs/updated:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - caff
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CaffSumDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      operationId: get-updated-caffs
+      description: Returns the user's updated caffs.
   '/api/comments/{commentId}':
     parameters:
       - schema:
@@ -692,6 +710,8 @@ components:
       properties:
         refreshToken:
           type: string
+        refreshTokenn:
+          type: string
     UserRegistrationDTO:
       title: UserRegistrationDTO
       type: object
@@ -766,6 +786,10 @@ components:
       properties:
         comment:
           type: string
+        commentt:
+          type: string
+      required:
+        - comment
     CommentDTO:
       title: CommentDTO
       type: object
