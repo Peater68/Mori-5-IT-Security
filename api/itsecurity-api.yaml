@@ -710,6 +710,8 @@ components:
       properties:
         refreshToken:
           type: string
+        refreshTokenn:
+          type: string
     UserRegistrationDTO:
       title: UserRegistrationDTO
       type: object
