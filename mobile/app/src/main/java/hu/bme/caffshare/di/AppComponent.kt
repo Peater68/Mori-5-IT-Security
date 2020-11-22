@@ -3,6 +3,7 @@ package hu.bme.caffshare.di
 import co.zsmb.rainbowcake.dagger.RainbowCakeComponent
 import co.zsmb.rainbowcake.dagger.RainbowCakeModule
 import dagger.Component
+import hu.bme.caffshare.data.network.NetworkModule
 import javax.inject.Singleton
 
 
@@ -11,7 +12,8 @@ import javax.inject.Singleton
     modules = [
         RainbowCakeModule::class,
         ApplicationModule::class,
-        ViewModelModule::class
+        ViewModelModule::class,
+        NetworkModule::class
     ]
 )
 interface AppComponent : RainbowCakeComponent
