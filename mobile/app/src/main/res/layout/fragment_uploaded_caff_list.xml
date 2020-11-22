@@ -24,30 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/caffFileList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="72dp"
-                android:clipToPadding="false"
-                android:layout_marginHorizontal="8dp"
-                tools:listitem="@layout/row_caff_file" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/uploadButton"
-                android:layout_width="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_upload"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/upload" />
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <include layout="@layout/layout_uploaded_caff_list" />
 
 
         <include layout="@layout/loading_layout" />
