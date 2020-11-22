@@ -15,6 +15,7 @@ import com.google.android.material.textfield.TextInputLayout
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.admin.UserListFragment
 import hu.bme.caffshare.ui.cafflist.CaffListFragment
+import hu.bme.caffshare.ui.profile.ProfileFragment
 import kotlinx.android.synthetic.main.backdrop.view.*
 import kotlinx.android.synthetic.main.layout_user_list.view.*
 
@@ -64,7 +65,7 @@ fun View.setupBackDropMenu(navigator: Navigator) {
         navigator.add(CaffListFragment())
     }
     this.account_menu_button.setOnClickListener {
-        TODO()
+        navigator.add(ProfileFragment())
     }
 
 }
