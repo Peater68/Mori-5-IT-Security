@@ -18,6 +18,7 @@ public class UserLoggingServiceImpl implements UserLoggingService {
         userLogRepository.save(
                 UserLog.builder()
                         .actor(actor)
+                        .actorRole(actor != null ? actor.getRole() : null)
                         .operation("DELETE")
                         .profileOf(entity)
                         .build()
@@ -29,6 +30,7 @@ public class UserLoggingServiceImpl implements UserLoggingService {
         userLogRepository.save(
                 UserLog.builder()
                         .actor(actor)
+                        .actorRole(actor != null ? actor.getRole() : null)
                         .operation("SAVE")
                         .profileOf(entity)
                         .build()

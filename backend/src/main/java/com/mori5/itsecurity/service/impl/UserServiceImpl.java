@@ -64,13 +64,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void deleteCurrentUserProfile() {
-        User user = getCurrentUser();
-        userRepository.deleteById(user.getId());
-    }
-
-    @Override
-    @Transactional
     public User getCurrentUser() {
         AuthUserDetails currentUserDetails = authenticationFacade.getCurrentUserFromContext();
         if (currentUserDetails != null) {
@@ -98,12 +91,6 @@ public class UserServiceImpl implements UserService {
         User u = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
         User updateUser = fillUpdateUser(u, user);
         return userRepository.save(updateUser);
-    }
-
-    @Override
-    @Transactional
-    public void deleteUser(String id) {
-        userRepository.deleteById(id);
     }
 
     @Override

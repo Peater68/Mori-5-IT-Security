@@ -16,10 +16,14 @@ public interface DocumentService {
 
     void deleteCaff(String documentId);
 
-    List<Document> getAllCaffs();
+    List<Document> getAllCaffs(String filterKey);
 
     Document getCaffDetailsById(String documentId);
 
     Document buyCaff(String documentId);
+
+    List<Document> getBoughtCaffs();
+
+    List<Document> getUpdatedCaffs();
 
 }

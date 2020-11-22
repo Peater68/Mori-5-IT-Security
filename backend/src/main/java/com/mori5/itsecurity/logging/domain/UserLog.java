@@ -1,5 +1,6 @@
 package com.mori5.itsecurity.logging.domain;
 
+import com.mori5.itsecurity.domain.Role;
 import com.mori5.itsecurity.domain.User;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -27,7 +28,9 @@ public class UserLog {
     @ManyToOne
     private User actor;
     private String operation;
-
+    @Enumerated(EnumType.STRING)
+    private Role actorRole;
+    
     @ManyToOne
     private User profileOf;
 

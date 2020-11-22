@@ -30,12 +30,12 @@ public class CommentLog {
     private User actor;
     private String operation;
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role actorRole;
 
     @ManyToOne
     private User commentOf;
-    @ManyToOne
-    private Document atDocument;
+    @Column(name = "atDocumentId")
+    private String atDocument;
     private String withCommentMessage;
 
     @CreatedDate
