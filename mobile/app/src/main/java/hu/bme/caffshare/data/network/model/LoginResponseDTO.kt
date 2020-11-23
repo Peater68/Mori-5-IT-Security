@@ -12,6 +12,7 @@
 package hu.bme.caffshare.data.network.model
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  *
@@ -19,6 +20,7 @@ import com.squareup.moshi.Json
  * @param user
  */
 
+@JsonClass(generateAdapter = true)
 data class LoginResponseDTO(
     @Json(name = "tokens")
     val tokens: TokensDTO? = null,

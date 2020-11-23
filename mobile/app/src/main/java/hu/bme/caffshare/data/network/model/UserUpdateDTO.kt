@@ -13,6 +13,7 @@ package hu.bme.caffshare.data.network.model
 
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  *
@@ -22,6 +23,7 @@ import com.squareup.moshi.Json
  * @param email
  */
 
+@JsonClass(generateAdapter = true)
 data class UserUpdateDTO(
     @Json(name = "firstName")
     val firstName: kotlin.String? = null,

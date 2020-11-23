@@ -13,6 +13,7 @@ package hu.bme.caffshare.data.network.model
 
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  *
@@ -20,6 +21,7 @@ import com.squareup.moshi.Json
  * @param password
  */
 
+@JsonClass(generateAdapter = true)
 data class LoginRequestDTO(
     @Json(name = "username")
     val username: kotlin.String,

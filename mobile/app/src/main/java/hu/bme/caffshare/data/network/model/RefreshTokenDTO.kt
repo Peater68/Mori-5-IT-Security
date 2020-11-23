@@ -13,12 +13,14 @@ package hu.bme.caffshare.data.network.model
 
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  *
  * @param refreshToken
  */
 
+@JsonClass(generateAdapter = true)
 data class RefreshTokenDTO(
     @Json(name = "refreshToken")
     val refreshToken: kotlin.String? = null

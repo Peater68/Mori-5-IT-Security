@@ -13,6 +13,7 @@ package hu.bme.caffshare.data.network.model
 
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  *
@@ -20,6 +21,7 @@ import com.squareup.moshi.Json
  * @param currentPassword
  */
 
+@JsonClass(generateAdapter = true)
 data class PasswordChangeDTO(
     @Json(name = "newPassword")
     val newPassword: kotlin.String,

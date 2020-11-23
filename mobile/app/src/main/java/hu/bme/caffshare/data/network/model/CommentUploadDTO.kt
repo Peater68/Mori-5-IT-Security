@@ -13,12 +13,14 @@ package hu.bme.caffshare.data.network.model
 
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  *
  * @param comment
  */
 
+@JsonClass(generateAdapter = true)
 data class CommentUploadDTO(
     @Json(name = "comment")
     val comment: kotlin.String? = null

@@ -12,6 +12,7 @@
 package hu.bme.caffshare.data.network.model
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  *
@@ -21,6 +22,7 @@ import com.squareup.moshi.Json
  * @param createdAt
  */
 
+@JsonClass(generateAdapter = true)
 data class CommentDTO(
     @Json(name = "id")
     val id: kotlin.String? = null,

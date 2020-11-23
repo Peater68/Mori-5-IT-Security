@@ -13,6 +13,7 @@ package hu.bme.caffshare.data.network.model
 
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  *
@@ -21,6 +22,7 @@ import com.squareup.moshi.Json
  * @param lastName
  */
 
+@JsonClass(generateAdapter = true)
 data class ReducedUserDTO(
     @Json(name = "username")
     val username: kotlin.String? = null,
