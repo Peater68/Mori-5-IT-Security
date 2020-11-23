@@ -3,7 +3,7 @@ package hu.bme.caffshare.data.network.interceptor
 import com.squareup.moshi.Moshi
 import hu.bme.caffshare.data.local.TokenDataSource
 import hu.bme.caffshare.data.network.NetworkModule
-import hu.bme.caffshare.data.network.model.RefreshTokenRequestDTO
+import hu.bme.caffshare.data.network.model.RefreshTokenDTO
 import hu.bme.caffshare.data.network.model.TokensDTO
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -49,8 +49,8 @@ class RefreshTokenInterceptor(
         val endpoint = NetworkModule.BASE_URL + "/api/auth/token"
 
         val content = moshi
-            .adapter(RefreshTokenRequestDTO::class.java)
-            .toJson(RefreshTokenRequestDTO(refreshToken))
+            .adapter(RefreshTokenDTO::class.java)
+            .toJson(RefreshTokenDTO(refreshToken))
             .toByteArray()
 
         val body = content.toRequestBody("application/json".toMediaTypeOrNull(), 0, content.size)
