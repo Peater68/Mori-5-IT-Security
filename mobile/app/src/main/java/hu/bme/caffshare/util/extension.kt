@@ -59,13 +59,13 @@ fun Fragment.hideKeyboard() {
 
 fun View.setupBackDropMenu(navigator: Navigator) {
     this.admin_menu_button.setOnClickListener {
-        navigator.add(UserListFragment())
+        navigator.replace(UserListFragment())
     }
     this.cafflist_menu_button.setOnClickListener {
-        navigator.add(CaffListFragment())
+        navigator.replace(CaffListFragment())
     }
     this.account_menu_button.setOnClickListener {
-        navigator.add(ProfileFragment())
+        navigator.replace(ProfileFragment())
     }
 
 }
