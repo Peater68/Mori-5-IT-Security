@@ -3,11 +3,13 @@ package hu.bme.caffshare.data.network
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
+import hu.bme.caffshare.data.local.TokenDataSource
 import hu.bme.caffshare.data.network.api.AuthApi
 import hu.bme.caffshare.data.network.api.CaffApi
 import hu.bme.caffshare.data.network.api.CommentApi
 import hu.bme.caffshare.data.network.api.UserApi
-import hu.bme.caffshare.data.network.interceptor.TokenHandlerInterceptor
+import hu.bme.caffshare.data.network.interceptor.AccessTokenInterceptor
+import hu.bme.caffshare.data.network.interceptor.RefreshTokenInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -22,9 +24,10 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(tokenDataSource: TokenDataSource, moshi: Moshi): OkHttpClient {
         return OkHttpClient.Builder()
-            .addNetworkInterceptor(TokenHandlerInterceptor())
+            .addInterceptor(AccessTokenInterceptor(tokenDataSource))
+            .addInterceptor(RefreshTokenInterceptor(tokenDataSource, moshi))
             .build()
     }
 
