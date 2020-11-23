@@ -1,16 +1,16 @@
 package hu.bme.caffshare.ui.register
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.navigator
-import com.google.android.material.snackbar.Snackbar
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.login.LoginFragment
 import hu.bme.caffshare.util.isNotEmpty
+import hu.bme.caffshare.util.showErrorSnackBar
+import hu.bme.caffshare.util.showSuccessSnackBar
 import hu.bme.caffshare.util.text
 import kotlinx.android.synthetic.main.fragment_register.*
 
@@ -61,19 +61,11 @@ class RegisterFragment : RainbowCakeFragment<RegisterViewState, RegisterViewMode
     override fun onEvent(event: OneShotEvent) {
         when (event) {
             is RegisterViewModel.RegistrationSuccessful -> {
-                Snackbar.make(requireView(), "Successful registration!", Snackbar.LENGTH_SHORT)
-                    .apply {
-                        setBackgroundTint(Color.GREEN)
-                        setTextColor(Color.WHITE)
-                    }.show()
+                showSuccessSnackBar("Successful registration!")
                 navigator?.replace(LoginFragment())
             }
             is RegisterViewModel.RegistrationFailed -> {
-                Snackbar.make(requireView(), "Error while registering!", Snackbar.LENGTH_SHORT)
-                    .apply {
-                        setBackgroundTint(Color.RED)
-                        setTextColor(Color.WHITE)
-                    }.show()
+                showErrorSnackBar("Error while registering!")
             }
         }
     }
