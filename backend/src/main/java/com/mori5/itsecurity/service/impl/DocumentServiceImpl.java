@@ -187,11 +187,12 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional
-    public List<Document> getAllCaffs(String filterKey) {
-        if (filterKey == null) {
+    public List<Document> getAllCaffs(String filterTag) {
+        if (filterTag == null) {
             return documentRepository.findAll();
         } else {
-            return documentRepository.findByTagsStartingWith(filterKey);
+            Tag tag = tagService.getTag(filterTag);
+            return documentRepository.findByTags(tag);
         }
     }
 

@@ -16,7 +16,7 @@ public interface DocumentService {
 
     void deleteCaff(String documentId);
 
-    List<Document> getAllCaffs(String filterKey);
+    List<Document> getAllCaffs(String filterTag);
 
     Document getCaffDetailsById(String documentId);
 

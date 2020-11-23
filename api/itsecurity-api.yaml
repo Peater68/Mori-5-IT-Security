@@ -363,7 +363,7 @@ paths:
         - schema:
             type: string
           in: query
-          name: filterKey
+          name: filterTag
           description: ''
     post:
       tags:
