@@ -14,6 +14,7 @@ import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
 import hu.bme.caffshare.ui.comments.CommentsFragment
 import hu.bme.caffshare.util.showSuccessSnackBar
 import kotlinx.android.synthetic.main.fragment_caff_details.*
+import kotlinx.android.synthetic.main.layout_caff_details.*
 
 class BoughtCaffDetailsFragment :
     RainbowCakeFragment<BoughtCaffDetailsViewState, BoughtCaffDetailsViewModel> {

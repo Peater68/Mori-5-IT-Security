@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="item_grid_reveal_height">200dp</dimen>
+    <dimen name="minHeightOfDialog">480dp</dimen>
+    <dimen name="minWidthOfDialog">1000dp</dimen>
+</resources>
