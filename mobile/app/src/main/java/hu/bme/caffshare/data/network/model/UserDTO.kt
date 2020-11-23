@@ -39,9 +39,9 @@ data class UserDTO(
     @Json(name = "role")
     val role: UserDTO.Role? = null,
     @Json(name = "createdAt")
-    val createdAt: java.time.LocalDateTime? = null,
+    val createdAt: String? = null,
     @Json(name = "updatedAt")
-    val updatedAt: java.time.LocalDateTime? = null
+    val updatedAt: String? = null
 ) {
 
     /**
