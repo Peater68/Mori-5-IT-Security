@@ -38,7 +38,7 @@ class BoughtCaffListFragment :
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         // Inflate the layout for this fragment with the ProductGrid theme
-        val view = inflater.inflate(R.layout.fragment_caff_details, container, false)
+        val view = inflater.inflate(R.layout.fragment_bought_caff_list, container, false)
 
         with(view) {
             // Set up the toolbar.
