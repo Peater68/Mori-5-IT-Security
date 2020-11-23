@@ -27,12 +27,12 @@ import com.squareup.moshi.JsonClass
 data class CaffSumDTO(
     /* ID of the document, what is represent the CAFF */
     @Json(name = "id")
-    val id: kotlin.String? = null,
+    val id: kotlin.String,
     @Json(name = "createdAt")
-    val createdAt: String? = null,
+    val createdAt: String,
     @Json(name = "creator")
     val creator: kotlin.String? = null,
     @Json(name = "uploader")
-    val uploader: kotlin.String? = null
+    val uploader: kotlin.String
 )
 

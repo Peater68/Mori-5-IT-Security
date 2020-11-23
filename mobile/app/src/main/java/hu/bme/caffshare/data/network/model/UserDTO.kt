@@ -29,19 +29,19 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class UserDTO(
     @Json(name = "id")
-    val id: kotlin.String? = null,
+    val id: kotlin.String,
     @Json(name = "firstName")
-    val firstName: kotlin.String? = null,
+    val firstName: kotlin.String,
     @Json(name = "lastName")
-    val lastName: kotlin.String? = null,
+    val lastName: kotlin.String,
     @Json(name = "username")
-    val username: kotlin.String? = null,
+    val username: kotlin.String,
     @Json(name = "role")
-    val role: UserDTO.Role? = null,
+    val role: UserDTO.Role,
     @Json(name = "createdAt")
-    val createdAt: String? = null,
+    val createdAt: String,
     @Json(name = "updatedAt")
-    val updatedAt: String? = null
+    val updatedAt: String
 ) {
 
     /**

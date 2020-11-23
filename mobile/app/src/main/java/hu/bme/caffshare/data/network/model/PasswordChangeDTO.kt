@@ -26,6 +26,6 @@ data class PasswordChangeDTO(
     @Json(name = "newPassword")
     val newPassword: kotlin.String,
     @Json(name = "currentPassword")
-    val currentPassword: kotlin.String? = null
+    val currentPassword: kotlin.String
 )
 

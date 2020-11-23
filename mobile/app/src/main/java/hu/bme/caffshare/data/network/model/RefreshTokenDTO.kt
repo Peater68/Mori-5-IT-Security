@@ -23,6 +23,6 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class RefreshTokenDTO(
     @Json(name = "refreshToken")
-    val refreshToken: kotlin.String? = null
+    val refreshToken: kotlin.String
 )
 

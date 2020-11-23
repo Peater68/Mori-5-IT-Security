@@ -25,10 +25,10 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ReducedUserDTO(
     @Json(name = "username")
-    val username: kotlin.String? = null,
+    val username: kotlin.String,
     @Json(name = "firstName")
-    val firstName: kotlin.String? = null,
+    val firstName: kotlin.String,
     @Json(name = "lastName")
-    val lastName: kotlin.String? = null
+    val lastName: kotlin.String
 )
 

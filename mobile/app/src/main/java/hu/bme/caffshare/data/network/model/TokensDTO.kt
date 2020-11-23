@@ -24,8 +24,8 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class TokensDTO(
     @Json(name = "accessToken")
-    val accessToken: kotlin.String? = null,
+    val accessToken: kotlin.String,
     @Json(name = "refreshToken")
-    val refreshToken: kotlin.String? = null
+    val refreshToken: kotlin.String
 )
 

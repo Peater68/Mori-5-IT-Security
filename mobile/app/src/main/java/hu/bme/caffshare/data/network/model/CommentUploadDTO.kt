@@ -23,6 +23,6 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class CommentUploadDTO(
     @Json(name = "comment")
-    val comment: kotlin.String? = null
+    val comment: kotlin.String
 )
 

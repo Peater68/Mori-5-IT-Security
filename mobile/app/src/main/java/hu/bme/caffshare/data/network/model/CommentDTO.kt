@@ -25,12 +25,12 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class CommentDTO(
     @Json(name = "id")
-    val id: kotlin.String? = null,
+    val id: kotlin.String,
     @Json(name = "comment")
-    val comment: kotlin.String? = null,
+    val comment: kotlin.String,
     @Json(name = "user")
-    val user: ReducedUserDTO? = null,
+    val user: ReducedUserDTO,
     @Json(name = "createdAt")
-    val createdAt: String? = null
+    val createdAt: String
 )
 

@@ -31,22 +31,22 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class CaffDetailsDTO(
     @Json(name = "id")
-    val id: kotlin.String? = null,
+    val id: kotlin.String,
     @Json(name = "creator")
     val creator: kotlin.String? = null,
     @Json(name = "createdAt")
-    val createdAt: String? = null,
+    val createdAt: String,
     @Json(name = "width")
-    val width: kotlin.String? = null,
+    val width: kotlin.String,
     @Json(name = "height")
-    val height: kotlin.String? = null,
+    val height: kotlin.String,
     @Json(name = "duration")
-    val duration: kotlin.String? = null,
+    val duration: kotlin.String,
     @Json(name = "tags")
     val tags: kotlin.String? = null,
     @Json(name = "caption")
     val caption: kotlin.String? = null,
     @Json(name = "uploader")
-    val uploader: kotlin.String? = null
+    val uploader: kotlin.String
 )
 
