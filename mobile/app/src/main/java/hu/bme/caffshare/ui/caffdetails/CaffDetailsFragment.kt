@@ -73,6 +73,8 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
         view.nested_scroll_view.background =
                 ContextCompat.getDrawable(requireContext(), R.drawable.curved_background)
 
+        view.nested_scroll_view.isFillViewport = true
+
         return view
     }
 
