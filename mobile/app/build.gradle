@@ -83,4 +83,7 @@ dependencies {
 
     // Krate
     implementation 'hu.autsoft:krate:0.4.0'
+
+    // Crypto
+    implementation "androidx.security:security-crypto:1.1.0-alpha02"
 }
