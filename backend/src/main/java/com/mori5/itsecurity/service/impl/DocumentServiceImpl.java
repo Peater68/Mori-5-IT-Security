@@ -2,10 +2,7 @@ package com.mori5.itsecurity.service.impl;
 
 import com.mori5.itsecurity.cpp.CPPParserCaller;
 import com.mori5.itsecurity.cpp.CreatorsImages;
-import com.mori5.itsecurity.domain.Document;
-import com.mori5.itsecurity.domain.DocumentType;
-import com.mori5.itsecurity.domain.Role;
-import com.mori5.itsecurity.domain.User;
+import com.mori5.itsecurity.domain.*;
 import com.mori5.itsecurity.errorhandling.domain.ItSecurityErrors;
 import com.mori5.itsecurity.errorhandling.exception.EntityNotFoundException;
 import com.mori5.itsecurity.errorhandling.exception.InvalidOperationException;
@@ -13,6 +10,7 @@ import com.mori5.itsecurity.errorhandling.exception.UnprocessableEntityException
 import com.mori5.itsecurity.repository.DocumentRepository;
 import com.mori5.itsecurity.repository.UserRepository;
 import com.mori5.itsecurity.service.DocumentService;
+import com.mori5.itsecurity.service.TagService;
 import com.mori5.itsecurity.service.UserService;
 import com.mori5.itsecurity.storage.StorageObject;
 import com.mori5.itsecurity.storage.StorageService;
@@ -32,6 +30,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,6 +46,7 @@ public class DocumentServiceImpl implements DocumentService {
     private final DocumentRepository documentRepository;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final TagService tagService;
 
     @PostConstruct
     private void init() {
@@ -108,7 +108,7 @@ public class DocumentServiceImpl implements DocumentService {
                 .uploader(user)
                 .caffContentSize(file.getSize())
                 .duration(parsedCaff.images.duration)
-                .tags(parsedCaff.images.tags)
+                .tags(getTags(parsedCaff.images.tags))
                 .caption(parsedCaff.images.caption)
                 .creator(parsedCaff.creatorString)
                 .createdDate(LocalDateTime.of(parsedCaff.year, parsedCaff.month + 1, parsedCaff.day +1, parsedCaff.hour+1, parsedCaff.minute+1).toInstant(ZoneOffset.UTC))
@@ -249,6 +249,16 @@ public class DocumentServiceImpl implements DocumentService {
                 .orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
 
         return storageService.getObject(documentType.getBucket(), document.getFileName());
+    }
+
+    private List<Tag> getTags(String csvTags) {
+        String[] rawTags = csvTags.split(";");
+
+        List<Tag> tags = new ArrayList<>();
+        for (String rawTag : rawTags) {
+            tags.add(tagService.saveTag(rawTag));
+        }
+        return tags;
     }
 
 }

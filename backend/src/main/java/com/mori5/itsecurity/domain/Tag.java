@@ -10,40 +10,30 @@ import javax.persistence.*;
 import java.time.Instant;
 import java.util.List;
 
-@Entity
+@Builder
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "document")
-@EqualsAndHashCode(exclude = {"id", "modifiedAt", "createdAt"})
+@Table(name = "tag")
+@Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Document {
+public class Tag {
+
     @Id
     @Column(length = 36)
     @GeneratedValue(generator = "uuid_generator")
     @GenericGenerator(name = "uuid_generator", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
-    private String fileName;
 
-    private String creator;
-    private Instant createdDate;
+    @Column(nullable = false)
+    private String title;
+
     @ManyToMany
-    private List<Tag> tags;
-    private String caption;
-    private Long duration;
-    private Long caffContentSize;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User uploader;
-    @ManyToMany(mappedBy = "downloads", fetch = FetchType.LAZY)
-    private List<User> customers;
-    @OneToMany(mappedBy = "document", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Comment> comments;
+    private List<Document> containedBy;
 
     @CreatedDate
     private Instant createdAt;
     @LastModifiedDate
-    private Instant modifiedAt;
+    private Instant updatedAt;
 }
