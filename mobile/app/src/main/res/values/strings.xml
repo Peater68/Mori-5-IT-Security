@@ -20,4 +20,7 @@
     <string name="bought_caff_files">Bought CAFF files</string>
     <string name="download">Download</string>
     <string name="upload">Upload</string>
+    <string name="first_name">First name</string>
+    <string name="email_address">Email address</string>
+    <string name="last_name">Last name</string>
 </resources>
