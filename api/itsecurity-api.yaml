@@ -654,6 +654,7 @@ components:
           type: string
       required:
         - newPassword
+        - currentPassword
     LoginRequestDTO:
       title: LoginRequestDTO
       type: object
@@ -673,6 +674,9 @@ components:
           $ref: '#/components/schemas/TokensDTO'
         user:
           $ref: '#/components/schemas/UserDTO'
+      required:
+        - tokens
+        - user
     TokensDTO:
       title: TokensDTO
       type: object
@@ -681,6 +685,9 @@ components:
           type: string
         refreshToken:
           type: string
+      required:
+        - accessToken
+        - refreshToken
     UserDTO:
       title: UserDTO
       type: object
@@ -704,6 +711,14 @@ components:
         updatedAt:
           type: string
           format: date-time
+      required:
+        - id
+        - firstName
+        - lastName
+        - username
+        - role
+        - createdAt
+        - updatedAt
     RefreshTokenDTO:
       title: RefreshTokenDTO
       type: object
@@ -712,6 +727,8 @@ components:
           type: string
         refreshTokenn:
           type: string
+      required:
+        - refreshToken
     UserRegistrationDTO:
       title: UserRegistrationDTO
       type: object
@@ -768,6 +785,10 @@ components:
           type: string
         caption:
           type: string
+      required:
+        - id
+        - creator
+        - createdAt
     CaffSumDTO:
       title: CaffSumDTO
       type: object
@@ -780,6 +801,10 @@ components:
           format: date-time
         creator:
           type: string
+      required:
+        - id
+        - createdAt
+        - creator
     CommentUploadDTO:
       title: CommentUploadDTO
       type: object
@@ -803,6 +828,11 @@ components:
         createdAt:
           type: string
           format: date-time
+      required:
+        - id
+        - comment
+        - user
+        - createdAt
     ReducedUserDTO:
       title: ReducedUserDTO
       type: object
@@ -813,6 +843,10 @@ components:
           type: string
         lastName:
           type: string
+      required:
+        - username
+        - firstName
+        - lastName
 servers:
   - url: 'http://localhost:8080'
     description: Debug
