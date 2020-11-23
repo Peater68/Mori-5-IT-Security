@@ -17,9 +17,8 @@ import hu.bme.caffshare.ui.boughtcaffdetails.BoughtCaffDetailsFragment
 import hu.bme.caffshare.ui.cafflist.adapter.CaffListAdapter
 import hu.bme.caffshare.ui.cafflist.adapter.SpacesItemDecoration
 import hu.bme.caffshare.ui.cafflist.model.CaffFile
-import kotlinx.android.synthetic.main.fragment_bought_caff_list.*
+import kotlinx.android.synthetic.main.fragment_caff_details.*
 import kotlinx.android.synthetic.main.layout_bought_caff_list.*
-import kotlinx.android.synthetic.main.layout_bought_caff_list.view.*
 
 class BoughtCaffListFragment :
     RainbowCakeFragment<BoughtCaffListViewState, BoughtCaffListViewModel>() {
