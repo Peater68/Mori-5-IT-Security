@@ -7,6 +7,7 @@ import hu.bme.caffshare.data.network.api.CommentApi
 import hu.bme.caffshare.data.network.api.UserApi
 import hu.bme.caffshare.data.network.model.LoginRequestDTO
 import hu.bme.caffshare.data.network.model.LoginResponseDTO
+import hu.bme.caffshare.data.network.model.UserRegistrationDTO
 import javax.inject.Inject
 
 class NetworkDataSource @Inject constructor(
@@ -38,5 +39,23 @@ class NetworkDataSource @Inject constructor(
         tokenDataSource.saveTokens(tokens.tokens)
     }
 
+    suspend fun register(
+        username: String,
+        password: String,
+        email: String,
+        firstName: String,
+        lastName: String
+    ): Boolean {
+        val body = UserRegistrationDTO(
+            username = username,
+            password = password,
+            email = email,
+            firstName = firstName,
+            lastName = lastName,
+        )
 
+        val response = userApi.createUser(body)
+
+        return response.isSuccessful
+    }
 }

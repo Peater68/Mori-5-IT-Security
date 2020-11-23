@@ -28,11 +28,23 @@ class RegisterFragment : RainbowCakeFragment<RegisterViewState, RegisterViewMode
 
     private fun setupRegisterButton() {
         registerButton.setOnClickListener {
-            if (usernameInput.isNotEmpty() && passwordInput.isNotEmpty() && repeatPasswordInput.isNotEmpty()) {
+            if (usernameInput.isNotEmpty() &&
+                passwordInput.isNotEmpty() &&
+                repeatPasswordInput.isNotEmpty() &&
+                emailInput.isNotEmpty() &&
+                firstNameInput.isNotEmpty() &&
+                lastNameInput.isNotEmpty()
+            ) {
                 if (passwordInput.text != repeatPasswordInput.text) {
                     repeatPasswordInput.error = "Password does not match!"
                 } else {
-                    viewModel.register(usernameInput.text, passwordInput.text)
+                    viewModel.register(
+                        username = usernameInput.text,
+                        password = passwordInput.text,
+                        email = emailInput.text,
+                        firstName = firstNameInput.text,
+                        lastName = lastNameInput.text
+                    )
                 }
             }
         }
