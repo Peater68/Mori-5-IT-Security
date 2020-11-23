@@ -46,28 +46,6 @@ class UploadedCaffListFragment :
 
     private lateinit var adapter: CaffListAdapter
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        // Inflate the layout for this fragment with the ProductGrid theme
-        val view = inflater.inflate(R.layout.fragment_uploaded_caff_list, container, false)
-
-        with(view) {
-            // Set up the toolbar.
-            (activity as AppCompatActivity).setSupportActionBar(this.app_bar)
-
-            this.app_bar.setNavigationOnClickListener {
-                navigator!!.pop()
-            }
-        }
-
-        view.nested_scroll_view.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.curved_background)
-
-        return view
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
