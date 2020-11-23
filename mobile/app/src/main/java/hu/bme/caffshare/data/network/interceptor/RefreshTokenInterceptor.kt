@@ -31,8 +31,7 @@ class RefreshTokenInterceptor(
                     val bodyString = accessTokenResponse.body!!.string()
                     val tokensDTO = moshi.adapter(TokensDTO::class.java).fromJson(bodyString)!!
 
-                    tokenDataSource.accessToken = tokensDTO.accessToken
-                    tokenDataSource.refreshToken = tokensDTO.refreshToken
+                    tokenDataSource.saveTokens(tokensDTO)
 
                     return chain.proceed(interceptedRequest.newBuilder().build())
                 } else {
