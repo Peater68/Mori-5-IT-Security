@@ -179,6 +179,9 @@ public class DocumentServiceImpl implements DocumentService {
         for (User u : document.getCustomers()) {
             u.getDownloads().remove(document);
         }
+        for (Tag t : document.getTags()) {
+            t.getContainedBy().remove(document);
+        }
         documentRepository.delete(document);
 
         storageService.deleteObject(DocumentType.CAFF.getBucket(), document.getFileName());
