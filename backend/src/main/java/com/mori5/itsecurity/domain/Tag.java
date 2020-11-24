@@ -29,7 +29,7 @@ public class Tag {
     @Column(nullable = false)
     private String title;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
     private List<Document> containedBy;
 
     @CreatedDate
