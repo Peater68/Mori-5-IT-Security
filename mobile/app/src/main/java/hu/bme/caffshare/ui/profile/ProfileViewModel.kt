@@ -16,4 +16,16 @@ class ProfileViewModel @Inject constructor(
             ProfileContent(userName)
         }
     }
+
+    fun changePassword(newPassword: ChangePasswordDialogFragment.NewPasswordWrapper) = execute {
+        profilePresenter.changePassword(newPassword)
+
+        val userName = profilePresenter.loadProfileData()
+
+        viewState = if (userName == null) {
+            Error
+        } else {
+            ProfileContent(userName)
+        }
+    }
 }
