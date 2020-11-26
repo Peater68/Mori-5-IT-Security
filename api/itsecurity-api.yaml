@@ -578,7 +578,7 @@ paths:
           description: Forbidden
       operationId: get-bought-caffs
       description: Returns the user's bought caffs.
-  /api/caffs/updated:
+  /api/caffs/uploaded:
     get:
       summary: Your GET endpoint
       tags:
@@ -597,7 +597,8 @@ paths:
         '403':
           description: Forbidden
       operationId: get-updated-caffs
-      description: Returns the user's updated caffs.
+      description: Returns the user's uploaded caffs.
+    parameters: []
   '/api/comments/{commentId}':
     parameters:
       - schema:
