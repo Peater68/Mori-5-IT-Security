@@ -596,7 +596,7 @@ paths:
           description: Unauthorized
         '403':
           description: Forbidden
-      operationId: get-updated-caffs
+      operationId: get-uploaded-caffs
       description: Returns the user's uploaded caffs.
     parameters: []
   '/api/comments/{commentId}':
