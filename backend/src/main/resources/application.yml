@@ -42,8 +42,8 @@ spring:
 
   datasource:
     username: postgres
-    password: postgres
-    url: jdbc:postgresql://localhost:15432/itsecurity
+    password: admin
+    url: jdbc:postgresql://localhost:5432/itsecurity
     driver-class-name: org.postgresql.Driver
     initialization-mode: always
     platform: itsecurity

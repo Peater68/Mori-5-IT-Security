@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class TokenDataSource @Inject constructor(context: Context) {
     companion object {
-        const val ACCESS_TOKEN_HEADER = "Access-Token"
+        const val ACCESS_TOKEN_HEADER = "Authorization"
         const val BEARER_PREFIX = "Bearer"
     }
 
