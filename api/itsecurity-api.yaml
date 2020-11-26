@@ -8,6 +8,7 @@ tags:
   - name: user
   - name: comment
   - name: caff
+  - name: tags
 paths:
   /api/auth/login:
     post:
