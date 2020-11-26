@@ -100,8 +100,8 @@ public class DocumentController implements CaffApi {
 
     @Override
     @Secured({AuthoritiesConstants.ROLE_ADMIN, AuthoritiesConstants.ROLE_CUSTOMER})
-    public ResponseEntity<List<CaffSumDTO>> getAllCaffs(String filterKey) {
-        return ResponseEntity.ok(DocumentMapper.mapDocumentsListToCaffSumDTOList(documentService.getAllCaffs(filterKey)));
+    public ResponseEntity<List<CaffSumDTO>> getAllCaffs(String filterTag) {
+        return ResponseEntity.ok(DocumentMapper.mapDocumentsListToCaffSumDTOList(documentService.getAllCaffs(filterTag)));
     }
 
     @Override
@@ -124,7 +124,7 @@ public class DocumentController implements CaffApi {
 
     @Override
     @Secured({AuthoritiesConstants.ROLE_ADMIN, AuthoritiesConstants.ROLE_CUSTOMER})
-    public ResponseEntity<List<CaffSumDTO>> getUpdatedCaffs() {
+    public ResponseEntity<List<CaffSumDTO>> getUploadedCaffs() {
         return ResponseEntity.ok(DocumentMapper.mapDocumentsListToCaffSumDTOList(documentService.getUpdatedCaffs()));
     }
 

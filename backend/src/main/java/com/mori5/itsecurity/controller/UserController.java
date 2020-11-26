@@ -22,6 +22,11 @@ public class UserController implements UserApi {
     private final UserService userService;
 
     @Override
+    public ResponseEntity<UserDTO> registerUser(@Valid UserRegistrationDTO userRegistrationDTO) {
+        return ResponseEntity.ok(UserMapper.mapUserToUserDTO(userService.createUser(userRegistrationDTO)));
+    }
+
+    @Override
     public ResponseEntity<UserDTO> createUser(@Valid UserRegistrationDTO userRegistrationDTO) {
         return ResponseEntity.ok(UserMapper.mapUserToUserDTO(userService.createUser(userRegistrationDTO)));
     }

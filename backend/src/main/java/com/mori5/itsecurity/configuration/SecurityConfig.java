@@ -24,6 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String LOGIN_USER_URL = "/api/auth/login";
     private static final String REGISTER_USER_URL = "/api/users";
+    private static final String REGISTER_USER_URL_2 = "/api/users/register";
     private static final String TOKEN_REFRESH_USER_URL = "/api/auth/token";
     private static final String HELLO = "/hello";
 
@@ -52,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, LOGIN_USER_URL).permitAll()
+                .antMatchers(HttpMethod.POST, REGISTER_USER_URL_2).permitAll()
                 .antMatchers(HttpMethod.POST, REGISTER_USER_URL).permitAll()
                 .antMatchers(HttpMethod.POST, TOKEN_REFRESH_USER_URL).permitAll()
                 .antMatchers(HttpMethod.POST, HELLO).permitAll()
