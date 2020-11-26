@@ -8,6 +8,7 @@ tags:
   - name: user
   - name: comment
   - name: caff
+  - name: tags
 paths:
   /api/auth/login:
     post:
@@ -578,7 +579,7 @@ paths:
           description: Forbidden
       operationId: get-bought-caffs
       description: Returns the user's bought caffs.
-  /api/caffs/updated:
+  /api/caffs/uploaded:
     get:
       summary: Your GET endpoint
       tags:
@@ -596,8 +597,9 @@ paths:
           description: Unauthorized
         '403':
           description: Forbidden
-      operationId: get-updated-caffs
-      description: Returns the user's updated caffs.
+      operationId: get-uploaded-caffs
+      description: Returns the user's uploaded caffs.
+    parameters: []
   '/api/comments/{commentId}':
     parameters:
       - schema:
