@@ -11,6 +11,7 @@ import hu.bme.caffshare.data.network.api.UserApi
 import hu.bme.caffshare.data.network.interceptor.AccessTokenInterceptor
 import hu.bme.caffshare.data.network.interceptor.RefreshTokenInterceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
@@ -28,6 +29,9 @@ class NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor(AccessTokenInterceptor(tokenDataSource))
             .addInterceptor(RefreshTokenInterceptor(tokenDataSource, moshi))
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.HEADERS
+            })
             .build()
     }
 
