@@ -7,6 +7,7 @@ import hu.bme.caffshare.data.network.api.CommentApi
 import hu.bme.caffshare.data.network.api.UserApi
 import hu.bme.caffshare.data.network.model.LoginRequestDTO
 import hu.bme.caffshare.data.network.model.LoginResponseDTO
+import hu.bme.caffshare.data.network.model.PasswordChangeDTO
 import hu.bme.caffshare.data.network.model.UserRegistrationDTO
 import hu.bme.caffshare.domain.model.DomainUser
 import hu.bme.caffshare.domain.model.toDomainModel
@@ -57,6 +58,17 @@ class NetworkDataSource @Inject constructor(
         )
 
         val response = userApi.createUser(body)
+
+        return response.isSuccessful
+    }
+
+    suspend fun changePassword(currentPassword: String, newPassword: String): Boolean {
+        val body = PasswordChangeDTO(
+            newPassword = newPassword,
+            currentPassword = currentPassword
+        )
+
+        val response = authApi.changePassword(body)
 
         return response.isSuccessful
     }
