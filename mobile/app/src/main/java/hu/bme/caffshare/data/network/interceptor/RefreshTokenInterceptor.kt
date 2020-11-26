@@ -24,6 +24,7 @@ class RefreshTokenInterceptor(
             val refreshToken = tokenDataSource.refreshToken
 
             if (refreshToken != null) {
+                interceptedResponse.close()
                 val accessTokenRequest = buildAccessTokenRequest(refreshToken)
                 val accessTokenResponse = chain.proceed(accessTokenRequest)
 
@@ -33,7 +34,14 @@ class RefreshTokenInterceptor(
 
                     tokenDataSource.saveTokens(tokensDTO)
 
-                    return chain.proceed(interceptedRequest.newBuilder().build())
+                    return chain.proceed(
+                        interceptedRequest.newBuilder()
+                            .removeHeader(TokenDataSource.ACCESS_TOKEN_HEADER)
+                            .addHeader(
+                                TokenDataSource.ACCESS_TOKEN_HEADER,
+                                tokenDataSource.accessToken!!
+                            ).build()
+                    )
                 } else {
                     Timber.e("Error while retrieving access token with refresh token!")
                 }
