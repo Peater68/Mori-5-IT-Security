@@ -16,10 +16,13 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.layout_profile.view.*
 
-class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>() {
+class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(),
+        ChangePasswordDialogFragment.ChangePasswordDialogFragmentListener {
 
     override fun provideViewModel() = getViewModelFromFactory()
     override fun getViewResource() = R.layout.fragment_profile
+
+    private lateinit var changePasswordDialogFragment: ChangePasswordDialogFragment
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -37,6 +40,12 @@ class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(
         view.nested_scroll_view.background =
                 ContextCompat.getDrawable(requireContext(), R.drawable.curved_background)
         view.nested_scroll_view.isFillViewport = true
+
+        view.changePasswordButton.setOnClickListener {
+            changePasswordDialogFragment = ChangePasswordDialogFragment()
+            changePasswordDialogFragment.listener = this
+            changePasswordDialogFragment.show(requireActivity().supportFragmentManager, "ChangePassword")
+        }
 
         return view
     }
@@ -67,5 +76,14 @@ class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(
                 viewFlipper.displayedChild = 2
             }
         }
+    }
+
+    override fun onChangePasswordOkButtonPressed(newPassword: ChangePasswordDialogFragment.NewPasswordWrapper) {
+        viewModel.changePassword(newPassword)
+        changePasswordDialogFragment.dismiss()
+    }
+
+    override fun onChangePasswordCancelButtonPressed() {
+        changePasswordDialogFragment.dismiss()
     }
 }

@@ -4,17 +4,12 @@ import android.graphics.Color.rgb
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.admin.model.User
-import hu.bme.caffshare.ui.cafflist.model.CaffFile
-import kotlinx.android.synthetic.main.row_caff_file.view.*
 import kotlinx.android.synthetic.main.row_user.view.*
-import org.w3c.dom.Text
 
 class UserListAdapter :
     ListAdapter<User, UserListAdapter.UserViewHolder>(UserComparator) {
@@ -54,13 +49,13 @@ class UserListAdapter :
         var user: User? = null
 
         init {
-            itemView.setOnClickListener {
-                user?.let { listener?.onListItemClicked(it) }
+            itemView.user_delete_button.setOnClickListener {
+                user?.let { listener?.onListItemDeleteButtonClicked(it) }
             }
         }
     }
 
     interface Listener {
-        fun onListItemClicked(item: User)
+        fun onListItemDeleteButtonClicked(item: User)
     }
 }

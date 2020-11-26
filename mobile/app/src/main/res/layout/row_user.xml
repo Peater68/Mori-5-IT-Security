@@ -60,6 +60,21 @@
             android:maxLines="2"
             app:drawableStartCompat="@drawable/ic_person"
             tools:text="username1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/user_delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            app:icon="@drawable/ic_delete"
+            app:iconTint="@color/textColorPrimary"
+            app:iconPadding="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:minWidth="48dp"
+            android:minHeight="48dp"/>
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

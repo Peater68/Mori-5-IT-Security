@@ -67,8 +67,8 @@ class UserListFragment : RainbowCakeFragment<UserListViewState, UserListViewMode
         adapter = UserListAdapter()
 
         adapter.listener = object : UserListAdapter.Listener {
-            override fun onListItemClicked(item: User) {
-                TODO()
+            override fun onListItemDeleteButtonClicked(item: User) {
+                viewModel.deleteUser(item)
             }
         }
         userFileList.layoutManager = StaggeredGridLayoutManager(1, RecyclerView.VERTICAL)
