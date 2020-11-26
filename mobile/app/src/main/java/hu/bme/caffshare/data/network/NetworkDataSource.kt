@@ -88,6 +88,48 @@ class NetworkDataSource @Inject constructor(
         return response.body()?.toDomainModel()
     }
 
+    suspend fun banUser(userId: String): Boolean {
+        val response = userApi.banUserById(userId)
+
+        return response.isSuccessful
+    }
+
+    suspend fun deleteCurrentUser(): Boolean {
+        val response = userApi.deleteMe()
+
+        return response.isSuccessful
+    }
+
+    suspend fun getAllUsers(): List<DomainUser>? {
+        val response = userApi.getUsers()
+
+        return response.body()?.map { it.toDomainModel() }
+    }
+
+    suspend fun makeUserAdmin(userId: String): Boolean {
+        val response = userApi.makeUserAdmin(userId)
+
+        return response.isSuccessful
+    }
+
+    suspend fun updateCurrentUser(
+        firstName: String,
+        lastName: String,
+        username: String,
+        email: String,
+    ): Boolean {
+        val body = UserUpdateDTO(
+            firstName = firstName,
+            lastName = lastName,
+            username = username,
+            email = email,
+        )
+
+        val response = userApi.updateMe(body)
+
+        return response.isSuccessful
+    }
+
     // endregion
 
     // region Caff

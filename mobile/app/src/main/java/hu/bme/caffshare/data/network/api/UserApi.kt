@@ -55,22 +55,6 @@ interface UserApi {
     suspend fun deleteMe(): Response<Unit>
 
     /**
-     *
-     * Delete user by id
-     * Responses:
-     *  - 204: Payment Required
-     *  - 401: Unauthorized
-     *  - 403: Forbidden
-     *  - 404: Not Found
-     *  - 500: Internal Server Error
-     *
-     * @param userId
-     * @return [Unit]
-     */
-    @DELETE("api/users/{userId}")
-    suspend fun deleteUserById(@Path("userId") userId: kotlin.String): Response<Unit>
-
-    /**
      * Your GET endpoint
      * Get current user profile
      * Responses:
@@ -83,22 +67,6 @@ interface UserApi {
      */
     @GET("api/users/me")
     suspend fun getMe(): Response<UserDTO>
-
-    /**
-     * Your GET endpoint
-     * Get user by id
-     * Responses:
-     *  - 200: OK
-     *  - 401: Unauthorized
-     *  - 403: Forbidden
-     *  - 404: Not Found
-     *  - 500: Internal Server Error
-     *
-     * @param userId
-     * @return [UserDTO]
-     */
-    @GET("api/users/{userId}")
-    suspend fun getUserById(@Path("userId") userId: kotlin.String): Response<UserDTO>
 
     /**
      * Your GET endpoint
@@ -145,26 +113,5 @@ interface UserApi {
      */
     @PUT("api/users/me")
     suspend fun updateMe(@Body userUpdateDTO: UserUpdateDTO? = null): Response<UserDTO>
-
-    /**
-     *
-     * Update user by id
-     * Responses:
-     *  - 200: OK
-     *  - 400: Bad Request
-     *  - 401: Unauthorized
-     *  - 403: Forbidden
-     *  - 404: Not Found
-     *  - 500: Internal Server Error
-     *
-     * @param userId
-     * @param userUpdateDTO  (optional)
-     * @return [UserDTO]
-     */
-    @PUT("api/users/{userId}")
-    suspend fun updateUserById(
-        @Path("userId") userId: kotlin.String,
-        @Body userUpdateDTO: UserUpdateDTO? = null
-    ): Response<UserDTO>
 
 }
