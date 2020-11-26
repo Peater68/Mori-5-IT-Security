@@ -18,6 +18,8 @@ import hu.bme.caffshare.ui.cafflist.CaffListFragment
 import hu.bme.caffshare.ui.profile.ProfileFragment
 import kotlinx.android.synthetic.main.backdrop.view.*
 import kotlinx.android.synthetic.main.layout_user_list.view.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 val TextInputLayout.text: String
     get() {
@@ -82,4 +84,13 @@ fun View.setNavigationOnClickListener(activity: FragmentActivity, context: Conte
             closeIcon = ContextCompat.getDrawable(context, R.drawable.menu_close_icon)
         )
     )
+}
+
+fun String.toLocalDateTime(): LocalDateTime {
+    val localDateTimeFormat = if (contains('.')) {
+        substringBeforeLast('.')
+    } else {
+        substringBeforeLast('Z')
+    }
+    return LocalDateTime.parse(localDateTimeFormat, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
 }
