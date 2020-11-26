@@ -25,11 +25,11 @@ interface CommentApi {
      * Responses:
      *  - 200: OK
      *
-     * @param documentId
+     * @param caffId
      * @return [kotlin.collections.List<CommentDTO>]
      */
-    @GET("api/documents/{documentId}/comments")
-    suspend fun getComments(@Path("documentId") documentId: kotlin.String): Response<kotlin.collections.List<CommentDTO>>
+    @GET("api/documents/{caffId}/comments")
+    suspend fun getComments(@Path("caffId") caffId: kotlin.String): Response<kotlin.collections.List<CommentDTO>>
 
     /**
      *
@@ -37,30 +37,13 @@ interface CommentApi {
      * Responses:
      *  - 201: Created
      *
-     * @param documentId
+     * @param caffId
      * @param commentUploadDTO  (optional)
      * @return [CommentDTO]
      */
-    @POST("api/documents/{documentId}/comments")
-    suspend fun postComments(
-        @Path("documentId") documentId: kotlin.String,
+    @POST("api/documents/{caffId}/comments")
+    suspend fun postComment(
+        @Path("caffId") caffId: kotlin.String,
         @Body commentUploadDTO: CommentUploadDTO? = null
     ): Response<CommentDTO>
-
-    /**
-     *
-     *
-     * Responses:
-     *  - 200: OK
-     *
-     * @param commentId
-     * @param commentUploadDTO  (optional)
-     * @return [CommentDTO]
-     */
-    @PUT("api/comments/{commentId}")
-    suspend fun putApiCommentsCommentId(
-        @Path("commentId") commentId: kotlin.String,
-        @Body commentUploadDTO: CommentUploadDTO? = null
-    ): Response<CommentDTO>
-
 }

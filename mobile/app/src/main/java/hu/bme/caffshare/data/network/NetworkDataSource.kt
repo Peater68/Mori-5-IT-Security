@@ -7,14 +7,8 @@ import hu.bme.caffshare.data.network.api.AuthApi
 import hu.bme.caffshare.data.network.api.CaffApi
 import hu.bme.caffshare.data.network.api.CommentApi
 import hu.bme.caffshare.data.network.api.UserApi
-import hu.bme.caffshare.data.network.model.LoginRequestDTO
-import hu.bme.caffshare.data.network.model.LoginResponseDTO
-import hu.bme.caffshare.data.network.model.PasswordChangeDTO
-import hu.bme.caffshare.data.network.model.UserRegistrationDTO
-import hu.bme.caffshare.domain.model.DomainCaffDetails
-import hu.bme.caffshare.domain.model.DomainCaffSum
-import hu.bme.caffshare.domain.model.DomainUser
-import hu.bme.caffshare.domain.model.toDomainModel
+import hu.bme.caffshare.data.network.model.*
+import hu.bme.caffshare.domain.model.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -144,9 +138,24 @@ class NetworkDataSource @Inject constructor(
 
     // region Comment
 
-    // endregion
-}
+    suspend fun deleteComment(commentId: String): Boolean {
+        val response = commentApi.deleteComment(commentId)
 
-enum class CaffDownloadType {
-    PREVIEW, CAFF
+        return response.isSuccessful
+    }
+
+    suspend fun getCommentsForCaff(caffId: String): List<DomainComment>? {
+        val response = commentApi.getComments(caffId)
+
+        return response.body()?.map { it.toDomainModel() }
+    }
+
+    suspend fun addComment(caffId: String, comment: String): Boolean {
+        val body = CommentUploadDTO(comment)
+        val response = commentApi.postComment(caffId, body)
+
+        return response.isSuccessful
+    }
+
+    // endregion
 }
