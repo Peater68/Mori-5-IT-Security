@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
     public void banUserById(String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
         if (user.getRole().equals(Role.ADMIN)) {
-            throw new InvalidOperationException("Admin can not be banned!", ItSecurityErrors.INVALID_OPERATION);
+            throw new InvalidOperationException("Admin cannot be banned!", ItSecurityErrors.INVALID_OPERATION);
         }
 
         user.setIsBanned(true);
