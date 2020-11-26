@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   nginx:
-    image: nginx:1.16.1
+    image: nginx:1.19.4
     container_name: itsecurity-nginx
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
@@ -17,7 +17,7 @@ services:
     container_name: itsecurity-postgres
     restart: unless-stopped
     volumes:
-      - ./data/postgre_data:/var/lib/postgresql/data:Z
+      - ./data:/var/lib/postgresql
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: itsecurity
@@ -44,7 +44,7 @@ services:
       timeout: 20s
       retries: 3
   backend:
-    image: borsybela/itsecurity-backend:v7
+    image: borsybela/itsecurity-backend:v8
     container_name: itsecurity-backend
     restart: unless-stopped
     expose:

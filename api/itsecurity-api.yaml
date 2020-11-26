@@ -642,6 +642,34 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CommentUploadDTO'
+  /api/users/register:
+    post:
+      summary: ''
+      tags:
+        - user
+      operationId: register-user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      description: Register user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistrationDTO'
+    parameters: []
   /api/tags:
     get:
       summary: Your GET endpoint
