@@ -1,7 +1,11 @@
 package hu.bme.caffshare.ui.profile.boughtcafflist
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
@@ -13,7 +17,8 @@ import hu.bme.caffshare.ui.boughtcaffdetails.BoughtCaffDetailsFragment
 import hu.bme.caffshare.ui.cafflist.adapter.CaffListAdapter
 import hu.bme.caffshare.ui.cafflist.adapter.SpacesItemDecoration
 import hu.bme.caffshare.ui.cafflist.model.CaffFile
-import kotlinx.android.synthetic.main.fragment_bought_caff_list.*
+import kotlinx.android.synthetic.main.fragment_caff_details.*
+import kotlinx.android.synthetic.main.layout_bought_caff_list.*
 
 class BoughtCaffListFragment :
     RainbowCakeFragment<BoughtCaffListViewState, BoughtCaffListViewModel>() {

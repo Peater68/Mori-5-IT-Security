@@ -17,7 +17,7 @@ public class DocumentMapper {
 
         return CaffSumDTO.builder()
                 .id(doc.getId())
-                .createdAt(doc.getCreatedDate().atOffset(ZoneOffset.UTC)) // TODO lehet ez is
+                .createdAt(doc.getCreatedDate().atOffset(ZoneOffset.UTC))
                 .creator(doc.getCreator())
                 .build();
     }
@@ -29,8 +29,11 @@ public class DocumentMapper {
 
         return CaffDetailsDTO.builder()
                 .id(doc.getId())
-                .createdAt(doc.getCreatedDate().atOffset(ZoneOffset.UTC)) // TODO lehet ez is
+                .createdAt(doc.getCreatedDate().atOffset(ZoneOffset.UTC))
                 .creator(doc.getCreator())
+                .caption(doc.getCaption())
+                .duration(doc.getDuration().toString())
+                .tags(TagMapper.mapTagsToTagsDTO(doc.getTags()))
                 .build();
     }
 
