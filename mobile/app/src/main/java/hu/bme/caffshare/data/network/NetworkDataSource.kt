@@ -8,6 +8,8 @@ import hu.bme.caffshare.data.network.api.UserApi
 import hu.bme.caffshare.data.network.model.LoginRequestDTO
 import hu.bme.caffshare.data.network.model.LoginResponseDTO
 import hu.bme.caffshare.data.network.model.UserRegistrationDTO
+import hu.bme.caffshare.domain.model.DomainUser
+import hu.bme.caffshare.domain.model.toDomainModel
 import javax.inject.Inject
 
 class NetworkDataSource @Inject constructor(
@@ -57,5 +59,11 @@ class NetworkDataSource @Inject constructor(
         val response = userApi.createUser(body)
 
         return response.isSuccessful
+    }
+
+    suspend fun getCurrentUserProfile(): DomainUser? {
+        val response = userApi.getMe()
+
+        return response.body()?.toDomainModel()
     }
 }
