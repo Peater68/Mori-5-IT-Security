@@ -2,6 +2,7 @@ package hu.bme.caffshare.ui.admin
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -19,6 +20,7 @@ import hu.bme.caffshare.ui.cafflist.adapter.SpacesItemDecoration
 import hu.bme.caffshare.ui.cafflist.model.CaffFile
 import hu.bme.caffshare.util.setNavigationOnClickListener
 import hu.bme.caffshare.util.setupBackDropMenu
+import kotlinx.android.synthetic.main.backdrop.view.*
 import kotlinx.android.synthetic.main.fragment_caff_list.*
 import kotlinx.android.synthetic.main.fragment_caff_list.viewFlipper
 import kotlinx.android.synthetic.main.fragment_user_list.*
@@ -46,6 +48,10 @@ class UserListFragment : RainbowCakeFragment<UserListViewState, UserListViewMode
 
         with(view) {
             setupBackDropMenu(navigator!!)
+
+            if (viewModel.isUserAdmin()) {
+                this.admin_menu_button.visibility = View.GONE
+            }
 
             setNavigationOnClickListener(requireActivity(), requireContext())
         }
@@ -98,5 +104,18 @@ class UserListFragment : RainbowCakeFragment<UserListViewState, UserListViewMode
                 viewFlipper.displayedChild = 3
             }
         }
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when (item.title) {
+            "Adminná teszem" -> {
+                viewModel.makeUserAdmin(adapter.getUserAt(item.groupId))
+            }
+
+            "Letiltom" -> {
+                viewModel.banUser(adapter.getUserAt(item.groupId))
+            }
+        }
+        return super.onContextItemSelected(item)
     }
 }

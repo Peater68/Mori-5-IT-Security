@@ -7,6 +7,10 @@ import javax.inject.Inject
 
 class UserListPresenter @Inject constructor() {
 
+    suspend fun isUserAdmin(): Boolean = withIOContext {
+        true
+    }
+
     suspend fun getUsers(): List<User>? = withIOContext {
         listOf(
             User(
@@ -95,6 +99,14 @@ class UserListPresenter @Inject constructor() {
                         isBanned = true
                 )
         )
+    }
+
+    suspend fun makeUserAdmin(user: User): Nothing = withIOContext {
+        TODO()
+    }
+
+    suspend fun banUser(user: User): Nothing = withIOContext {
+        TODO()
     }
 
 }
