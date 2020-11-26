@@ -52,8 +52,9 @@ data class UserDTO(
     enum class Role(val value: kotlin.String) {
         @Json(name = "ADMIN")
         ADMIN("ADMIN"),
-        @Json(name = "WORKER")
-        WORKER("WORKER");
+
+        @Json(name = "CUSTOMER")
+        CUSTOMER("CUSTOMER");
     }
 }
 
