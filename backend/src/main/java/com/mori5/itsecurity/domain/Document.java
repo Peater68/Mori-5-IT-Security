@@ -29,7 +29,12 @@ public class Document {
 
     private String creator;
     private Instant createdDate;
-    private String tags;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "document_tags",
+            joinColumns = @JoinColumn(name = "document_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags;
     private String caption;
     private Long duration;
     private Long caffContentSize;

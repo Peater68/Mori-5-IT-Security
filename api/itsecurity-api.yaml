@@ -363,8 +363,8 @@ paths:
         - schema:
             type: string
           in: query
-          name: filterKey
-          description: ''
+          name: filterTag
+          description: Identifier of a tag.
     post:
       tags:
         - caff
@@ -642,6 +642,26 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CommentUploadDTO'
+  /api/tags:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - tags
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TagDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      operationId: get-tags
+      description: Return tags.
 components:
   schemas:
     PasswordChangeDTO:
@@ -654,6 +674,7 @@ components:
           type: string
       required:
         - newPassword
+        - currentPassword
     LoginRequestDTO:
       title: LoginRequestDTO
       type: object
@@ -673,6 +694,9 @@ components:
           $ref: '#/components/schemas/TokensDTO'
         user:
           $ref: '#/components/schemas/UserDTO'
+      required:
+        - tokens
+        - user
     TokensDTO:
       title: TokensDTO
       type: object
@@ -681,6 +705,9 @@ components:
           type: string
         refreshToken:
           type: string
+      required:
+        - accessToken
+        - refreshToken
     UserDTO:
       title: UserDTO
       type: object
@@ -704,6 +731,14 @@ components:
         updatedAt:
           type: string
           format: date-time
+      required:
+        - id
+        - firstName
+        - lastName
+        - username
+        - role
+        - createdAt
+        - updatedAt
     RefreshTokenDTO:
       title: RefreshTokenDTO
       type: object
@@ -712,6 +747,8 @@ components:
           type: string
         refreshTokenn:
           type: string
+      required:
+        - refreshToken
     UserRegistrationDTO:
       title: UserRegistrationDTO
       type: object
@@ -758,16 +795,19 @@ components:
         createdAt:
           type: string
           format: date-time
-        width:
-          type: string
-        height:
-          type: string
         duration:
           type: string
         tags:
-          type: string
+          type: array
+          items:
+            $ref: '#/components/schemas/TagDTO'
         caption:
           type: string
+      required:
+        - id
+        - creator
+        - createdAt
+        - tags
     CaffSumDTO:
       title: CaffSumDTO
       type: object
@@ -780,6 +820,10 @@ components:
           format: date-time
         creator:
           type: string
+      required:
+        - id
+        - createdAt
+        - creator
     CommentUploadDTO:
       title: CommentUploadDTO
       type: object
@@ -803,6 +847,11 @@ components:
         createdAt:
           type: string
           format: date-time
+      required:
+        - id
+        - comment
+        - user
+        - createdAt
     ReducedUserDTO:
       title: ReducedUserDTO
       type: object
@@ -813,6 +862,21 @@ components:
           type: string
         lastName:
           type: string
+      required:
+        - username
+        - firstName
+        - lastName
+    TagDTO:
+      title: TagDTO
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+      required:
+        - id
+        - title
 servers:
   - url: 'http://localhost:8080'
     description: Debug
