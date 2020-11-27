@@ -25,4 +25,8 @@ class AuthInteractor @Inject constructor(
             lastName = lastName,
         )
     }
+
+    suspend fun changePassword(currentPassword: String, newPassword: String): Boolean {
+        return networkDataSource.changePassword(currentPassword, newPassword)
+    }
 }
