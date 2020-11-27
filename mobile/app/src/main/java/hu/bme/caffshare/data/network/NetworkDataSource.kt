@@ -13,6 +13,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.io.InputStream
 import javax.inject.Inject
 
 class NetworkDataSource @Inject constructor(
@@ -140,9 +141,10 @@ class NetworkDataSource @Inject constructor(
         return response.isSuccessful
     }
 
-    // TODO: handle returned file
-    suspend fun downloadPreviewOrCaffFile(caffId: String, type: CaffDownloadType) {
-        val response = caffApi.downloadPreviewOrCaffFile(caffId, type.name).body()
+    suspend fun downloadCaffFile(caffId: String): InputStream? {
+        val response = caffApi.downloadPreviewOrCaffFile(caffId, CaffDownloadType.CAFF.name)
+
+        return response.body()?.byteStream()
     }
 
     suspend fun getCaffFiles(): List<DomainCaffSum>? {
