@@ -38,6 +38,7 @@ interface CaffApi {
      * @param type
      * @return [ResponseBody]
      */
+    @Streaming
     @GET("api/caffs/{caffId}/download")
     suspend fun downloadPreviewOrCaffFile(
         @Path("caffId") caffId: kotlin.String,
