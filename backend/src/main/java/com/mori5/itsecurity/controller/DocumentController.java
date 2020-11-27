@@ -15,8 +15,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,7 +26,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DocumentController implements CaffApi {
 
-    private static final String JPEG = "jpeg";
     private static final String ATTACHMENT_FILENAME = "attachment; filename=";
 
     private final DocumentService documentService;
@@ -67,33 +64,6 @@ public class DocumentController implements CaffApi {
                     .headers(headers)
                     .contentLength(storageObject.getContent().length)
                     .body(resource);
-        }
-
-    }
-
-    @GetMapping(value = "/api/caffss/{caffId}/asd", produces = { "*/*"})
-    public ResponseEntity<Resource> downloadPreviewOrCaffFile2(@PathVariable String caffId, @NotNull @Valid String type) {
-        StorageObject storageObject = documentService.downloadCaffOrPreview(caffId, type);
-
-        ByteArrayResource resource = new ByteArrayResource(storageObject.getContent());
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, ATTACHMENT_FILENAME + storageObject.getFileName() +".caff");
-        headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
-
-        if (type.equals(DocumentType.PREVIEW.getName())) {
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentLength(storageObject.getContent().length)
-                    .contentType(MediaType.IMAGE_JPEG)
-                    .body(resource);
-        } else {
-
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentLength(storageObject.getContent().length)
-                    .body(resource);
-
         }
 
     }
