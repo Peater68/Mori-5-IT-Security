@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Blank</string>
+    <string name="app_name">CAFF</string>
     <string name="error_occurred">An error occurred</string>
     <string name="no_caff_files_found">No CAFF files found!</string>
     <string name="no_users_found">No users found</string>
@@ -20,4 +20,7 @@
     <string name="bought_caff_files">Bought CAFF files</string>
     <string name="download">Download</string>
     <string name="upload">Upload</string>
+    <string name="first_name">First name</string>
+    <string name="email_address">Email address</string>
+    <string name="last_name">Last name</string>
 </resources>

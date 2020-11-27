@@ -14,5 +14,4 @@ class MainActivity : SimpleNavActivity() {
             navigator.add(ProfileFragment())
         }
     }
-
 }

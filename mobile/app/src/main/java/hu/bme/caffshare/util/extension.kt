@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -13,11 +14,16 @@ import co.zsmb.rainbowcake.navigation.Navigator
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import hu.bme.caffshare.R
+import hu.bme.caffshare.data.network.GlideApp
+import hu.bme.caffshare.data.network.NetworkModule
+import hu.bme.caffshare.domain.model.CaffDownloadType
 import hu.bme.caffshare.ui.admin.UserListFragment
 import hu.bme.caffshare.ui.cafflist.CaffListFragment
 import hu.bme.caffshare.ui.profile.ProfileFragment
 import kotlinx.android.synthetic.main.backdrop.view.*
 import kotlinx.android.synthetic.main.layout_user_list.view.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 val TextInputLayout.text: String
     get() {
@@ -59,13 +65,13 @@ fun Fragment.hideKeyboard() {
 
 fun View.setupBackDropMenu(navigator: Navigator) {
     this.admin_menu_button.setOnClickListener {
-        navigator.add(UserListFragment())
+        navigator.replace(UserListFragment())
     }
     this.cafflist_menu_button.setOnClickListener {
-        navigator.add(CaffListFragment())
+        navigator.replace(CaffListFragment())
     }
     this.account_menu_button.setOnClickListener {
-        navigator.add(ProfileFragment())
+        navigator.replace(ProfileFragment())
     }
 
 }
@@ -82,4 +88,19 @@ fun View.setNavigationOnClickListener(activity: FragmentActivity, context: Conte
             closeIcon = ContextCompat.getDrawable(context, R.drawable.menu_close_icon)
         )
     )
+}
+
+fun String.toLocalDateTime(): LocalDateTime {
+    val localDateTimeFormat = if (contains('.')) {
+        substringBeforeLast('.')
+    } else {
+        substringBeforeLast('Z')
+    }
+    return LocalDateTime.parse(localDateTimeFormat, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+}
+
+fun ImageView.loadCaffPreview(caffId: String) {
+    GlideApp.with(context)
+        .load("${NetworkModule.BASE_URL}/api/caffs/$caffId/download?type=${CaffDownloadType.PREVIEW}")
+        .into(this)
 }

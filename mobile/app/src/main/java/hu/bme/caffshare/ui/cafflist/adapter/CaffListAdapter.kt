@@ -7,9 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.cafflist.model.CaffFile
+import hu.bme.caffshare.util.loadCaffPreview
 import kotlinx.android.synthetic.main.row_caff_file.view.*
 
 class CaffListAdapter :
@@ -29,9 +29,7 @@ class CaffListAdapter :
 
         with(holder) {
             author.text = caffFile.author
-            Glide.with(itemView)
-                .load(caffFile.imageUrl)
-                .into(image)
+            image.loadCaffPreview(caffFile.id)
         }
     }
 
