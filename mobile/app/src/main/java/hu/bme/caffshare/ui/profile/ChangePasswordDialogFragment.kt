@@ -23,6 +23,7 @@ class ChangePasswordDialogFragment : DialogFragment() {
         view.changePassword_okButton.setOnClickListener {
             listener.onChangePasswordOkButtonPressed(
                     newPassword = NewPasswordWrapper(
+                            oldPassword = changePassword_oldPasswordTextInputEditText.text.toString(),
                             newPassword = changePassword_textInputEditText.text.toString()
                     )
             )
@@ -41,6 +42,7 @@ class ChangePasswordDialogFragment : DialogFragment() {
     }
 
     data class NewPasswordWrapper(
+            var oldPassword: String,
             var newPassword: String
     )
 

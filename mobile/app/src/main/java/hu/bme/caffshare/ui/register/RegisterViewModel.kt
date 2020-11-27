@@ -11,8 +11,20 @@ class RegisterViewModel @Inject constructor(
     object RegistrationSuccessful : OneShotEvent
     object RegistrationFailed : OneShotEvent
 
-    fun register(username: String, password: String) = execute {
-        val isRegistrationSuccessful = registerPresenter.register(username, password)
+    fun register(
+        username: String,
+        password: String,
+        email: String,
+        firstName: String,
+        lastName: String
+    ) = execute {
+        val isRegistrationSuccessful = registerPresenter.register(
+            username = username,
+            password = password,
+            email = email,
+            firstName = firstName,
+            lastName = lastName,
+        )
 
         if (isRegistrationSuccessful) {
             postEvent(RegistrationSuccessful)

@@ -3,9 +3,15 @@ package hu.bme.caffshare.ui.admin
 import co.zsmb.rainbowcake.withIOContext
 import hu.bme.caffshare.ui.admin.model.User
 import hu.bme.caffshare.ui.cafflist.model.CaffFile
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class UserListPresenter @Inject constructor() {
+
+    suspend fun isUserAdmin(): Boolean = withIOContext {
+        delay(10000)
+        true
+    }
 
     suspend fun getUsers(): List<User>? = withIOContext {
         listOf(
@@ -95,6 +101,14 @@ class UserListPresenter @Inject constructor() {
                         isBanned = true
                 )
         )
+    }
+
+    suspend fun makeUserAdmin(user: User): Nothing = withIOContext {
+        TODO()
+    }
+
+    suspend fun banUser(user: User): Nothing = withIOContext {
+        TODO()
     }
 
 }

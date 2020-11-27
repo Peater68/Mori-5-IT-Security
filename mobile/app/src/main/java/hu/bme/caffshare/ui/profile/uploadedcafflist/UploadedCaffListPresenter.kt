@@ -13,12 +13,10 @@ class UploadedCaffListPresenter @Inject constructor() {
             CaffFile(
                 id = "0",
                 author = "Borsy President Béla",
-                imageUrl = "https://images-na.ssl-images-amazon.com/images/I/614FDmQ1p4L._AC_SL1001_.jpg",
             ),
             CaffFile(
                 id = "0",
                 author = "Borsy President Béla",
-                imageUrl = "https://cf.bstatic.com/images/hotel/max500/211/211169617.jpg",
             ),
         )
     }
