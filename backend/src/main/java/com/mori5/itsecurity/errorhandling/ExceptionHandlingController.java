@@ -13,15 +13,27 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionHandlingController {
 
+    @ExceptionHandler(ParsingException.class)
+    public Object handleParsingException(ItSecurityException ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getError(), ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(FileUploadException.class)
+    public Object handleFileUploadException(ItSecurityException ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getError(), ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    }
+
     @ExceptionHandler(UserIsBannedException.class)
-    public Object handleUserIsBannedException(Exception ex) {
-        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ItSecurityErrors.USER_BANNED, ex.getMessage());
+    public Object handleUserIsBannedException(ItSecurityException ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getError(), ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(OperationFailedException.class)
-    public Object handleOperationFailedException(Exception ex) {
-        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ItSecurityErrors.FAILED_OPERATION, ex.getMessage());
+    public Object handleOperationFailedException(ItSecurityException ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getError(), ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
@@ -62,8 +74,8 @@ public class ExceptionHandlingController {
     }
 
     @ExceptionHandler(UnprocessableEntityException.class)
-    public Object handleUnprocessableEntityException(Exception ex) {
-        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ItSecurityErrors.UNPROCESSABLE_ENTITY, ex.getMessage());
+    public Object handleUnprocessableEntityException(ItSecurityException ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getError(), ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 

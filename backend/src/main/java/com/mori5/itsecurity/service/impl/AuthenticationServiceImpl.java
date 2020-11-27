@@ -49,7 +49,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
     @Override
-    public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) throws IOException {
+    public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
         if (!StringUtils.hasLength(loginRequestDTO.getUsername()) || !StringUtils.hasLength(loginRequestDTO.getPassword())) {
             throw new CredentialException(INCORRECT, ItSecurityErrors.UNAUTHORIZED);
         }

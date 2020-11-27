@@ -5,7 +5,9 @@ import com.mori5.itsecurity.cpp.CreatorsImages;
 import com.mori5.itsecurity.domain.*;
 import com.mori5.itsecurity.errorhandling.domain.ItSecurityErrors;
 import com.mori5.itsecurity.errorhandling.exception.EntityNotFoundException;
+import com.mori5.itsecurity.errorhandling.exception.FileUploadException;
 import com.mori5.itsecurity.errorhandling.exception.InvalidOperationException;
+import com.mori5.itsecurity.errorhandling.exception.ParsingException;
 import com.mori5.itsecurity.errorhandling.exception.UnprocessableEntityException;
 import com.mori5.itsecurity.repository.DocumentRepository;
 import com.mori5.itsecurity.repository.UserRepository;
@@ -77,11 +79,15 @@ public class DocumentServiceImpl implements DocumentService {
 
         CPPParserCaller cppParserCaller = new CPPParserCaller();
 
-        CreatorsImages parsedCaff = null;
+        CreatorsImages parsedCaff;
         try {
             parsedCaff = cppParserCaller.parse(file.getBytes());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ParsingException("Error while parsing caff file. Error: " + e.getMessage(), ItSecurityErrors.PARSING_ERROR);
+        }
+
+        if (parsedCaff == null || (parsedCaff.error != null && !parsedCaff.error.equals(""))) {
+            throw new ParsingException("Error while parsing caff file", ItSecurityErrors.PARSING_ERROR);
         }
 
         byte[] imageInByte = getParsedPreview(parsedCaff);
@@ -100,13 +106,13 @@ public class DocumentServiceImpl implements DocumentService {
             storageService.deleteObject(DocumentType.CAFF.getBucket(), fileName);
             storageService.deleteObject(DocumentType.PREVIEW.getBucket(), fileName);
 
-            throw ex;
+            throw new FileUploadException("Error while uploading caff and preview file. Error: " + ex.getMessage(), ItSecurityErrors.FILE_UPLOAD_ERROR);
         }
 
         Document document = Document.builder()
                 .fileName(fileName)
                 .uploader(user)
-                .caffContentSize(file.getSize())
+                .caffContentSize(parsedCaff.images.content_size)
                 .duration(parsedCaff.images.duration)
                 .tags(getTags(parsedCaff.images.tags))
                 .caption(parsedCaff.images.caption)
