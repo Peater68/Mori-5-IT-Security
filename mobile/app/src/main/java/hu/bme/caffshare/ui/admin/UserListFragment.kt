@@ -52,6 +52,7 @@ class UserListFragment : RainbowCakeFragment<UserListViewState, UserListViewMode
 
         view.nested_scroll_view.background =
             ContextCompat.getDrawable(requireContext(), R.drawable.curved_background)
+        view.nested_scroll_view.isFillViewport = true
 
         return view
     }
@@ -66,8 +67,8 @@ class UserListFragment : RainbowCakeFragment<UserListViewState, UserListViewMode
         adapter = UserListAdapter()
 
         adapter.listener = object : UserListAdapter.Listener {
-            override fun onListItemClicked(item: User) {
-                TODO()
+            override fun onListItemDeleteButtonClicked(item: User) {
+                viewModel.deleteUser(item)
             }
         }
         userFileList.layoutManager = StaggeredGridLayoutManager(1, RecyclerView.VERTICAL)

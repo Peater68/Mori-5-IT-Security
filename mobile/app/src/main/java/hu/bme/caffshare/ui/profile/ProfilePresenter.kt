@@ -9,4 +9,8 @@ class ProfilePresenter @Inject constructor(
     suspend fun loadProfileData(): String? = withIOContext {
         "Borsy Pres Béla"
     }
+
+    suspend fun changePassword(newPassword: ChangePasswordDialogFragment.NewPasswordWrapper): Unit = withIOContext {
+        TODO("IDE JON A HÁLÓZATI HÍVÁS")
+    }
 }
