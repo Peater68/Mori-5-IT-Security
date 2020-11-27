@@ -10,6 +10,7 @@ import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.navigator
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.profile.adapter.ProfileListsAdapter
+import hu.bme.caffshare.ui.profile.model.ProfilePresenterModel
 import hu.bme.caffshare.util.setNavigationOnClickListener
 import hu.bme.caffshare.util.setupBackDropMenu
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -17,12 +18,16 @@ import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.layout_profile.view.*
 
 class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(),
-        ChangePasswordDialogFragment.ChangePasswordDialogFragmentListener {
+        ChangePasswordDialogFragment.ChangePasswordDialogFragmentListener,
+        EditProfileDialogFragment.EditProfileDialogFragmentListener {
 
     override fun provideViewModel() = getViewModelFromFactory()
     override fun getViewResource() = R.layout.fragment_profile
 
     private lateinit var changePasswordDialogFragment: ChangePasswordDialogFragment
+    private lateinit var editProfileDialogFragment: EditProfileDialogFragment
+
+    private lateinit var profile: ProfilePresenterModel
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -47,6 +52,20 @@ class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(
             changePasswordDialogFragment.show(requireActivity().supportFragmentManager, "ChangePassword")
         }
 
+        view.deleteUserButton.setOnClickListener {
+            viewModel.deleteUser()
+        }
+
+        view.logoutButton.setOnClickListener {
+            viewModel.logout()
+        }
+
+        view.editUserButton.setOnClickListener {
+            editProfileDialogFragment = EditProfileDialogFragment.newUpdateDialogInstance(profile = profile)
+            editProfileDialogFragment.listener = this
+            editProfileDialogFragment.show(requireActivity().supportFragmentManager, "ChangePassword")
+        }
+
         return view
     }
 
@@ -67,7 +86,10 @@ class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(
             is ProfileContent -> {
                 viewFlipper.displayedChild = 0
 
-                profileNameText.text = viewState.username
+                profile = viewState.profile
+                profileFirstNameText.text = viewState.profile.firstName
+                profileLastNameText.text = viewState.profile.lastName
+                profileUsernameText.text = viewState.profile.username
             }
             is Loading -> {
                 viewFlipper.displayedChild = 1
@@ -85,5 +107,14 @@ class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(
 
     override fun onChangePasswordCancelButtonPressed() {
         changePasswordDialogFragment.dismiss()
+    }
+
+    override fun onEditDialogOkButtonPressed(profile: ProfilePresenterModel) {
+        viewModel.editProfile(profile)
+        editProfileDialogFragment.dismiss()
+    }
+
+    override fun onEditDialogCancelButtonPressed() {
+        editProfileDialogFragment.dismiss()
     }
 }
