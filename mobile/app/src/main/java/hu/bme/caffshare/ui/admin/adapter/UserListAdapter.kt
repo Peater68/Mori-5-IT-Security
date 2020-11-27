@@ -1,6 +1,7 @@
 package hu.bme.caffshare.ui.admin.adapter
 
 import android.graphics.Color.rgb
+import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +39,13 @@ class UserListAdapter :
 
     }
 
-    inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    fun getUserAt(position: Int): User = getItem(position)
+
+    inner class UserViewHolder(itemView: View) :
+            RecyclerView.ViewHolder(itemView),
+            View.OnCreateContextMenuListener
+    {
+
         val firstName: TextView = itemView.user_firstName_textView
         val lastName: TextView = itemView.user_lastName_textView
         val email: TextView = itemView.user_email_textView
@@ -52,6 +59,18 @@ class UserListAdapter :
             itemView.user_delete_button.setOnClickListener {
                 user?.let { listener?.onListItemDeleteButtonClicked(it) }
             }
+
+            itemView.setOnCreateContextMenuListener(this)
+        }
+
+        override fun onCreateContextMenu(
+                menu: ContextMenu?,
+                v: View?,
+                menuInfo: ContextMenu.ContextMenuInfo?
+        )  {
+            menu?.setHeaderTitle("Mit szeretnél tenni?");
+            menu?.add(adapterPosition, v?.id!!, 0, "Adminná teszem")
+            menu?.add(adapterPosition, v?.id!!, 0, "Letiltom")
         }
     }
 
