@@ -12,14 +12,13 @@ import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.extensions.applyArgs
 import co.zsmb.rainbowcake.navigation.extensions.requireString
 import co.zsmb.rainbowcake.navigation.navigator
-import com.bumptech.glide.Glide
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
 import hu.bme.caffshare.ui.comments.CommentsFragment
+import hu.bme.caffshare.util.loadCaffPreview
 import hu.bme.caffshare.util.showSuccessSnackBar
 import kotlinx.android.synthetic.main.fragment_caff_details.*
 import kotlinx.android.synthetic.main.layout_caff_details.*
-import kotlinx.android.synthetic.main.layout_caff_details.progressBar
 import kotlinx.android.synthetic.main.layout_caff_details.view.*
 
 class BoughtCaffDetailsFragment :
@@ -140,9 +139,7 @@ class BoughtCaffDetailsFragment :
     }
 
     private fun setupContentView(caffDetails: CaffDetails) {
-        Glide.with(requireContext())
-            .load(caffDetails.imageUrl)
-            .into(caffImage)
+        caffImage.loadCaffPreview(caffDetails.id)
         authorText.text = caffDetails.author
         captionText.text = caffDetails.caption
         dateText.text = caffDetails.date
