@@ -6,9 +6,8 @@ import javax.inject.Inject
 class AuthInteractor @Inject constructor(
     private val networkDataSource: NetworkDataSource
 ) {
-    suspend fun login(username: String, password: String): Boolean {
-        return networkDataSource.login(username, password)
-    }
+    suspend fun login(username: String, password: String) =
+        networkDataSource.login(username, password)
 
     suspend fun register(
         username: String,
@@ -16,17 +15,14 @@ class AuthInteractor @Inject constructor(
         email: String,
         firstName: String,
         lastName: String
-    ): Boolean {
-        return networkDataSource.register(
-            username = username,
-            password = password,
-            email = email,
-            firstName = firstName,
-            lastName = lastName,
-        )
-    }
+    ) = networkDataSource.register(
+        username = username,
+        password = password,
+        email = email,
+        firstName = firstName,
+        lastName = lastName,
+    )
 
-    suspend fun changePassword(currentPassword: String, newPassword: String): Boolean {
-        return networkDataSource.changePassword(currentPassword, newPassword)
-    }
+    suspend fun changePassword(currentPassword: String, newPassword: String) =
+        networkDataSource.changePassword(currentPassword, newPassword)
 }

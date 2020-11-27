@@ -2,14 +2,12 @@ package hu.bme.caffshare.domain
 
 import android.net.Uri
 import hu.bme.caffshare.data.network.NetworkDataSource
-import hu.bme.caffshare.domain.model.DomainCaffDetails
-import hu.bme.caffshare.domain.model.DomainCaffSum
 import javax.inject.Inject
 
 class CaffInteractor @Inject constructor(
     private val networkDataSource: NetworkDataSource
 ) {
-    suspend fun deleteCaffById(caffId: String): Boolean = networkDataSource.deleteCaffById(caffId)
+    suspend fun deleteCaffById(caffId: String) = networkDataSource.deleteCaffById(caffId)
 
     // TODO: handle downloaded byte stream
     suspend fun downloadCaffFile(caffId: String): Boolean {
@@ -18,11 +16,11 @@ class CaffInteractor @Inject constructor(
         return false
     }
 
-    suspend fun getCaffFiles(): List<DomainCaffSum>? = networkDataSource.getCaffFiles()
+    suspend fun getCaffFiles() = networkDataSource.getCaffFiles()
 
-    suspend fun getCaffFileDetails(caffId: String): DomainCaffDetails? =
+    suspend fun getCaffFileDetails(caffId: String) =
         networkDataSource.getCaffFileDetails(caffId)
 
-    suspend fun uploadCaffFile(caffFileUri: Uri): Boolean =
+    suspend fun uploadCaffFile(caffFileUri: Uri) =
         networkDataSource.uploadCaffFile(caffFileUri)
 }
