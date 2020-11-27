@@ -1,6 +1,7 @@
 package hu.bme.caffshare.ui.admin
 
 import co.zsmb.rainbowcake.base.RainbowCakeViewModel
+import hu.bme.caffshare.ui.admin.model.User
 import javax.inject.Inject
 
 class UserListViewModel @Inject constructor(
@@ -22,5 +23,22 @@ class UserListViewModel @Inject constructor(
             }
         }
     }
+
+    fun deleteUser(user: User) = execute {
+        val usersList = userListPresenter.deleteUser(user)
+
+        viewState = when {
+            usersList == null -> {
+                Error
+            }
+            usersList.isEmpty() -> {
+                Empty
+            }
+            else -> {
+                UserListContent(usersList)
+            }
+        }
+    }
+
 
 }

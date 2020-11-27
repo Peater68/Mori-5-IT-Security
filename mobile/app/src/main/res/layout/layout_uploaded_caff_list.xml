@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/gridBackgroundColor">
 
     <ProgressBar
         android:id="@+id/purchaseProgressBar"
@@ -17,10 +18,8 @@
         android:id="@+id/caffFileList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="8dp"
         android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        tools:listitem="@layout/row_caff_file" />
+        tools:listitem="@layout/row_caff_file"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/uploadButton"
@@ -29,7 +28,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:elevation="12dp"
+        app:elevation="8dp"
         android:contentDescription="@string/upload"
         android:src="@drawable/ic_upload" />
 

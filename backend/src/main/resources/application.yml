@@ -1,7 +1,7 @@
 itsecurity:
   web:
-    schema: http://
-    host: localhost:8080
+    schema:
+    host:
 
   admin:
     username: admin
