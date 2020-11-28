@@ -34,14 +34,12 @@ JNIEXPORT jobject JNICALL Java_com_mori5_itsecurity_cpp_CPPParserCaller_parse(JN
     jfieldID caffImageField = env->GetFieldID(creatorsImagesClass, "images", "Lcom/mori5/itsecurity/cpp/CaffImage;");
     jfieldID creatorString = env->GetFieldID(creatorsImagesClass, "creatorString", "Ljava/lang/String;");
     jfieldID errorMessage = env->GetFieldID(creatorsImagesClass, "error", "Ljava/lang/String;");
-    jfieldID lengthOfCreator = env->GetFieldID(creatorsImagesClass, "lengthOfCreator", "J");
     jfieldID month = env->GetFieldID(creatorsImagesClass, "month", "B");
     jfieldID day = env->GetFieldID(creatorsImagesClass, "day", "B");
     jfieldID hour = env->GetFieldID(creatorsImagesClass, "hour", "B");
     jfieldID minute = env->GetFieldID(creatorsImagesClass, "minute", "B");
     jfieldID year = env->GetFieldID(creatorsImagesClass, "year", "S");
 
-    env->SetLongField(newCreatorsImages, lengthOfCreator, (jlong)image.lengthOfCreator);
     env->SetByteField(newCreatorsImages, day, (jbyte)image.day);
     env->SetByteField(newCreatorsImages, month, (jbyte)image.month);
     env->SetByteField(newCreatorsImages, hour, (jbyte)image.hour);

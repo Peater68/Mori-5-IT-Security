@@ -746,10 +746,14 @@ components:
           type: string
         firstName:
           type: string
+        email:
+          type: string
         lastName:
           type: string
         username:
           type: string
+        banned:
+          type: boolean
         role:
           type: string
           enum:
