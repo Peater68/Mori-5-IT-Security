@@ -1,11 +1,12 @@
 package hu.bme.caffshare.util
 
 import android.app.Activity
+import android.graphics.Color
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import hu.bme.caffshare.data.network.GlideApp
 import hu.bme.caffshare.data.network.NetworkModule
@@ -27,11 +28,17 @@ fun TextInputLayout.isNotEmpty(): Boolean {
 }
 
 fun Fragment.showErrorSnackBar(text: String) {
-    Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
+    Snackbar.make(requireView(), text, Snackbar.LENGTH_SHORT).apply {
+        setBackgroundTint(Color.RED)
+        setTextColor(Color.WHITE)
+    }.show()
 }
 
 fun Fragment.showSuccessSnackBar(text: String) {
-    Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
+    Snackbar.make(requireView(), text, Snackbar.LENGTH_SHORT).apply {
+        setBackgroundTint(Color.parseColor("#2bae66"))
+        setTextColor(Color.WHITE)
+    }.show()
 }
 
 fun Fragment.hideKeyboard() {
