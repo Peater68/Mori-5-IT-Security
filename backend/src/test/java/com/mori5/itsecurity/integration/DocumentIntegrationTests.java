@@ -14,13 +14,13 @@ import static org.mockito.Mockito.when;
 
 public class DocumentIntegrationTests extends ItSecurityApplicationIntegrationTests {
 
-    private static final Tag tag = Tag.builder()
+    public static final Tag tag = Tag.builder()
             .id("t497255a-9f4c-42a0-83db-abc3ce6c34a4")
             .title("TagTitle")
             .createdAt(Instant.now())
             .updatedAt(Instant.now())
             .build();
-    private static final Document document1 = Document.builder()
+    public static final Document document1 = Document.builder()
             .id("d497255a-9f4c-42a0-83db-abc3ce6c34a4")
             .uploader(customerUser)
             .caption("Caption")
@@ -33,7 +33,7 @@ public class DocumentIntegrationTests extends ItSecurityApplicationIntegrationTe
             .createdDate(Instant.now())
             .modifiedAt(Instant.now())
             .build();
-    private static final Document document2 = Document.builder()
+    public static final Document document2 = Document.builder()
             .id("d597255a-9f4c-42a0-83db-abc3ce6c34a4")
             .uploader(customerUser)
             .caption("Caption2")

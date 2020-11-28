@@ -1,7 +1,9 @@
 package com.mori5.itsecurity.integration;
 
+import com.mori5.itsecurity.domain.Comment;
 import com.mori5.itsecurity.domain.Role;
 import com.mori5.itsecurity.domain.User;
+import com.mori5.itsecurity.repository.CommentRepository;
 import com.mori5.itsecurity.repository.DocumentRepository;
 import com.mori5.itsecurity.repository.TagRepository;
 import com.mori5.itsecurity.repository.UserRepository;
@@ -36,6 +38,8 @@ class ItSecurityApplicationIntegrationTests {
     protected UserRepository userRepository;
     @MockBean
     protected DocumentRepository documentRepository;
+    @MockBean
+    protected CommentRepository commentRepository;
 
     protected static User adminUser = User.builder()
             .id("e497255a-9f4c-42a0-83db-abc3ce6c34a4")
