@@ -21,16 +21,16 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TagIntegrationTests extends ItSecurityApplicationIntegrationTests {
 
+    private static Tag tag = Tag.builder()
+            .id("f497255a-9f4c-42a0-83db-abc3ce6c34a4")
+            .title("TEST_TITLE")
+            .build();
+
     @BeforeEach
     void setup() {
         when(tagRepository.findAll()).thenReturn(
                 new ArrayList<>(
-                        Collections.singletonList(
-                                Tag.builder()
-                                        .id("f497255a-9f4c-42a0-83db-abc3ce6c34a4")
-                                        .title("TEST_TITLE")
-                                        .build()
-                        )
+                        Collections.singletonList(tag)
                 )
         );
 
@@ -44,8 +44,8 @@ public class TagIntegrationTests extends ItSecurityApplicationIntegrationTests {
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody()
-                .jsonPath("$[0].id").isEqualTo("f497255a-9f4c-42a0-83db-abc3ce6c34a4")
-                .jsonPath("$[0].title").isEqualTo("TEST_TITLE");
+                .jsonPath("$[0].id").isEqualTo(tag.getId())
+                .jsonPath("$[0].title").isEqualTo(tag.getTitle());
     }
 
 }
