@@ -95,12 +95,6 @@ class NetworkDataSource @Inject constructor(
         return response.isSuccessful
     }
 
-    suspend fun deleteCurrentUser(): Boolean {
-        val response = userApi.deleteMe()
-
-        return response.isSuccessful
-    }
-
     suspend fun getAllUsers(): List<DomainUser>? {
         val response = userApi.getUsers()
 

@@ -11,8 +11,6 @@ class UserInteractor @Inject constructor(
 
     suspend fun banUser(userId: String) = networkDataSource.banUser(userId)
 
-    suspend fun deleteCurrentUser() = networkDataSource.deleteCurrentUser()
-
     suspend fun getAllUsers() = networkDataSource.getAllUsers()
 
     suspend fun makeUserAdmin(userId: String) = networkDataSource.makeUserAdmin(userId)
