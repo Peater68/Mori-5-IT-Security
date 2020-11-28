@@ -7,9 +7,6 @@ RUN apt-get update && apt-get install g++ -y && \
 	cd /usr/cpp && \
 	g++ -c -fPIC -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux com_mori5_itsecurity_cpp_CPPParserCaller.cpp -o com_mori5_itsecurity_cpp_CPPParserCaller.o && \
 	g++ -shared -fPIC -o libparser.so com_mori5_itsecurity_cpp_CPPParserCaller.o -lc && \
-	chmod +rwx libparser.so && \
-	cp libparser.so /lib && \
-	cd /lib && \
-	chmod +rwx libparser.so
+	cp libparser.so /lib
 EXPOSE 8080
 ENTRYPOINT [ "sh", "-c", "java -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
