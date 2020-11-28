@@ -67,4 +67,8 @@ class MainActivity : NavActivity<MainViewState, MainViewModel>() {
         appBar.visibility = View.VISIBLE
         bottomNav.visibility = View.VISIBLE
     }
+
+    fun setAppBarTitle(title: String) {
+        appBar.title = title
+    }
 }

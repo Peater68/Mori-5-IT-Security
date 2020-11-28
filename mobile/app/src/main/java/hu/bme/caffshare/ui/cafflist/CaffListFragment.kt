@@ -20,6 +20,8 @@ class CaffListFragment : RainbowCakeFragment<CaffListViewState, CaffListViewMode
 
     companion object {
         private const val LIST_ITEM_TOP_MARGIN = 150
+
+        private const val SCREEN_NAME = "CAFF list"
     }
 
     override fun provideViewModel() = getViewModelFromFactory()
@@ -30,8 +32,15 @@ class CaffListFragment : RainbowCakeFragment<CaffListViewState, CaffListViewMode
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as MainActivity).showToolbarAndBottomNav()
+        setupScreen()
         setupRecyclerView()
+    }
+
+    private fun setupScreen() {
+        (activity as MainActivity).apply {
+            showToolbarAndBottomNav()
+            setAppBarTitle(SCREEN_NAME)
+        }
     }
 
     private fun setupRecyclerView() {
