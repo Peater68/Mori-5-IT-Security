@@ -1,114 +1,30 @@
 package hu.bme.caffshare.ui.admin
 
 import co.zsmb.rainbowcake.withIOContext
+import hu.bme.caffshare.domain.UserInteractor
+import hu.bme.caffshare.domain.model.DomainUser
 import hu.bme.caffshare.ui.admin.model.User
-import hu.bme.caffshare.ui.cafflist.model.CaffFile
-import kotlinx.coroutines.delay
+import hu.bme.caffshare.ui.admin.model.toUIModel
 import javax.inject.Inject
 
-class UserListPresenter @Inject constructor() {
+class UserListPresenter @Inject constructor(
+    private val userInteractor: UserInteractor
+) {
 
+    //TODO
     suspend fun isUserAdmin(): Boolean = withIOContext {
-        delay(10000)
         true
     }
 
     suspend fun getUsers(): List<User>? = withIOContext {
-        listOf(
-            User(
-                id = "0",
-                firstName = "Péter",
-                lastName = "Marogna",
-                email = "laksjdf@asdf.asdf",
-                username = "léaksjdf",
-                isBanned = false
-            ),
-            User(
-                id = "1",
-                firstName = "Dávid",
-                lastName = "Laki",
-                email = "laksjdf@asdf.asdf",
-                username = "léaksjdf",
-                isBanned = false
-            ),
-            User(
-                id = "2",
-                firstName = "Béla",
-                lastName = "Borsy",
-                email = "laksjdf@asdf.asdf",
-                username = "léaksjdf",
-                isBanned = true
-            ),
-            User(
-                id = "3",
-                firstName = "Dávid",
-                lastName = "Deák",
-                email = "laksjdf@asdf.asdf",
-                username = "léaksjdf",
-                isBanned = false
-            ),
-            User(
-                id = "4",
-                firstName = "Erik",
-                lastName = "Kapitány",
-                email = "laksjdf@asdf.asdf",
-                username = "léaksjdf",
-                isBanned = true
-            )
-        )
+        userInteractor.getAllUsers()?.map(DomainUser::toUIModel)
     }
 
-    suspend fun deleteUser(user: User): List<User>? = withIOContext {
-        listOf(
-                User(
-                        id = "0",
-                        firstName = "Péter",
-                        lastName = "Marogna",
-                        email = "laksjdf@asdf.asdf",
-                        username = "léaksjdf",
-                        isBanned = false
-                ),
-                User(
-                        id = "1",
-                        firstName = "Dávid",
-                        lastName = "Laki",
-                        email = "laksjdf@asdf.asdf",
-                        username = "léaksjdf",
-                        isBanned = false
-                ),
-                User(
-                        id = "2",
-                        firstName = "Béla",
-                        lastName = "Borsy",
-                        email = "laksjdf@asdf.asdf",
-                        username = "léaksjdf",
-                        isBanned = true
-                ),
-                User(
-                        id = "3",
-                        firstName = "Dávid",
-                        lastName = "Deák",
-                        email = "laksjdf@asdf.asdf",
-                        username = "léaksjdf",
-                        isBanned = false
-                ),
-                User(
-                        id = "4",
-                        firstName = "Erik",
-                        lastName = "Kapitány",
-                        email = "laksjdf@asdf.asdf",
-                        username = "léaksjdf",
-                        isBanned = true
-                )
-        )
+    suspend fun banUser(userId: String): Boolean = withIOContext {
+        userInteractor.banUser(userId)
     }
 
-    suspend fun makeUserAdmin(user: User): Nothing = withIOContext {
-        TODO()
+    suspend fun makeUserAdmin(userId: String) = withIOContext {
+        userInteractor.makeUserAdmin(userId)
     }
-
-    suspend fun banUser(user: User): Nothing = withIOContext {
-        TODO()
-    }
-
 }

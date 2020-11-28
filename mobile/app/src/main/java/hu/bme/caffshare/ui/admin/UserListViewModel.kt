@@ -1,13 +1,16 @@
 package hu.bme.caffshare.ui.admin
 
+import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeViewModel
-import hu.bme.caffshare.ui.admin.model.User
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class UserListViewModel @Inject constructor(
     private val userListPresenter: UserListPresenter
 ) : RainbowCakeViewModel<UserListViewState>(Loading) {
+
+    object BanError : OneShotEvent
+    object MakeUserAdminError : OneShotEvent
 
     fun isUserAdmin() = runBlocking {
         userListPresenter.isUserAdmin()
@@ -29,56 +32,25 @@ class UserListViewModel @Inject constructor(
         }
     }
 
-    fun deleteUser(user: User) = execute {
-        val usersList = userListPresenter.deleteUser(user)
+    fun banUser(userId: String) = execute {
+        val isDeleteSuccessful = userListPresenter.banUser(userId)
 
-        viewState = when {
-            usersList == null -> {
-                Error
-            }
-            usersList.isEmpty() -> {
-                Empty
-            }
-            else -> {
-                UserListContent(usersList)
-            }
+        if (isDeleteSuccessful) {
+            viewState = Loading
+            load()
+        } else {
+            postEvent(BanError)
         }
     }
 
-    fun makeUserAdmin(user: User) = execute {
-        userListPresenter.makeUserAdmin(user)
+    fun makeUserAdmin(userId: String) = execute {
+        val isAdminMakingSuccessful = userListPresenter.makeUserAdmin(userId)
 
-        val usersList = userListPresenter.getUsers()
-
-        viewState = when {
-            usersList == null -> {
-                Error
-            }
-            usersList.isEmpty() -> {
-                Empty
-            }
-            else -> {
-                UserListContent(usersList)
-            }
+        if (isAdminMakingSuccessful) {
+            viewState = Loading
+            load()
+        } else {
+            postEvent(MakeUserAdminError)
         }
     }
-
-    fun banUser(user: User) = execute {
-        userListPresenter.banUser(user)
-
-        val usersList = userListPresenter.getUsers()
-
-        viewState = when {
-            usersList == null -> {
-                Error
-            }
-            usersList.isEmpty() -> {
-                Empty
-            }
-            else -> {
-                UserListContent(usersList)
-            }
-        }
-    }
-
 }
