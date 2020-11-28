@@ -28,4 +28,22 @@ public class UserIT extends ItSecurityApplicationITBase {
                 .expectStatus().isForbidden();
     }
 
+    @Test
+    void testBanUsersAsCustomer() {
+        initWebApiClientWithToken(getAccessTokenFor(customerUser));
+
+        client.get().uri("/users")
+                .exchange()
+                .expectStatus().isForbidden();
+    }
+
+    @Test
+    void testBanUsersAsAdmin() {
+        initWebApiClientWithToken(getAccessTokenFor(adminUser));
+
+        client.get().uri("/users")
+                .exchange()
+                .expectStatus().isOk();
+    }
+
 }
