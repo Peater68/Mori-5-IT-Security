@@ -21,6 +21,8 @@ public class UserMapper {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .username(user.getUsername())
+                .email(user.getEmail())
+                .banned(user.getIsBanned())
                 .role(UserDTO.RoleEnum.valueOf(user.getRole().toString()))
                 .createdAt(user.getCreatedAt().atOffset(ZoneOffset.UTC))
                 .updatedAt(user.getUpdatedAt().atOffset(ZoneOffset.UTC))

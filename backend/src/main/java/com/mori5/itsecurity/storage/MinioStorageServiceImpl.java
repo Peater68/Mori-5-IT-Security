@@ -7,16 +7,25 @@ import com.mori5.itsecurity.errorhandling.exception.OperationFailedException;
 import io.minio.MinioClient;
 import io.minio.Result;
 import io.minio.errors.ErrorResponseException;
+import io.minio.errors.InsufficientDataException;
+import io.minio.errors.InternalException;
+import io.minio.errors.InvalidArgumentException;
+import io.minio.errors.InvalidBucketNameException;
+import io.minio.errors.InvalidResponseException;
+import io.minio.errors.NoResponseException;
 import io.minio.messages.Item;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.xmlpull.v1.XmlPullParserException;
 
 import javax.annotation.PostConstruct;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 @Slf4j
 @Service
@@ -45,11 +54,11 @@ public class MinioStorageServiceImpl implements StorageService {
     }
 
     @Override
-    public void uploadObject(StorageObject object) {
+    public void uploadObject(StorageObject object){
         try (InputStream is = new ByteArrayInputStream(object.getContent())) {
             minioClient.putObject(object.getBucket(), object.getFileName(), is, (long) is.available(), null, null, object.getContentType());
-        } catch (Exception e) {
-            throw new OperationFailedException("Could not upload file!", ItSecurityErrors.FAILED_OPERATION);
+        } catch (IOException | InvalidBucketNameException | NoSuchAlgorithmException | InvalidKeyException | NoResponseException | XmlPullParserException | ErrorResponseException | InternalException | InvalidArgumentException | InsufficientDataException | InvalidResponseException e) {
+            throw new OperationFailedException("Could not upload file! Error: " + e.getMessage(), ItSecurityErrors.FAILED_OPERATION);
         }
     }
 
