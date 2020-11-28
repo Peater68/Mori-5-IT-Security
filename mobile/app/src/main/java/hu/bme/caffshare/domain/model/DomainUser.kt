@@ -12,7 +12,7 @@ data class DomainUser(
     val role: DomainRole,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime,
-    val email: String?,
+    val email: String,
     val isBanned: Boolean
 )
 
@@ -25,7 +25,7 @@ fun UserDTO.toDomainModel(): DomainUser {
         role = role.toDomainModel(),
         createdAt = createdAt.toLocalDateTime(),
         updatedAt = updatedAt.toLocalDateTime(),
-        email = email,
+        email = email ?: "",
         isBanned = banned ?: false
     )
 }

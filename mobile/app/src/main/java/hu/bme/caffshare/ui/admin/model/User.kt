@@ -16,8 +16,8 @@ fun DomainUser.toUIModel(): User {
         id = id,
         firstName = firstName,
         lastName = lastName,
-        email = "mockedemail@mockito.com",
+        email = email,
         username = username,
-        isBanned = false // TODO: is this even needed?
+        isBanned = isBanned
     )
 }
