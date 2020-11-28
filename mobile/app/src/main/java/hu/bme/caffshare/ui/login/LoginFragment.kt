@@ -7,11 +7,11 @@ import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.navigator
 import com.google.android.material.snackbar.Snackbar
+import hu.bme.caffshare.MainActivity
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.cafflist.CaffListFragment
 import hu.bme.caffshare.ui.register.RegisterFragment
 import hu.bme.caffshare.util.isNotEmpty
-import hu.bme.caffshare.util.showErrorSnackBar
 import hu.bme.caffshare.util.text
 import kotlinx.android.synthetic.main.fragment_login.*
 
@@ -26,6 +26,7 @@ class LoginFragment : RainbowCakeFragment<LoginViewState, LoginViewModel>() {
         setupRegisterButton()
         setupLoginButton()
         setupPasswordForgotButton()
+        (activity as MainActivity).hideToolbar()
     }
 
     private fun setupRegisterButton() {
@@ -56,7 +57,8 @@ class LoginFragment : RainbowCakeFragment<LoginViewState, LoginViewModel>() {
                 navigator?.replace(CaffListFragment())
             }
             is LoginViewModel.LoginFailed -> {
-                showErrorSnackBar("Wrong username or password!")
+                Snackbar.make(loginButton, "Wrong username or password!", Snackbar.LENGTH_SHORT)
+                    .show()
             }
         }
     }
