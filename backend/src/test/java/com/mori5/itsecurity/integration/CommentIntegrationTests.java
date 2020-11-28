@@ -1,6 +1,7 @@
 package com.mori5.itsecurity.integration;
 
 import com.mori5.itsecurity.domain.Comment;
+import com.mori5.itsecurity.domain.Document;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -12,9 +13,10 @@ import static org.mockito.Mockito.when;
 
 public class CommentIntegrationTests extends ItSecurityApplicationIntegrationTests {
 
+    public static final Document document = DocumentIntegrationTests.document1;
     public static final Comment comment = Comment.builder()
             .id("c497255a-9f4c-42a0-83db-abc3ce6c34a4")
-            .document(DocumentIntegrationTests.document1)
+            .document(document)
             .user(adminUser)
             .createdAt(Instant.now())
             .updatedAt(Instant.now())
@@ -22,7 +24,7 @@ public class CommentIntegrationTests extends ItSecurityApplicationIntegrationTes
 
     @BeforeEach
     void setup() {
-        when(commentRepository.findByDocumentId(DocumentIntegrationTests.document1.getId())).thenReturn(
+        when(commentRepository.findByDocumentId(document.getId())).thenReturn(
                 List.of(comment)
         );
     }
@@ -31,7 +33,7 @@ public class CommentIntegrationTests extends ItSecurityApplicationIntegrationTes
     void testGetComments() {
         initWebApiClientWithToken(getAccessTokenFor(adminUser));
 
-        client.get().uri("/caffs/" + DocumentIntegrationTests.document1.getId() + "/comments")
+        client.get().uri("/caffs/" + document.getId() + "/comments")
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
