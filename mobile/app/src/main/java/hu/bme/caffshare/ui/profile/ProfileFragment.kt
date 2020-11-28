@@ -2,7 +2,6 @@ package hu.bme.caffshare.ui.profile
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
@@ -10,6 +9,8 @@ import co.zsmb.rainbowcake.navigation.navigator
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.login.LoginFragment
 import hu.bme.caffshare.ui.profile.adapter.ProfileListsAdapter
+import hu.bme.caffshare.ui.profile.dialog.ChangePasswordDialogFragment
+import hu.bme.caffshare.ui.profile.dialog.EditProfileDialogFragment
 import hu.bme.caffshare.ui.profile.model.ProfileUpdateData
 import hu.bme.caffshare.util.showErrorSnackBar
 import hu.bme.caffshare.util.showSuccessSnackBar
@@ -27,18 +28,11 @@ class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(
         super.onViewCreated(view, savedInstanceState)
 
         setupViewPager()
-        setupNestedScrollView()
         setupButtons()
     }
 
     private fun setupViewPager() {
         profileViewPager.adapter = ProfileListsAdapter(childFragmentManager)
-    }
-
-    private fun setupNestedScrollView() {
-        nested_scroll_view.background =
-            ContextCompat.getDrawable(requireContext(), R.drawable.curved_background)
-        nested_scroll_view.isFillViewport = true
     }
 
     private fun setupButtons() {

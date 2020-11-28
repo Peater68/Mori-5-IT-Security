@@ -1,4 +1,4 @@
-package hu.bme.caffshare.ui.profile
+package hu.bme.caffshare.ui.profile.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater

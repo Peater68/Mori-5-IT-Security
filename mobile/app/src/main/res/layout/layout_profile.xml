@@ -1,154 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
+    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="12dp">
 
-    <LinearLayout
-        style="@style/Widget.ITSecMobil.Backdrop"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingTop="88dp">
-
-        <include layout="@layout/backdrop"/>
-
-    </LinearLayout>
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/profileFirstNameText"
         android:layout_height="wrap_content"
-        app:elevation="0dp">
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Borsy BB" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/app_bar"
-            style="@style/Widget.ITSecMobil.Toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/menu_open_icon"
-            app:title="@string/app_name" />
-    </com.google.android.material.appbar.AppBarLayout>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/profileLastNameText"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileFirstNameText"
+        tools:text="President Béla" />
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nested_scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/gridBackgroundColor"
-        android:elevation="8dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/profileUsernameText"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileLastNameText"
+        tools:text="username" />
 
+    <com.google.android.material.button.MaterialButton
+        android:background="?android:attr/selectableItemBackground"
+        android:id="@+id/editUserButton"
+        android:insetBottom="0dp"
+        android:insetTop="0dp"
+        android:layout_gravity="end"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:minHeight="48dp"
+        android:minWidth="48dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        app:icon="@drawable/ic_edit"
+        app:iconPadding="0dp"
+        app:iconTint="@color/textColorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/changePasswordButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="12dp">
+    <com.google.android.material.button.MaterialButton
+        android:background="?android:attr/selectableItemBackground"
+        android:id="@+id/changePasswordButton"
+        android:insetBottom="0dp"
+        android:insetTop="0dp"
+        android:layout_gravity="end"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:minHeight="48dp"
+        android:minWidth="48dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        app:icon="@drawable/ic_lock"
+        app:iconPadding="0dp"
+        app:iconTint="@color/textColorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/logoutButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/profileFirstNameText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Borsy BB" />
+    <com.google.android.material.button.MaterialButton
+        android:background="?android:attr/selectableItemBackground"
+        android:id="@+id/logoutButton"
+        android:insetBottom="0dp"
+        android:insetTop="0dp"
+        android:layout_gravity="end"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:minHeight="48dp"
+        android:minWidth="48dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:textColor="@color/textColorPrimary"
+        app:icon="@drawable/ic_exit"
+        app:iconPadding="0dp"
+        app:iconTint="@color/textColorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/profileLastNameText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profileFirstNameText"
-                tools:text="President Béla" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/profileUsernameText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="12dp"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profileLastNameText"
-                tools:text="username" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/editUserButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="8dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                app:icon="@drawable/ic_edit"
-                app:iconPadding="0dp"
-                app:iconTint="@color/textColorPrimary"
-                app:layout_constraintEnd_toStartOf="@+id/changePasswordButton"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/changePasswordButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="8dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                app:icon="@drawable/ic_lock"
-                app:iconPadding="0dp"
-                app:iconTint="@color/textColorPrimary"
-                app:layout_constraintEnd_toStartOf="@+id/logoutButton"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/logoutButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:textColor="@color/textColorPrimary"
-                app:icon="@drawable/ic_exit"
-                app:iconPadding="0dp"
-                app:iconTint="@color/textColorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:background="?android:attr/selectableItemBackground" />
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/profileViewPager"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profileUsernameText" />
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/profileViewPager"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileUsernameText" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
