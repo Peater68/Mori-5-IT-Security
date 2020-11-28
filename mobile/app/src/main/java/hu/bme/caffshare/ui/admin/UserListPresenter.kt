@@ -11,11 +11,6 @@ class UserListPresenter @Inject constructor(
     private val userInteractor: UserInteractor
 ) {
 
-    //TODO
-    suspend fun isUserAdmin(): Boolean = withIOContext {
-        true
-    }
-
     suspend fun getUsers(): List<User>? = withIOContext {
         userInteractor.getAllUsers()?.map(DomainUser::toUIModel)
     }

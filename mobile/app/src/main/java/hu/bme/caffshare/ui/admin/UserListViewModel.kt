@@ -2,7 +2,6 @@ package hu.bme.caffshare.ui.admin
 
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeViewModel
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class UserListViewModel @Inject constructor(
@@ -11,10 +10,6 @@ class UserListViewModel @Inject constructor(
 
     object BanError : OneShotEvent
     object MakeUserAdminError : OneShotEvent
-
-    fun isUserAdmin() = runBlocking {
-        userListPresenter.isUserAdmin()
-    }
 
     fun load() = execute {
         val usersList = userListPresenter.getUsers()
