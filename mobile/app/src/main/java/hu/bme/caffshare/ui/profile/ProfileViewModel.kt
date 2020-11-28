@@ -18,9 +18,7 @@ class ProfileViewModel @Inject constructor(
         viewState = if (profile == null) {
             Error
         } else {
-            ProfileContent(
-                profile
-            )
+            ProfileContent(profile)
         }
     }
 
