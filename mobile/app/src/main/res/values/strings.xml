@@ -23,4 +23,9 @@
     <string name="first_name">First name</string>
     <string name="email_address">Email address</string>
     <string name="last_name">Last name</string>
+    <string name="new_password">New password</string>
+    <string name="current_password">Current password</string>
+    <string name="change_password">Change password</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
 </resources>
