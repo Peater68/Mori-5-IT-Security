@@ -2,6 +2,7 @@ package com.mori5.itsecurity.integration;
 
 import com.mori5.itsecurity.domain.Role;
 import com.mori5.itsecurity.domain.User;
+import com.mori5.itsecurity.repository.DocumentRepository;
 import com.mori5.itsecurity.repository.TagRepository;
 import com.mori5.itsecurity.repository.UserRepository;
 import com.mori5.itsecurity.service.TokenService;
@@ -33,6 +34,8 @@ class ItSecurityApplicationIntegrationTests {
     protected TagRepository tagRepository;
     @MockBean
     protected UserRepository userRepository;
+    @MockBean
+    protected DocumentRepository documentRepository;
 
     protected static User adminUser = User.builder()
             .id("e497255a-9f4c-42a0-83db-abc3ce6c34a4")
@@ -42,6 +45,8 @@ class ItSecurityApplicationIntegrationTests {
             .password("notHashedPwd")
             .role(Role.ADMIN)
             .email("admin@test.hu")
+            .uploads(List.of())
+            .downloads(List.of())
             .createdAt(Instant.now())
             .updatedAt(Instant.now())
             .isBanned(false)
@@ -54,6 +59,8 @@ class ItSecurityApplicationIntegrationTests {
             .password("notHashedPwd")
             .role(Role.CUSTOMER)
             .email("customer@test.hu")
+            .uploads(List.of())
+            .downloads(List.of())
             .createdAt(Instant.now())
             .updatedAt(Instant.now())
             .isBanned(false)
