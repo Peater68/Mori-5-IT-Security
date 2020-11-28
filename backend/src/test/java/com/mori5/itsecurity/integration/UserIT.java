@@ -32,7 +32,7 @@ public class UserIT extends ItSecurityApplicationITBase {
     void testBanUsersAsCustomer() {
         initWebApiClientWithToken(getAccessTokenFor(customerUser));
 
-        client.get().uri("/users")
+        client.put().uri("/users/" + customerUser.getId() + "/ban")
                 .exchange()
                 .expectStatus().isForbidden();
     }
@@ -41,9 +41,9 @@ public class UserIT extends ItSecurityApplicationITBase {
     void testBanUsersAsAdmin() {
         initWebApiClientWithToken(getAccessTokenFor(adminUser));
 
-        client.get().uri("/users")
+        client.put().uri("/users/" + customerUser.getId() + "/ban")
                 .exchange()
-                .expectStatus().isOk();
+                .expectStatus().isNoContent();
     }
 
 }

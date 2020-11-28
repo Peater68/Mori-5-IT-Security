@@ -78,14 +78,24 @@ class ItSecurityApplicationITBase {
 
     @BeforeEach
     private void setupDefaults() {
-        when(userRepository.findByUsername("admin")).thenReturn(
+        when(userRepository.findByUsername(adminUser.getUsername())).thenReturn(
                 Optional.of(
                         adminUser
                 )
         );
-        when(userRepository.findByUsername("customer")).thenReturn(
+        when(userRepository.findByUsername(customerUser.getUsername())).thenReturn(
+                Optional.of(
+                        customerUser
+                )
+        );
+        when(userRepository.findById(adminUser.getId())).thenReturn(
                 Optional.of(
                         adminUser
+                )
+        );
+        when(userRepository.findById(customerUser.getId())).thenReturn(
+                Optional.of(
+                        customerUser
                 )
         );
         when(userRepository.findAll()).thenReturn(
