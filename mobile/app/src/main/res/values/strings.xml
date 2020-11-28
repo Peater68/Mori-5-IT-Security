@@ -29,4 +29,7 @@
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
     <string name="edit_profile">Edit profile</string>
+    <string name="caff_list">Caff list</string>
+    <string name="admin">Admin</string>
+    <string name="profile">Profile</string>
 </resources>

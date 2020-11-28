@@ -19,7 +19,7 @@ import hu.bme.caffshare.ui.comments.adapter.CommentsAdapter
 import hu.bme.caffshare.ui.comments.model.Comment
 import hu.bme.caffshare.util.hideKeyboard
 import hu.bme.caffshare.util.showErrorSnackBar
-import kotlinx.android.synthetic.main.fragment_caff_details.viewFlipper
+import kotlinx.android.synthetic.main.fragment_caff_details.*
 import kotlinx.android.synthetic.main.layout_comments.*
 import kotlinx.android.synthetic.main.layout_comments.view.*
 
@@ -67,9 +67,9 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
 
         with(view) {
             // Set up the toolbar.
-            (activity as AppCompatActivity).setSupportActionBar(this.app_bar)
+            (activity as AppCompatActivity).setSupportActionBar(this.appBar)
 
-            this.app_bar.setNavigationOnClickListener {
+            this.appBar.setNavigationOnClickListener {
                 navigator!!.pop()
             }
         }

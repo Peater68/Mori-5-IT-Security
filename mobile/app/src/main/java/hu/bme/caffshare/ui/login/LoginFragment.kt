@@ -26,7 +26,7 @@ class LoginFragment : RainbowCakeFragment<LoginViewState, LoginViewModel>() {
         setupRegisterButton()
         setupLoginButton()
         setupPasswordForgotButton()
-        (activity as MainActivity).hideToolbar()
+        (activity as MainActivity).hideToolbarAndBottomNav()
     }
 
     private fun setupRegisterButton() {

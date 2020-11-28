@@ -30,7 +30,7 @@ class CaffListFragment : RainbowCakeFragment<CaffListViewState, CaffListViewMode
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as MainActivity).showToolbar()
+        (activity as MainActivity).showToolbarAndBottomNav()
         setupRecyclerView()
     }
 

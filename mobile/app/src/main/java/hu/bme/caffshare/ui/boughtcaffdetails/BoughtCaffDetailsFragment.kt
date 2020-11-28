@@ -63,9 +63,9 @@ class BoughtCaffDetailsFragment :
 
         with(view) {
             // Set up the toolbar.
-            (activity as AppCompatActivity).setSupportActionBar(this.app_bar)
+            (activity as AppCompatActivity).setSupportActionBar(this.appBar)
 
-            this.app_bar.setNavigationOnClickListener {
+            this.appBar.setNavigationOnClickListener {
                 navigator!!.pop()
             }
         }
