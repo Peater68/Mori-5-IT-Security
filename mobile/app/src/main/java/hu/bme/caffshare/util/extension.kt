@@ -1,18 +1,15 @@
 package hu.bme.caffshare.util
 
 import android.app.Activity
-import android.graphics.Color
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import androidx.coordinatorlayout.widget.CoordinatorLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import hu.bme.caffshare.data.network.GlideApp
 import hu.bme.caffshare.data.network.NetworkModule
 import hu.bme.caffshare.domain.model.CaffDownloadType
-import kotlinx.android.synthetic.main.activity_main_caff.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -29,24 +26,12 @@ fun TextInputLayout.isNotEmpty(): Boolean {
     return isNotEmpty
 }
 
-fun Activity.getContentFrame(): CoordinatorLayout? {
-    return rootgeci
-}
-
 fun Fragment.showErrorSnackBar(text: String) {
-    activity?.getContentFrame()?.let {
-        Snackbar.make(it, text, Snackbar.LENGTH_SHORT).apply {
-            setBackgroundTint(Color.RED)
-            setTextColor(Color.WHITE)
-        }.show()
-    }
+    Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
 }
 
 fun Fragment.showSuccessSnackBar(text: String) {
-    Snackbar.make(requireView(), text, Snackbar.LENGTH_SHORT).apply {
-        setBackgroundTint(Color.parseColor("#2bae66"))
-        setTextColor(Color.WHITE)
-    }.show()
+    Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
 }
 
 fun Fragment.hideKeyboard() {

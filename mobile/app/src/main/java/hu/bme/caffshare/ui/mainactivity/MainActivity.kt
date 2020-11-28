@@ -1,9 +1,12 @@
-package hu.bme.caffshare
+package hu.bme.caffshare.ui.mainactivity
 
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import co.zsmb.rainbowcake.navigation.SimpleNavActivity
+import co.zsmb.rainbowcake.base.OneShotEvent
+import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
+import co.zsmb.rainbowcake.navigation.NavActivity
+import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.admin.UserListFragment
 import hu.bme.caffshare.ui.cafflist.CaffListFragment
 import hu.bme.caffshare.ui.login.LoginFragment
@@ -12,7 +15,10 @@ import hu.bme.caffshare.util.NavigationIconClickListener
 import kotlinx.android.synthetic.main.activity_main_caff.*
 import kotlinx.android.synthetic.main.backdrop.*
 
-class MainActivity : SimpleNavActivity() {
+class MainActivity : NavActivity<MainViewState, MainViewModel>() {
+
+    override fun provideViewModel() = getViewModelFromFactory()
+    override fun render(viewState: MainViewState) = Unit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,10 +26,7 @@ class MainActivity : SimpleNavActivity() {
 
         setupBackDropMenu()
         setNavigationOnClickListener()
-
-        if (savedInstanceState == null) {
-            navigator.add(LoginFragment())
-        }
+        viewModel.load()
     }
 
     private fun setupBackDropMenu() {
@@ -50,6 +53,18 @@ class MainActivity : SimpleNavActivity() {
                 closeIcon = ContextCompat.getDrawable(this, R.drawable.menu_close_icon)
             )
         )
+    }
+
+    override fun onEvent(event: OneShotEvent) {
+        when (event) {
+            is MainViewModel.LoginNeeded -> {
+                navigator.add(LoginFragment())
+            }
+            is MainViewModel.UserLoggedIn -> {
+                navigator.add(CaffListFragment())
+            }
+        }
+        mainViewFlipper.displayedChild = 1
     }
 
     fun hideToolbar() {

@@ -28,4 +28,6 @@ class UserInteractor @Inject constructor(
         username = username,
         email = email,
     )
+
+    suspend fun getCurrentUserRole() = networkDataSource.getCurrentUserProfile()?.role
 }

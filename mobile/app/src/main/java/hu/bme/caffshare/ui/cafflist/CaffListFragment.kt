@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.navigator
-import hu.bme.caffshare.MainActivity
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.caffdetails.CaffDetailsFragment
 import hu.bme.caffshare.ui.cafflist.adapter.CaffListAdapter
 import hu.bme.caffshare.ui.cafflist.adapter.SpacesItemDecoration
 import hu.bme.caffshare.ui.cafflist.model.CaffFile
+import hu.bme.caffshare.ui.mainactivity.MainActivity
 import kotlinx.android.synthetic.main.fragment_caff_list.*
 import kotlinx.android.synthetic.main.layout_caff_list.*
 

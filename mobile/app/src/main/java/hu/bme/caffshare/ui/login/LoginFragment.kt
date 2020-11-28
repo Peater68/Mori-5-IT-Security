@@ -7,9 +7,9 @@ import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.navigator
 import com.google.android.material.snackbar.Snackbar
-import hu.bme.caffshare.MainActivity
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.cafflist.CaffListFragment
+import hu.bme.caffshare.ui.mainactivity.MainActivity
 import hu.bme.caffshare.ui.register.RegisterFragment
 import hu.bme.caffshare.util.isNotEmpty
 import hu.bme.caffshare.util.text
