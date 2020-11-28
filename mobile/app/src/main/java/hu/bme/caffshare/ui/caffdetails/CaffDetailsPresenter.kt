@@ -1,20 +1,17 @@
 package hu.bme.caffshare.ui.caffdetails
 
 import co.zsmb.rainbowcake.withIOContext
+import hu.bme.caffshare.domain.CaffInteractor
 import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
+import hu.bme.caffshare.ui.caffdetails.model.toUIModel
 import kotlinx.coroutines.delay
-import java.time.LocalDateTime
 import javax.inject.Inject
 
-class CaffDetailsPresenter @Inject constructor() {
+class CaffDetailsPresenter @Inject constructor(
+    private val caffInteractor: CaffInteractor
+) {
     suspend fun getCaffFileDetails(caffFileId: String): CaffDetails? = withIOContext {
-        CaffDetails(
-            id = caffFileId,
-            author = "Borsy President Béla",
-            tags = listOf("my house", "bb"),
-            caption = "Pres Béla is the new man in town",
-            date = LocalDateTime.now().toString(),
-        )
+        caffInteractor.getCaffFileDetails(caffFileId)?.toUIModel()
     }
 
     suspend fun purchaseCaffFile(id: String) = withIOContext {
