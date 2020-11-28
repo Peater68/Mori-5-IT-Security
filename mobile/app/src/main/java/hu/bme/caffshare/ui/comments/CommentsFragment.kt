@@ -87,7 +87,7 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
         sendCommentButton.isEnabled = false
         sendCommentButton.setOnClickListener {
             commentHandlingProgressBar.visibility = View.VISIBLE
-            viewModel.addComment(commentInput.text.toString())
+            viewModel.addComment(caffFileId, commentInput.text.toString())
         }
     }
 
@@ -133,6 +133,7 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
                 viewFlipper.displayedChild = 2
             }
             is Empty -> {
+                viewFlipper.displayedChild = 0
                 contentViewFlipper.displayedChild = 1
             }
         }

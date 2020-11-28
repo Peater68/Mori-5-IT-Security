@@ -1,51 +1,34 @@
 package hu.bme.caffshare.ui.comments
 
 import co.zsmb.rainbowcake.withIOContext
+import hu.bme.caffshare.domain.CommentInteractor
+import hu.bme.caffshare.domain.UserInteractor
 import hu.bme.caffshare.ui.comments.model.Comment
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 
-class CommentsPresenter @Inject constructor() {
+class CommentsPresenter @Inject constructor(
+    private val commentInteractor: CommentInteractor,
+    private val userInteractor: UserInteractor
+) {
     suspend fun getCommentsForCaffFile(caffFileId: String): List<Comment>? = withIOContext {
-        listOf(
+        val isUserAdmin = userInteractor.isUserAdmin()
+
+        commentInteractor.getCommentsForCaff(caffFileId)?.map {
             Comment(
-                id = "id",
-                text = "Fullos, patika",
-                author = "Béla",
-                date = "2020.02.02.",
-                isDeletable = true
-            ),
-            Comment(
-                id = "id",
-                text = "yeah",
-                author = "Erik",
-                date = "2020.02.02.",
-                isDeletable = false
-            ),
-            Comment(
-                id = "id",
-                text = "muhahahas dkjsadkj as dhhkjash sdkjsa hjkd hsakj d",
-                author = "Erik",
-                date = "2020.02.02.",
-                isDeletable = false
-            ),
-            Comment(
-                id = "id",
-                text = "Adom",
-                author = "L",
-                date = "2020.02.02.",
-                isDeletable = false
-            ),
-        )
+                id = it.id,
+                text = it.comment,
+                author = it.user.username,
+                date = it.createdAt.toString(),
+                isDeletable = isUserAdmin
+            )
+        }
     }
 
-    suspend fun addComment(comment: String): Boolean = withIOContext {
-        delay(1000)
-        true
+    suspend fun addComment(caffFileId: String, comment: String): Boolean = withIOContext {
+        commentInteractor.addComment(caffFileId, comment)
     }
 
     suspend fun deleteComment(commentId: String): Boolean = withIOContext {
-        delay(1000)
-        true
+        commentInteractor.deleteComment(commentId)
     }
 }
