@@ -16,7 +16,7 @@ public class UserIntegrationTests extends ItSecurityApplicationIntegrationTests 
                 .expectBody()
                 .jsonPath("$[0].id").isEqualTo(adminUser.getId())
                 .jsonPath("$[1].id").isEqualTo(customerUser.getId())
-                .jsonPath("$[3].id").doesNotExist();
+                .jsonPath("$[2].id").doesNotExist();
     }
 
     @Test
