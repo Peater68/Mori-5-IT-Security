@@ -44,7 +44,7 @@ services:
       timeout: 20s
       retries: 3
   backend:
-    image: borsybela/itsecurity-backend:v9
+    image: borsybela/itsecurity-backend:v10
     container_name: itsecurity-backend
     restart: unless-stopped
     expose:
@@ -55,6 +55,11 @@ services:
       SPRING_DATASOURCE_URL: 'jdbc:postgresql://database:5432/itsecurity'
       ITSECURITY_WEB_HOST: 'localhost:8080'
       ITSECURITY_MINIO_ENDPOINT: http://minio:9000
+      ITSECURITY_MINIO_ACCESSKEY: minioadmin
+      ITSECURITY_MINIO_SECRETKEY: minioadmin
+      ITSECURITY_SECURITY_TOKEN_SECRET: tokensecret
+      ITSECURITY_ADMIN_USERNAME: admin
+      ITSECURITY_ADMIN_PASSWORD: admin
     depends_on:
       - database
       - minio
