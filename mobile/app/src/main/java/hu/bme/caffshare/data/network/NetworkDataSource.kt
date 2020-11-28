@@ -3,10 +3,7 @@ package hu.bme.caffshare.data.network
 import android.content.Context
 import android.net.Uri
 import hu.bme.caffshare.data.local.TokenDataSource
-import hu.bme.caffshare.data.network.api.AuthApi
-import hu.bme.caffshare.data.network.api.CaffApi
-import hu.bme.caffshare.data.network.api.CommentApi
-import hu.bme.caffshare.data.network.api.UserApi
+import hu.bme.caffshare.data.network.api.*
 import hu.bme.caffshare.data.network.model.*
 import hu.bme.caffshare.domain.model.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -21,6 +18,7 @@ class NetworkDataSource @Inject constructor(
     private val caffApi: CaffApi,
     private val commentApi: CommentApi,
     private val userApi: UserApi,
+    private val tagsApi: TagsApi,
     private val tokenDataSource: TokenDataSource,
     private val context: Context
 ) {
@@ -193,6 +191,16 @@ class NetworkDataSource @Inject constructor(
         val response = commentApi.postComment(caffId, body)
 
         return response.isSuccessful
+    }
+
+    // endregion
+
+    // region Tags
+
+    suspend fun getTags(): List<DomainTag>? {
+        val response = tagsApi.getTags()
+
+        return response.body()?.map(TagDTO::toDomainModel)
     }
 
     // endregion
