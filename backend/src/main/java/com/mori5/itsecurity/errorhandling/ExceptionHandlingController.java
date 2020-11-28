@@ -16,13 +16,13 @@ public class ExceptionHandlingController {
     @ExceptionHandler(ParsingException.class)
     public Object handleParsingException(ItSecurityException ex) {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getError(), ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler(FileUploadException.class)
     public Object handleFileUploadException(ItSecurityException ex) {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getError(), ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler(UserIsBannedException.class)

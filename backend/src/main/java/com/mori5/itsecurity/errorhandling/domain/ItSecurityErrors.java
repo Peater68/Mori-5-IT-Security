@@ -33,5 +33,6 @@ public class ItSecurityErrors implements Serializable {
     public static final ItSecurityErrors USER_BANNED = new ItSecurityErrors("USER_BANNED", 1023);
     public static final ItSecurityErrors PARSING_ERROR = new ItSecurityErrors("PARSING_ERROR", 1024);
     public static final ItSecurityErrors FILE_UPLOAD_ERROR = new ItSecurityErrors("FILE_UPLOAD_ERROR", 1025);
+    public static final ItSecurityErrors PREVIEW_CREATING_ERROR = new ItSecurityErrors("PREVIEW_CREATING_ERROR", 1025);
 
 }

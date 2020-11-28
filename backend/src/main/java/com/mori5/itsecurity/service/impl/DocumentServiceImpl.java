@@ -146,7 +146,7 @@ public class DocumentServiceImpl implements DocumentService {
             ImageIO.write(bufferedImage, "bmp", baos);
             baos.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new UnprocessableEntityException("Preview creating failed", ItSecurityErrors.PREVIEW_CREATING_ERROR);
         }
 
         return baos.toByteArray();
