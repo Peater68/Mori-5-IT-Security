@@ -20,7 +20,6 @@ import com.squareup.moshi.JsonClass
  * @param id ID of the document, what is represent the CAFF
  * @param createdAt
  * @param creator
- * @param uploader
  */
 
 @JsonClass(generateAdapter = true)
@@ -29,10 +28,8 @@ data class CaffSumDTO(
     @Json(name = "id")
     val id: kotlin.String,
     @Json(name = "createdAt")
-    val createdAt: String,
+    val createdAt: java.time.LocalDateTime,
     @Json(name = "creator")
-    val creator: kotlin.String? = null,
-    @Json(name = "uploader")
-    val uploader: kotlin.String? = null
+    val creator: kotlin.String
 )
 

@@ -17,15 +17,15 @@ import com.squareup.moshi.JsonClass
 
 /**
  *
- * @param comment
- * @param commentt
+ * @param id
+ * @param title
  */
 
 @JsonClass(generateAdapter = true)
-data class CommentUploadDTO(
-    @Json(name = "comment")
-    val comment: kotlin.String,
-    @Json(name = "commentt")
-    val commentt: kotlin.String? = null
+data class TagDTO(
+    @Json(name = "id")
+    val id: kotlin.String,
+    @Json(name = "title")
+    val title: kotlin.String
 )
 
