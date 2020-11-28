@@ -7,6 +7,7 @@ import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.NavActivity
 import hu.bme.caffshare.R
+import hu.bme.caffshare.domain.model.DomainRole
 import hu.bme.caffshare.ui.admin.UserListFragment
 import hu.bme.caffshare.ui.cafflist.CaffListFragment
 import hu.bme.caffshare.ui.login.LoginFragment
@@ -61,6 +62,11 @@ class MainActivity : NavActivity<MainViewState, MainViewModel>() {
                 navigator.add(LoginFragment())
             }
             is MainViewModel.UserLoggedIn -> {
+                if (event.role == DomainRole.ADMIN) {
+                    admin_menu_button.visibility = View.VISIBLE
+                } else {
+                    admin_menu_button.visibility = View.GONE
+                }
                 navigator.add(CaffListFragment())
             }
         }
