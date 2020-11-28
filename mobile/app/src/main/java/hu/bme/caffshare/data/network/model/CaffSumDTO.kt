@@ -33,6 +33,6 @@ data class CaffSumDTO(
     @Json(name = "creator")
     val creator: kotlin.String? = null,
     @Json(name = "uploader")
-    val uploader: kotlin.String
+    val uploader: kotlin.String? = null
 )
 

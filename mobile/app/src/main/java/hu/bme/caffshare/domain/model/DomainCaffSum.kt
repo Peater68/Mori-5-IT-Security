@@ -8,7 +8,7 @@ data class DomainCaffSum(
     val id: String,
     val createdAt: LocalDateTime,
     val creator: String? = null,
-    val uploader: String
+    val uploader: String? = null
 )
 
 fun CaffSumDTO.toDomainModel(): DomainCaffSum {
