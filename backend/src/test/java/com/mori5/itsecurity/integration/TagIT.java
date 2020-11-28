@@ -10,7 +10,7 @@ import java.util.Collections;
 
 import static org.mockito.Mockito.when;
 
-public class TagIntegrationTests extends ItSecurityApplicationIntegrationTests {
+public class TagIT extends ItSecurityApplicationITBase {
 
     public static final Tag tag = Tag.builder()
             .id("f497255a-9f4c-42a0-83db-abc3ce6c34a4")

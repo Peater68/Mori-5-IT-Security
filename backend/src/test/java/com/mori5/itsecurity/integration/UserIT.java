@@ -3,7 +3,7 @@ package com.mori5.itsecurity.integration;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
-public class UserIntegrationTests extends ItSecurityApplicationIntegrationTests {
+public class UserIT extends ItSecurityApplicationITBase {
 
     @Test
     void testGetUsersAsAdmin() {

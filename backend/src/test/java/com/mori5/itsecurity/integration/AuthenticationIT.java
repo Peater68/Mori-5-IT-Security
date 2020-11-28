@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import reactor.core.publisher.Mono;
 
-public class AuthIntegrationTests extends ItSecurityApplicationIntegrationTests {
+public class AuthenticationIT extends ItSecurityApplicationITBase {
 
     @Test
     void testLogin() {

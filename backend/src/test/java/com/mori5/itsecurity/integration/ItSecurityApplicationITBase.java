@@ -2,6 +2,7 @@ package com.mori5.itsecurity.integration;
 
 import com.mori5.itsecurity.domain.Role;
 import com.mori5.itsecurity.domain.User;
+import com.mori5.itsecurity.logging.service.LoggingService;
 import com.mori5.itsecurity.repository.CommentRepository;
 import com.mori5.itsecurity.repository.DocumentRepository;
 import com.mori5.itsecurity.repository.TagRepository;
@@ -23,7 +24,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ItSecurityApplicationIntegrationTests {
+class ItSecurityApplicationITBase {
 
     @LocalServerPort
     protected int randomServerPort;
@@ -39,6 +40,10 @@ class ItSecurityApplicationIntegrationTests {
     protected DocumentRepository documentRepository;
     @MockBean
     protected CommentRepository commentRepository;
+
+    @MockBean
+    private LoggingService loggingService;
+
 
     protected static User adminUser = User.builder()
             .id("e497255a-9f4c-42a0-83db-abc3ce6c34a4")

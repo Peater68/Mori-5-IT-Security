@@ -12,7 +12,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 
-public class DocumentIntegrationTests extends ItSecurityApplicationIntegrationTests {
+public class DocumentIT extends ItSecurityApplicationITBase {
 
     public static final Tag tag = Tag.builder()
             .id("t497255a-9f4c-42a0-83db-abc3ce6c34a4")

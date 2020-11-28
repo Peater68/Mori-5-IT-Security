@@ -11,9 +11,9 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 
-public class CommentIntegrationTests extends ItSecurityApplicationIntegrationTests {
+public class CommentIT extends ItSecurityApplicationITBase {
 
-    public static final Document document = DocumentIntegrationTests.document1;
+    public static final Document document = DocumentIT.document1;
     public static final Comment comment = Comment.builder()
             .id("c497255a-9f4c-42a0-83db-abc3ce6c34a4")
             .document(document)
