@@ -47,17 +47,17 @@ class UserListAdapter :
             View.OnCreateContextMenuListener
     {
 
-        val firstName: TextView = itemView.user_firstName_textView
-        val lastName: TextView = itemView.user_lastName_textView
-        val email: TextView = itemView.user_email_textView
-        val username: TextView = itemView.user_username_textView
+        val firstName: TextView = itemView.firstNameText
+        val lastName: TextView = itemView.lastNameText
+        val email: TextView = itemView.emailText
+        val username: TextView = itemView.usernameText
 
         val card: MaterialCardView = itemView.userCard
 
         var user: User? = null
 
         init {
-            itemView.user_delete_button.setOnClickListener {
+            itemView.banUserButton.setOnClickListener {
                 user?.let { listener?.onListItemDeleteButtonClicked(it) }
             }
 
