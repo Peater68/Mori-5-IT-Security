@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +41,9 @@ class ItSecurityApplicationIntegrationTests {
             .lastName("Test")
             .password("notHashedPwd")
             .role(Role.ADMIN)
+            .email("admin@test.hu")
+            .createdAt(Instant.now())
+            .updatedAt(Instant.now())
             .isBanned(false)
             .build();
     protected static User customerUser = User.builder()
@@ -49,6 +53,9 @@ class ItSecurityApplicationIntegrationTests {
             .lastName("Test")
             .password("notHashedPwd")
             .role(Role.CUSTOMER)
+            .email("customer@test.hu")
+            .createdAt(Instant.now())
+            .updatedAt(Instant.now())
             .isBanned(false)
             .build();
 
