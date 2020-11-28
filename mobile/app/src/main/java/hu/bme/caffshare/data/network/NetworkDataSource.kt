@@ -127,6 +127,24 @@ class NetworkDataSource @Inject constructor(
 
     // region Caff
 
+    suspend fun buyCaff(caffId: String): Boolean {
+        val response = caffApi.buyCaff(caffId)
+
+        return response.isSuccessful
+    }
+
+    suspend fun getBoughtCaffs(): List<DomainCaffSum>? {
+        val response = caffApi.getBoughtCaffs()
+
+        return response.body()?.map(CaffSumDTO::toDomainModel)
+    }
+
+    suspend fun getUploadedCaffs(): List<DomainCaffSum>? {
+        val response = caffApi.getUploadedCaffs()
+
+        return response.body()?.map(CaffSumDTO::toDomainModel)
+    }
+
     suspend fun deleteCaffById(caffId: String): Boolean {
         val response = caffApi.deleteCaffById(caffId)
 
