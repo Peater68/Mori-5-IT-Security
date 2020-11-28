@@ -28,7 +28,7 @@ interface CommentApi {
      * @param caffId
      * @return [kotlin.collections.List<CommentDTO>]
      */
-    @GET("api/documents/{caffId}/comments")
+    @GET("api/caffs/{caffId}/comments")
     suspend fun getComments(@Path("caffId") caffId: kotlin.String): Response<kotlin.collections.List<CommentDTO>>
 
     /**
@@ -41,7 +41,7 @@ interface CommentApi {
      * @param commentUploadDTO  (optional)
      * @return [CommentDTO]
      */
-    @POST("api/documents/{caffId}/comments")
+    @POST("api/caffs/{caffId}/comments")
     suspend fun postComment(
         @Path("caffId") caffId: kotlin.String,
         @Body commentUploadDTO: CommentUploadDTO? = null
