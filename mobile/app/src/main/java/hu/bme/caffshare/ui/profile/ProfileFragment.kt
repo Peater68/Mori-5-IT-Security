@@ -54,10 +54,6 @@ class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(
             changePasswordDialogFragment.show(requireActivity().supportFragmentManager, "ChangePassword")
         }
 
-        view.deleteUserButton.setOnClickListener {
-            viewModel.deleteUser()
-        }
-
         view.logoutButton.setOnClickListener {
             viewModel.logout()
         }

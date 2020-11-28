@@ -32,21 +32,6 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun deleteUser() = execute {
-        profilePresenter.deleteUser()
-
-        val profile = profilePresenter.loadProfileData()
-
-        viewState = if (profile == null) {
-            Error
-        } else {
-            ProfileContent(
-                profile
-            )
-        }
-    }
-
-
     fun logout() = execute {
         profilePresenter.logout()
 
