@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.admin.model.User
 import kotlinx.android.synthetic.main.row_user.view.*
@@ -51,7 +52,7 @@ class UserListAdapter :
         val email: TextView = itemView.user_email_textView
         val username: TextView = itemView.user_username_textView
 
-        val card = itemView.userCard
+        val card: MaterialCardView = itemView.userCard
 
         var user: User? = null
 
