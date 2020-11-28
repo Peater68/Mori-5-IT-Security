@@ -1,6 +1,5 @@
 package com.mori5.itsecurity.integration;
 
-import com.mori5.itsecurity.domain.Comment;
 import com.mori5.itsecurity.domain.Role;
 import com.mori5.itsecurity.domain.User;
 import com.mori5.itsecurity.repository.CommentRepository;
@@ -46,7 +45,7 @@ class ItSecurityApplicationIntegrationTests {
             .username("admin")
             .firstName("Admin")
             .lastName("Test")
-            .password("notHashedPwd")
+            .password("$2a$10$6QL/mwOa1M0DHeNnw7APr.jCo/kG3OCvs8jMlH8O5IsgOX7G/J9QK")
             .role(Role.ADMIN)
             .email("admin@test.hu")
             .uploads(List.of())
@@ -93,11 +92,22 @@ class ItSecurityApplicationIntegrationTests {
         return tokenService.generateAccessToken(user.getUsername(), user.getId(), user.getRole());
     }
 
+    protected String getRefreshTokenFor(User user) {
+        return tokenService.generateRefreshToken(user.getUsername(), user.getId(), user.getRole());
+    }
+
     protected void initWebApiClientWithToken(String token) {
         client = WebTestClient.bindToServer()
                 .baseUrl("http://localhost:" + randomServerPort + "/api")
                 .responseTimeout(Duration.ofMinutes(1))
-                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessTokenFor(adminUser))
+                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .build();
+    }
+
+    protected void initWebApiClient() {
+        client = WebTestClient.bindToServer()
+                .baseUrl("http://localhost:" + randomServerPort + "/api")
+                .responseTimeout(Duration.ofMinutes(1))
                 .build();
     }
 
