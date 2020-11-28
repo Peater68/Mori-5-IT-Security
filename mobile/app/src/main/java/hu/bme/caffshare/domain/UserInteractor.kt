@@ -1,6 +1,7 @@
 package hu.bme.caffshare.domain
 
 import hu.bme.caffshare.data.network.NetworkDataSource
+import hu.bme.caffshare.domain.model.DomainRole
 import javax.inject.Inject
 
 class UserInteractor @Inject constructor(
@@ -28,4 +29,6 @@ class UserInteractor @Inject constructor(
     )
 
     suspend fun getCurrentUserRole() = networkDataSource.getCurrentUserProfile()?.role
+
+    suspend fun isUserAdmin() = getCurrentUserRole() == DomainRole.ADMIN
 }

@@ -13,8 +13,8 @@ data class CaffDetails(
 fun DomainCaffDetails.toUIModel(): CaffDetails {
     return CaffDetails(
         id = id,
-        author = uploader,
-        tags = listOf(tags ?: "kldnfjasdn"),
+        author = creator ?: "Unknown creator",
+        tags = tags.map { it.title },
         caption = caption ?: "No caption",
         date = createdAt.toString()
     )

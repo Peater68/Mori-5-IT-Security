@@ -24,7 +24,7 @@ class CaffInteractor @Inject constructor(
     suspend fun uploadCaffFile(caffFileUri: Uri) =
         networkDataSource.uploadCaffFile(caffFileUri)
 
-    suspend fun buyCaffFile(caffId: String) = networkDataSource.buyCaff(caffId)
+    suspend fun purchaseCaffFile(caffId: String) = networkDataSource.buyCaff(caffId)
 
     suspend fun getBoughtCaffs() = networkDataSource.getBoughtCaffs()
 

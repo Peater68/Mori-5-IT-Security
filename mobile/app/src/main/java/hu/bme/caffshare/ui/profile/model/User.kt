@@ -16,6 +16,6 @@ fun DomainUser.toUIModel(): User {
         firstName = firstName,
         lastName = lastName,
         username = username,
-        email = email
+        email = email ?: ""
     )
 }
