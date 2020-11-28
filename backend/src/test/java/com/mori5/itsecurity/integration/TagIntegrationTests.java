@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TagIntegrationTests extends ItSecurityApplicationIntegrationTests {
 
-    private static Tag tag = Tag.builder()
+    private static final Tag tag = Tag.builder()
             .id("f497255a-9f4c-42a0-83db-abc3ce6c34a4")
             .title("TEST_TITLE")
             .build();
