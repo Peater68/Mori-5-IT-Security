@@ -29,12 +29,12 @@ public class TagIntegrationTests extends ItSecurityApplicationIntegrationTests {
                         Collections.singletonList(tag)
                 )
         );
-
-        initWebApiClientWithToken(getAccessTokenFor(adminUser));
     }
 
     @Test
-    void testGetTags() {
+    void testGetTagsAsAdmin() {
+        initWebApiClientWithToken(getAccessTokenFor(adminUser));
+
         client.get().uri("/tags")
                 .exchange()
                 .expectStatus().isOk()
@@ -44,4 +44,16 @@ public class TagIntegrationTests extends ItSecurityApplicationIntegrationTests {
                 .jsonPath("$[0].title").isEqualTo(tag.getTitle());
     }
 
+    @Test
+    void testGetTagsAsCustomer() {
+        initWebApiClientWithToken(getAccessTokenFor(customerUser));
+
+        client.get().uri("/tags")
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$[0].id").isEqualTo(tag.getId())
+                .jsonPath("$[0].title").isEqualTo(tag.getTitle());
+    }
 }
