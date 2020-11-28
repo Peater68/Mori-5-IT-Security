@@ -22,8 +22,8 @@ class ProfilePresenter @Inject constructor(
         authInteractor.changePassword(oldPassword, newPassword)
     }
 
-    suspend fun logout(): Unit = withIOContext {
-        TODO()
+    suspend fun logout() = withIOContext {
+        authInteractor.logout()
     }
 
     suspend fun editProfile(profilePresenterModel: ProfilePresenterModel): Unit = withIOContext {

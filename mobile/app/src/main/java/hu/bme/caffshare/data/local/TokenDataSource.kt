@@ -36,5 +36,10 @@ class TokenDataSource @Inject constructor(context: Context) {
         accessToken = tokensDTO.accessToken
         refreshToken = tokensDTO.refreshToken
     }
+
+    fun removeTokens() {
+        accessToken = null
+        refreshToken = null
+    }
 }
 

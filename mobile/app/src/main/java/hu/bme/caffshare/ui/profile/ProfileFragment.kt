@@ -10,6 +10,7 @@ import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.navigator
 import hu.bme.caffshare.R
+import hu.bme.caffshare.ui.login.LoginFragment
 import hu.bme.caffshare.ui.profile.adapter.ProfileListsAdapter
 import hu.bme.caffshare.ui.profile.model.ProfilePresenterModel
 import hu.bme.caffshare.util.setNavigationOnClickListener
@@ -86,6 +87,9 @@ class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(
             }
             is ProfileViewModel.PasswordChangeError -> {
                 showErrorSnackBar("Error while changing password!")
+            }
+            is ProfileViewModel.LoggedOut -> {
+                navigator?.setStack(LoginFragment())
             }
         }
     }

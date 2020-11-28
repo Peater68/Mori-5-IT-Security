@@ -12,6 +12,8 @@ class ProfileViewModel @Inject constructor(
     object PasswordChangeSuccessful : OneShotEvent
     object PasswordChangeError : OneShotEvent
 
+    object LoggedOut : OneShotEvent
+
     fun load() = execute {
         val profile = profilePresenter.loadProfileData()
 
@@ -32,20 +34,6 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun logout() = execute {
-        profilePresenter.logout()
-
-        val profile = profilePresenter.loadProfileData()
-
-        viewState = if (profile == null) {
-            Error
-        } else {
-            ProfileContent(
-                profile
-            )
-        }
-    }
-
     fun editProfile(profile: ProfilePresenterModel) = execute {
         profilePresenter.editProfile(profilePresenterModel = profile)
 
@@ -58,6 +46,12 @@ class ProfileViewModel @Inject constructor(
                 newProfile
             )
         }
+    }
+
+    fun logout() = execute {
+        profilePresenter.logout()
+
+        postEvent(LoggedOut)
     }
 
 }
