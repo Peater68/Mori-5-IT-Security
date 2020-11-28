@@ -28,7 +28,7 @@ data class CaffSumDTO(
     @Json(name = "id")
     val id: kotlin.String,
     @Json(name = "createdAt")
-    val createdAt: java.time.LocalDateTime,
+    val createdAt: String,
     @Json(name = "creator")
     val creator: kotlin.String
 )

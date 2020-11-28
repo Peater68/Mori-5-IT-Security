@@ -31,7 +31,7 @@ data class CaffDetailsDTO(
     @Json(name = "creator")
     val creator: kotlin.String,
     @Json(name = "createdAt")
-    val createdAt: java.time.LocalDateTime,
+    val createdAt: String,
     @Json(name = "tags")
     val tags: kotlin.collections.List<TagDTO>,
     @Json(name = "duration")

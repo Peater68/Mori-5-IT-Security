@@ -1,6 +1,7 @@
 package hu.bme.caffshare.domain.model
 
 import hu.bme.caffshare.data.network.model.CaffDetailsDTO
+import hu.bme.caffshare.data.network.model.TagDTO
 import hu.bme.caffshare.util.toLocalDateTime
 import java.time.LocalDateTime
 
@@ -8,12 +9,9 @@ data class DomainCaffDetails(
     val id: String,
     val creator: String? = null,
     val createdAt: LocalDateTime,
-    val width: String,
-    val height: String,
-    val duration: String,
-    val tags: String? = null,
+    val tags: List<DomainTag>,
+    val duration: String? = null,
     val caption: String? = null,
-    val uploader: String
 )
 
 fun CaffDetailsDTO.toDomainModel(): DomainCaffDetails {
@@ -21,11 +19,8 @@ fun CaffDetailsDTO.toDomainModel(): DomainCaffDetails {
         id = id,
         creator = creator,
         createdAt = createdAt.toLocalDateTime(),
-        width = width,
-        height = height,
         duration = duration,
-        tags = tags,
+        tags = tags.map(TagDTO::toDomainModel),
         caption = caption,
-        uploader = uploader,
     )
 }

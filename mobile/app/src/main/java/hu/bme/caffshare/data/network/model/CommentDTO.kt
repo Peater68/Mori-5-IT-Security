@@ -31,6 +31,6 @@ data class CommentDTO(
     @Json(name = "user")
     val user: ReducedUserDTO,
     @Json(name = "createdAt")
-    val createdAt: java.time.LocalDateTime
+    val createdAt: String
 )
 
