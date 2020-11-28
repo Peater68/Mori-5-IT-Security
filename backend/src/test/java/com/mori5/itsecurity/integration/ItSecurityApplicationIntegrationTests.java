@@ -5,7 +5,6 @@ import com.mori5.itsecurity.domain.User;
 import com.mori5.itsecurity.repository.TagRepository;
 import com.mori5.itsecurity.repository.UserRepository;
 import com.mori5.itsecurity.service.TokenService;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
