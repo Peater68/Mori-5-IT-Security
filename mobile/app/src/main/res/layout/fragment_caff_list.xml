@@ -1,29 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/blankFragmentRoot"
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/viewFlipper"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <ViewFlipper
-        android:id="@+id/viewFlipper"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <include layout="@layout/layout_caff_list" />
 
-        <include layout="@layout/layout_caff_list" />
+    <include layout="@layout/loading_layout" />
 
-        <include layout="@layout/loading_layout" />
+    <include layout="@layout/error_layout" />
 
-        <include layout="@layout/error_layout" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/no_caff_files_found"
+        android:textSize="22sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/no_caff_files_found"
-            android:textSize="22sp" />
-
-    </ViewFlipper>
-
-</LinearLayout>
+</ViewFlipper>
