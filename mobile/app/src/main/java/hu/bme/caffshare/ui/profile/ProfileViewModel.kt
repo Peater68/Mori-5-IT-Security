@@ -2,7 +2,7 @@ package hu.bme.caffshare.ui.profile
 
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeViewModel
-import hu.bme.caffshare.ui.profile.model.ProfilePresenterModel
+import hu.bme.caffshare.ui.profile.model.ProfileUpdateData
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
@@ -13,6 +13,8 @@ class ProfileViewModel @Inject constructor(
     object PasswordChangeError : OneShotEvent
 
     object LoggedOut : OneShotEvent
+
+    data class ShowEditProfileDialog(val profile: ProfileUpdateData) : OneShotEvent
 
     fun load() = execute {
         val profile = profilePresenter.loadProfileData()
@@ -34,24 +36,31 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun editProfile(profile: ProfilePresenterModel) = execute {
-        profilePresenter.editProfile(profilePresenterModel = profile)
+    fun editProfile(profile: ProfileUpdateData) = execute {
+        profilePresenter.editProfile(profile)
 
-        val newProfile = profilePresenter.loadProfileData()
-
-        viewState = if (newProfile == null) {
-            Error
-        } else {
-            ProfileContent(
-                newProfile
-            )
-        }
+        viewState = Loading
+        load()
     }
 
     fun logout() = execute {
         profilePresenter.logout()
 
         postEvent(LoggedOut)
+    }
+
+    fun showEditProfileDialog() {
+        val state = viewState as? ProfileContent
+        state?.let {
+            val profileData = ProfileUpdateData(
+                firstName = it.profile.firstName,
+                lastName = it.profile.lastName,
+                username = it.profile.username,
+                email = it.profile.email,
+            )
+
+            postEvent(ShowEditProfileDialog(profileData))
+        }
     }
 
 }

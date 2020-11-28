@@ -41,7 +41,9 @@ data class UserDTO(
     @Json(name = "createdAt")
     val createdAt: String,
     @Json(name = "updatedAt")
-    val updatedAt: String
+    val updatedAt: String,
+    @Json(name = "email")
+    val email: String = "fos" // TODO remove
 ) {
 
     /**

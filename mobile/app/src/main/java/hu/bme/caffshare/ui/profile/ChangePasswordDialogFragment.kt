@@ -10,6 +10,10 @@ import kotlinx.android.synthetic.main.layout_dialog_changepassword.*
 
 class ChangePasswordDialogFragment : DialogFragment() {
 
+    companion object {
+        const val TAG = "ChangePasswordDialogFragment"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
