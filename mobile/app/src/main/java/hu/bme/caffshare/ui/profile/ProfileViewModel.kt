@@ -1,12 +1,16 @@
 package hu.bme.caffshare.ui.profile
 
+import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeViewModel
 import hu.bme.caffshare.ui.profile.model.ProfilePresenterModel
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
-        private val profilePresenter: ProfilePresenter
+    private val profilePresenter: ProfilePresenter
 ) : RainbowCakeViewModel<ProfileViewState>(Loading) {
+
+    object PasswordChangeSuccessful : OneShotEvent
+    object PasswordChangeError : OneShotEvent
 
     fun load() = execute {
         val profile = profilePresenter.loadProfileData()
@@ -15,22 +19,18 @@ class ProfileViewModel @Inject constructor(
             Error
         } else {
             ProfileContent(
-                    profile
+                profile
             )
         }
     }
 
-    fun changePassword(newPassword: ChangePasswordDialogFragment.NewPasswordWrapper) = execute {
-        profilePresenter.changePassword(newPassword)
+    fun changePassword(oldPassword: String, newPassword: String) = execute {
+        val isPasswordChangeSuccessful = profilePresenter.changePassword(oldPassword, newPassword)
 
-        val profile = profilePresenter.loadProfileData()
-
-        viewState = if (profile == null) {
-            Error
+        if (isPasswordChangeSuccessful) {
+            postEvent(PasswordChangeSuccessful)
         } else {
-            ProfileContent(
-                    profile
-            )
+            postEvent(PasswordChangeError)
         }
     }
 
@@ -43,7 +43,7 @@ class ProfileViewModel @Inject constructor(
             Error
         } else {
             ProfileContent(
-                    profile
+                profile
             )
         }
     }
@@ -58,7 +58,7 @@ class ProfileViewModel @Inject constructor(
             Error
         } else {
             ProfileContent(
-                    profile
+                profile
             )
         }
     }
@@ -72,7 +72,7 @@ class ProfileViewModel @Inject constructor(
             Error
         } else {
             ProfileContent(
-                    newProfile
+                newProfile
             )
         }
     }

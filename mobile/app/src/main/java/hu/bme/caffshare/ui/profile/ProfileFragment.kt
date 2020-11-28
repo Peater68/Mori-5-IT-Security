@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.navigator
@@ -13,13 +14,15 @@ import hu.bme.caffshare.ui.profile.adapter.ProfileListsAdapter
 import hu.bme.caffshare.ui.profile.model.ProfilePresenterModel
 import hu.bme.caffshare.util.setNavigationOnClickListener
 import hu.bme.caffshare.util.setupBackDropMenu
+import hu.bme.caffshare.util.showErrorSnackBar
+import hu.bme.caffshare.util.showSuccessSnackBar
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.layout_profile.view.*
 
 class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(),
-        ChangePasswordDialogFragment.ChangePasswordDialogFragmentListener,
-        EditProfileDialogFragment.EditProfileDialogFragmentListener {
+    ChangePasswordDialogFragment.Listener,
+    EditProfileDialogFragment.EditProfileDialogFragmentListener {
 
     override fun provideViewModel() = getViewModelFromFactory()
     override fun getViewResource() = R.layout.fragment_profile
@@ -48,7 +51,6 @@ class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(
 
         view.changePasswordButton.setOnClickListener {
             changePasswordDialogFragment = ChangePasswordDialogFragment()
-            changePasswordDialogFragment.listener = this
             changePasswordDialogFragment.show(requireActivity().supportFragmentManager, "ChangePassword")
         }
 
@@ -81,6 +83,17 @@ class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(
         viewModel.load()
     }
 
+    override fun onEvent(event: OneShotEvent) {
+        when (event) {
+            is ProfileViewModel.PasswordChangeSuccessful -> {
+                showSuccessSnackBar("Successfully changed password!")
+            }
+            is ProfileViewModel.PasswordChangeError -> {
+                showErrorSnackBar("Error while changing password!")
+            }
+        }
+    }
+
     override fun render(viewState: ProfileViewState) {
         when (viewState) {
             is ProfileContent -> {
@@ -100,13 +113,8 @@ class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(
         }
     }
 
-    override fun onChangePasswordOkButtonPressed(newPassword: ChangePasswordDialogFragment.NewPasswordWrapper) {
-        viewModel.changePassword(newPassword)
-        changePasswordDialogFragment.dismiss()
-    }
-
-    override fun onChangePasswordCancelButtonPressed() {
-        changePasswordDialogFragment.dismiss()
+    override fun onChangePasswordOkButtonPressed(oldPassword: String, newPassword: String) {
+        viewModel.changePassword(oldPassword, newPassword)
     }
 
     override fun onEditDialogOkButtonPressed(profile: ProfilePresenterModel) {

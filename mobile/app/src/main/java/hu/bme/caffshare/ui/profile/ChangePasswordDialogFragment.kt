@@ -7,43 +7,32 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import hu.bme.caffshare.R
 import kotlinx.android.synthetic.main.layout_dialog_changepassword.*
-import kotlinx.android.synthetic.main.layout_dialog_changepassword.view.*
 
 class ChangePasswordDialogFragment : DialogFragment() {
 
-    lateinit var listener: ChangePasswordDialogFragmentListener
-
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.layout_dialog_changepassword, container, false)
+        return inflater.inflate(R.layout.layout_dialog_changepassword, container, false)
+    }
 
-        view.changePassword_okButton.setOnClickListener {
-            listener.onChangePasswordOkButtonPressed(
-                    newPassword = NewPasswordWrapper(
-                            oldPassword = changePassword_oldPasswordTextInputEditText.text.toString(),
-                            newPassword = changePassword_textInputEditText.text.toString()
-                    )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        okButton.setOnClickListener {
+            (parentFragment as Listener).onChangePasswordOkButtonPressed(
+                oldPassword = oldPasswordInput.text.toString(),
+                newPassword = newPasswordInput.text.toString()
             )
+            dismiss()
         }
 
-        view.changePassword_cancelButton.setOnClickListener {
-            listener.onChangePasswordCancelButtonPressed()
-        }
-
-        return view
+        cancelButton.setOnClickListener { dismiss() }
     }
 
-    interface ChangePasswordDialogFragmentListener {
-        fun onChangePasswordOkButtonPressed(newPassword: NewPasswordWrapper)
-        fun onChangePasswordCancelButtonPressed()
+    interface Listener {
+        fun onChangePasswordOkButtonPressed(oldPassword: String, newPassword: String)
     }
-
-    data class NewPasswordWrapper(
-            var oldPassword: String,
-            var newPassword: String
-    )
-
 }
