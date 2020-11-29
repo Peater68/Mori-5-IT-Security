@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 30
     defaultConfig {
-        applicationId "com.example.blank"
+        applicationId "hu.bme.caffshare"
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
