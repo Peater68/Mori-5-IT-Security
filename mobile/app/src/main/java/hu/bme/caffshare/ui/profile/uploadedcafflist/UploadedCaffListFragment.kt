@@ -119,6 +119,7 @@ class UploadedCaffListFragment :
         when (viewState) {
             is UploadedCaffListContent -> {
                 viewFlipper.displayedChild = 0
+                contentViewFlipper.displayedChild = 0
 
                 adapter.submitList(viewState.caffFiles)
             }
@@ -129,7 +130,8 @@ class UploadedCaffListFragment :
                 viewFlipper.displayedChild = 2
             }
             is Empty -> {
-                viewFlipper.displayedChild = 3
+                viewFlipper.displayedChild = 0
+                contentViewFlipper.displayedChild = 1
             }
         }
     }

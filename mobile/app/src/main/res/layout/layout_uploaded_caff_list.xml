@@ -5,13 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/caffFileList"
+    <ViewFlipper
+        android:id="@+id/contentViewFlipper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="8dp"
-        tools:listitem="@layout/row_caff_file" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/caffFileList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="8dp"
+            tools:listitem="@layout/row_caff_file" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/you_haven_t_uploaded_any_caff_files_yet"
+            android:textSize="22sp" />
+
+    </ViewFlipper>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/uploadButton"
@@ -27,3 +41,4 @@
         app:tint="@color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
