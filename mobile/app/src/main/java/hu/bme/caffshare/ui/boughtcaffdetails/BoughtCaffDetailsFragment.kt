@@ -16,9 +16,8 @@ import hu.bme.caffshare.util.bottomNav
 import hu.bme.caffshare.util.loadCaffPreview
 import hu.bme.caffshare.util.showSuccessSnackBar
 import hu.bme.caffshare.util.toolbar
-import kotlinx.android.synthetic.main.fragment_caff_details.*
+import kotlinx.android.synthetic.main.fragment_bought_caff_list.*
 import kotlinx.android.synthetic.main.layout_caff_details.*
-import kotlinx.android.synthetic.main.layout_caff_details.view.*
 
 class BoughtCaffDetailsFragment :
     RainbowCakeFragment<BoughtCaffDetailsViewState, BoughtCaffDetailsViewModel> {
@@ -72,7 +71,6 @@ class BoughtCaffDetailsFragment :
         mainActionButton.apply {
             text = getString(R.string.download)
             setOnClickListener {
-                // TODO
                 viewModel.downloadCaffFile()
                 progressBar.visibility = View.VISIBLE
             }

@@ -5,6 +5,7 @@ import android.net.Uri
 import hu.bme.caffshare.data.network.NetworkDataSource
 import hu.bme.caffshare.util.copyInputStreamToFile
 import java.io.File
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class CaffInteractor @Inject constructor(
@@ -13,11 +14,12 @@ class CaffInteractor @Inject constructor(
 ) {
     suspend fun deleteCaffById(caffId: String) = networkDataSource.deleteCaffById(caffId)
 
-    // TODO: handle downloaded byte stream
     suspend fun downloadCaffFile(caffId: String): Boolean {
         val caffFileInputStream = networkDataSource.downloadCaffFile(caffId) ?: return false
 
-        File(context.cacheDir, "file.caff").copyInputStreamToFile(caffFileInputStream)
+        File(context.externalCacheDir, "${LocalDateTime.now()}.caff").copyInputStreamToFile(
+            caffFileInputStream
+        )
 
         return true
     }
