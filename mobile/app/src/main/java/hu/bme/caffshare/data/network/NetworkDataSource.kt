@@ -170,7 +170,7 @@ class NetworkDataSource @Inject constructor(
     }
 
     suspend fun uploadCaffFile(caffFileUri: Uri): Boolean {
-        val formDataName = "caffFile"
+        val formDataName = "file"
         val body = createMultipartBodyFromUri(caffFileUri, formDataName)
         val response = caffApi.uploadCaff(body)
 
@@ -181,7 +181,7 @@ class NetworkDataSource @Inject constructor(
         caffFileUri: Uri,
         formDataName: String
     ): MultipartBody.Part {
-        val caffFile = File(caffFileUri.path!!)
+        val caffFile = File(caffFileUri.path!!.removePrefix("/document/raw:"))
         val requestFile = caffFile.asRequestBody(
             context.contentResolver.getType(caffFileUri)!!.toMediaTypeOrNull()
         )
