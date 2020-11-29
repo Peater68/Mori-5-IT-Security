@@ -12,6 +12,7 @@ import hu.bme.caffshare.ui.profile.adapter.ProfileListsAdapter
 import hu.bme.caffshare.ui.profile.dialog.ChangePasswordDialogFragment
 import hu.bme.caffshare.ui.profile.dialog.EditProfileDialogFragment
 import hu.bme.caffshare.ui.profile.model.ProfileUpdateData
+import hu.bme.caffshare.util.bottomNav
 import hu.bme.caffshare.util.showErrorSnackBar
 import hu.bme.caffshare.util.showSuccessSnackBar
 import hu.bme.caffshare.util.toolbar
@@ -63,6 +64,7 @@ class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(
             }
         }
         toolbar.title = SCREEN_NAME
+        bottomNav.visibility = View.VISIBLE
     }
 
     override fun onStart() {

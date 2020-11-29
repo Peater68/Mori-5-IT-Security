@@ -31,7 +31,7 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
     companion object {
         private const val CAFF_FILE_ID = "CAFF_FILE_ID"
 
-        private const val SCREEN_NAME = "CAFF details"
+        const val SCREEN_NAME = "CAFF details"
 
         @Suppress("DEPRECATION")
         fun newInstance(caffFileId: String): CaffDetailsFragment {

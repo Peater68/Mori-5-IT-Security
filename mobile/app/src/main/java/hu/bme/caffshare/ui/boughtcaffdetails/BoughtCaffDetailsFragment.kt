@@ -9,11 +9,13 @@ import co.zsmb.rainbowcake.navigation.extensions.applyArgs
 import co.zsmb.rainbowcake.navigation.extensions.requireString
 import co.zsmb.rainbowcake.navigation.navigator
 import hu.bme.caffshare.R
+import hu.bme.caffshare.ui.caffdetails.CaffDetailsFragment
 import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
 import hu.bme.caffshare.ui.comments.CommentsFragment
+import hu.bme.caffshare.util.bottomNav
 import hu.bme.caffshare.util.loadCaffPreview
 import hu.bme.caffshare.util.showSuccessSnackBar
-import kotlinx.android.synthetic.main.activity_main_caff.*
+import hu.bme.caffshare.util.toolbar
 import kotlinx.android.synthetic.main.fragment_caff_details.*
 import kotlinx.android.synthetic.main.layout_caff_details.*
 import kotlinx.android.synthetic.main.layout_caff_details.view.*
@@ -78,9 +80,15 @@ class BoughtCaffDetailsFragment :
     }
 
     private fun setupToolbar() {
-        appBar.setNavigationOnClickListener {
-            navigator!!.pop()
+        toolbar.apply {
+            title = CaffDetailsFragment.SCREEN_NAME
+            setNavigationIcon(R.drawable.ic_arrow_back)
+            setNavigationOnClickListener {
+                navigator?.pop()
+            }
+            menu.clear()
         }
+        bottomNav.visibility = View.GONE
     }
 
     override fun onStart() {

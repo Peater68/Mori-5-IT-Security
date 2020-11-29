@@ -10,11 +10,10 @@ import co.zsmb.rainbowcake.navigation.extensions.applyArgs
 import co.zsmb.rainbowcake.navigation.extensions.requireString
 import co.zsmb.rainbowcake.navigation.navigator
 import hu.bme.caffshare.R
+import hu.bme.caffshare.ui.caffdetails.CaffDetailsFragment
 import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
 import hu.bme.caffshare.ui.comments.CommentsFragment
-import hu.bme.caffshare.util.loadCaffPreview
-import hu.bme.caffshare.util.showErrorSnackBar
-import hu.bme.caffshare.util.showSuccessSnackBar
+import hu.bme.caffshare.util.*
 import kotlinx.android.synthetic.main.fragment_caff_details.*
 import kotlinx.android.synthetic.main.layout_caff_details.*
 import kotlinx.android.synthetic.main.layout_caff_details.view.*
@@ -61,6 +60,19 @@ class UploadedCaffDetailsFragment :
         setupDownloadButton()
         setupDeleteButton()
         setupTagsTextView()
+        setupToolbar()
+    }
+
+    private fun setupToolbar() {
+        toolbar.apply {
+            title = CaffDetailsFragment.SCREEN_NAME
+            setNavigationIcon(R.drawable.ic_arrow_back)
+            setNavigationOnClickListener {
+                navigator?.pop()
+            }
+            menu.clear()
+        }
+        bottomNav.visibility = View.GONE
     }
 
     private fun setupCommentsButton() {
