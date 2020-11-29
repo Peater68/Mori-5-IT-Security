@@ -111,7 +111,7 @@ public class DocumentServiceImpl implements DocumentService {
                 .tags(getTags(parsedCaff.images.tags))
                 .caption(parsedCaff.images.caption)
                 .creator(parsedCaff.creatorString)
-                .createdDate(LocalDateTime.of(parsedCaff.year, parsedCaff.month + 1, parsedCaff.day +1, parsedCaff.hour+1, parsedCaff.minute+1).toInstant(ZoneOffset.UTC))
+                .createdDate(LocalDateTime.of(parsedCaff.year, parsedCaff.month + 1, parsedCaff.day + 1, parsedCaff.hour + 1, parsedCaff.minute + 1).toInstant(ZoneOffset.UTC))
                 .build();
         documentRepository.save(document);
 
@@ -213,6 +213,19 @@ public class DocumentServiceImpl implements DocumentService {
 
         Document document = documentRepository.findById(documentId)
                 .orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
+
+        boolean isBought = false;
+        for (Document doc : user.getDownloads()) {
+            if (doc.getId().equals(documentId)) {
+                isBought = true;
+                break;
+            }
+        }
+
+        if (isBought) {
+            throw new InvalidOperationException("Caff is already bought", ItSecurityErrors.INVALID_OPERATION);
+        }
+
         document.getCustomers().add(user);
 
         user.getDownloads().add(document);
