@@ -9,10 +9,11 @@ import co.zsmb.rainbowcake.navigation.navigator
 import com.google.android.material.snackbar.Snackbar
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.cafflist.CaffListFragment
-import hu.bme.caffshare.ui.mainactivity.MainActivity
 import hu.bme.caffshare.ui.register.RegisterFragment
+import hu.bme.caffshare.util.bottomNav
 import hu.bme.caffshare.util.isNotEmpty
 import hu.bme.caffshare.util.text
+import hu.bme.caffshare.util.toolbar
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : RainbowCakeFragment<LoginViewState, LoginViewModel>() {
@@ -23,10 +24,15 @@ class LoginFragment : RainbowCakeFragment<LoginViewState, LoginViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupView()
         setupRegisterButton()
         setupLoginButton()
         setupPasswordForgotButton()
-        (activity as MainActivity).hideToolbarAndBottomNav()
+    }
+
+    private fun setupView() {
+        toolbar.visibility = View.GONE
+        bottomNav.visibility = View.GONE
     }
 
     private fun setupRegisterButton() {

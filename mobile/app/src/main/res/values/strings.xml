@@ -32,4 +32,5 @@
     <string name="caff_list">Caff list</string>
     <string name="admin">Admin</string>
     <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
 </resources>

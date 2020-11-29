@@ -1,7 +1,6 @@
 package hu.bme.caffshare.ui.mainactivity
 
 import android.os.Bundle
-import android.view.View
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.NavActivity
@@ -56,19 +55,5 @@ class MainActivity : NavActivity<MainViewState, MainViewModel>() {
             }
         }
         mainViewFlipper.displayedChild = 1
-    }
-
-    fun hideToolbarAndBottomNav() {
-        appBar.visibility = View.GONE
-        bottomNav.visibility = View.GONE
-    }
-
-    fun showToolbarAndBottomNav() {
-        appBar.visibility = View.VISIBLE
-        bottomNav.visibility = View.VISIBLE
-    }
-
-    fun setAppBarTitle(title: String) {
-        appBar.title = title
     }
 }

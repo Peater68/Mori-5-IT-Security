@@ -6,11 +6,14 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import hu.bme.caffshare.data.network.GlideApp
 import hu.bme.caffshare.data.network.NetworkModule
 import hu.bme.caffshare.domain.model.CaffDownloadType
+import hu.bme.caffshare.ui.mainactivity.MainActivity
+import kotlinx.android.synthetic.main.activity_main_caff.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -66,3 +69,9 @@ fun ImageView.loadCaffPreview(caffId: String) {
         .load("${NetworkModule.BASE_URL}/api/caffs/$caffId/download?type=${CaffDownloadType.PREVIEW}")
         .into(this)
 }
+
+val Fragment.toolbar: androidx.appcompat.widget.Toolbar
+    get() = (activity as MainActivity).appBar
+
+val Fragment.bottomNav: BottomNavigationView
+    get() = (activity as MainActivity).bottomNav

@@ -14,6 +14,7 @@ import hu.bme.caffshare.ui.profile.dialog.EditProfileDialogFragment
 import hu.bme.caffshare.ui.profile.model.ProfileUpdateData
 import hu.bme.caffshare.util.showErrorSnackBar
 import hu.bme.caffshare.util.showSuccessSnackBar
+import hu.bme.caffshare.util.toolbar
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.layout_profile.*
 
@@ -28,28 +29,42 @@ class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(
         super.onViewCreated(view, savedInstanceState)
 
         setupViewPager()
-        setupButtons()
+        setupToolbar()
     }
 
     private fun setupViewPager() {
         profileViewPager.adapter = ProfileListsAdapter(childFragmentManager)
     }
 
-    private fun setupButtons() {
-        logoutButton.setOnClickListener {
-            viewModel.logout()
+    private fun setupToolbar() {
+        activity!!.menuInflater.inflate(R.menu.profile_toolbar_menu, toolbar.menu)
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.editUser -> {
+                    viewModel.showEditProfileDialog()
+                    true
+                }
+                R.id.changePassword -> {
+                    ChangePasswordDialogFragment().show(
+                        childFragmentManager,
+                        ChangePasswordDialogFragment.TAG
+                    )
+                    true
+                }
+                R.id.logout -> {
+                    viewModel.logout()
+                    true
+                }
+                else -> false
+            }
         }
+    }
 
-        changePasswordButton.setOnClickListener {
-            ChangePasswordDialogFragment().show(
-                childFragmentManager,
-                ChangePasswordDialogFragment.TAG
-            )
-        }
 
-        editUserButton.setOnClickListener {
-            viewModel.showEditProfileDialog()
-        }
+    override fun onDestroy() {
+        toolbar.menu.clear()
+
+        super.onDestroy()
     }
 
     override fun onStart() {
@@ -83,8 +98,7 @@ class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(
             is ProfileContent -> {
                 viewFlipper.displayedChild = 0
 
-                profileFirstNameText.text = viewState.profile.firstName
-                profileLastNameText.text = viewState.profile.lastName
+                profileNameText.text = viewState.profile.name
                 profileUsernameText.text = viewState.profile.username
             }
             is Loading -> {

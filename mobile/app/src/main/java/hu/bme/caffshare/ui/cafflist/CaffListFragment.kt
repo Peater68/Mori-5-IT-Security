@@ -12,7 +12,8 @@ import hu.bme.caffshare.ui.caffdetails.CaffDetailsFragment
 import hu.bme.caffshare.ui.cafflist.adapter.CaffListAdapter
 import hu.bme.caffshare.ui.cafflist.adapter.SpacesItemDecoration
 import hu.bme.caffshare.ui.cafflist.model.CaffFile
-import hu.bme.caffshare.ui.mainactivity.MainActivity
+import hu.bme.caffshare.util.bottomNav
+import hu.bme.caffshare.util.toolbar
 import kotlinx.android.synthetic.main.fragment_caff_list.*
 import kotlinx.android.synthetic.main.layout_caff_list.*
 
@@ -32,15 +33,16 @@ class CaffListFragment : RainbowCakeFragment<CaffListViewState, CaffListViewMode
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupScreen()
+        setupViews()
         setupRecyclerView()
     }
 
-    private fun setupScreen() {
-        (activity as MainActivity).apply {
-            showToolbarAndBottomNav()
-            setAppBarTitle(SCREEN_NAME)
+    private fun setupViews() {
+        toolbar.apply {
+            visibility = View.VISIBLE
+            title = SCREEN_NAME
         }
+        bottomNav.visibility = View.VISIBLE
     }
 
     private fun setupRecyclerView() {
