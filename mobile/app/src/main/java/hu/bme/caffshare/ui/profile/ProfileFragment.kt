@@ -22,6 +22,10 @@ class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(
     ChangePasswordDialogFragment.Listener,
     EditProfileDialogFragment.Listener {
 
+    companion object {
+        private const val SCREEN_NAME = "Profile"
+    }
+
     override fun provideViewModel() = getViewModelFromFactory()
     override fun getViewResource() = R.layout.fragment_profile
 
@@ -58,13 +62,7 @@ class ProfileFragment : RainbowCakeFragment<ProfileViewState, ProfileViewModel>(
                 else -> false
             }
         }
-    }
-
-
-    override fun onDestroy() {
-        toolbar.menu.clear()
-
-        super.onDestroy()
+        toolbar.title = SCREEN_NAME
     }
 
     override fun onStart() {

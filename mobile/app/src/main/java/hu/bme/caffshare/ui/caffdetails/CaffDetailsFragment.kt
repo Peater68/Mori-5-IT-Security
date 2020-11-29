@@ -11,9 +11,7 @@ import co.zsmb.rainbowcake.navigation.navigator
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
 import hu.bme.caffshare.ui.comments.CommentsFragment
-import hu.bme.caffshare.util.loadCaffPreview
-import hu.bme.caffshare.util.showErrorSnackBar
-import hu.bme.caffshare.util.showSuccessSnackBar
+import hu.bme.caffshare.util.*
 import kotlinx.android.synthetic.main.fragment_caff_details.*
 import kotlinx.android.synthetic.main.layout_caff_details.*
 
@@ -32,6 +30,8 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
 
     companion object {
         private const val CAFF_FILE_ID = "CAFF_FILE_ID"
+
+        private const val SCREEN_NAME = "CAFF details"
 
         @Suppress("DEPRECATION")
         fun newInstance(caffFileId: String): CaffDetailsFragment {
@@ -56,6 +56,7 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
         setupCommentsButton()
         setupPurchaseButton()
         setupDeleteButton()
+        setupToolbar()
     }
 
     private fun setupCommentsButton() {
@@ -81,6 +82,17 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
 
             viewModel.deleteCaffFile()
         }
+    }
+
+    private fun setupToolbar() {
+        toolbar.apply {
+            title = SCREEN_NAME
+            setNavigationIcon(R.drawable.ic_arrow_back)
+            setNavigationOnClickListener {
+                navigator?.pop()
+            }
+        }
+        bottomNav.visibility = View.GONE
     }
 
     override fun onStart() {

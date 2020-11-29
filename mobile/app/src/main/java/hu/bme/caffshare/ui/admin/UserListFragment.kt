@@ -12,10 +12,15 @@ import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.admin.adapter.UserListAdapter
 import hu.bme.caffshare.ui.admin.model.User
 import hu.bme.caffshare.util.showErrorSnackBar
+import hu.bme.caffshare.util.toolbar
 import kotlinx.android.synthetic.main.fragment_caff_list.*
 import kotlinx.android.synthetic.main.layout_user_list.*
 
 class UserListFragment : RainbowCakeFragment<UserListViewState, UserListViewModel>() {
+
+    companion object {
+        private const val SCREEN_NAME = "Admin"
+    }
 
     override fun provideViewModel() = getViewModelFromFactory()
     override fun getViewResource() = R.layout.fragment_user_list
@@ -26,6 +31,7 @@ class UserListFragment : RainbowCakeFragment<UserListViewState, UserListViewMode
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+        setupToolbar()
     }
 
     private fun setupRecyclerView() {
@@ -38,6 +44,13 @@ class UserListFragment : RainbowCakeFragment<UserListViewState, UserListViewMode
         }
         userFileList.layoutManager = StaggeredGridLayoutManager(1, RecyclerView.VERTICAL)
         userFileList.adapter = adapter
+    }
+
+    private fun setupToolbar() {
+        toolbar.apply {
+            title = SCREEN_NAME
+            menu.clear()
+        }
     }
 
     override fun onStart() {

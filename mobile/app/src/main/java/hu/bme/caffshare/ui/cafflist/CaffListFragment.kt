@@ -41,6 +41,8 @@ class CaffListFragment : RainbowCakeFragment<CaffListViewState, CaffListViewMode
         toolbar.apply {
             visibility = View.VISIBLE
             title = SCREEN_NAME
+            navigationIcon = null
+            menu.clear()
         }
         bottomNav.visibility = View.VISIBLE
     }

@@ -14,6 +14,7 @@ import hu.bme.caffshare.ui.comments.adapter.CommentsAdapter
 import hu.bme.caffshare.ui.comments.model.Comment
 import hu.bme.caffshare.util.hideKeyboard
 import hu.bme.caffshare.util.showErrorSnackBar
+import hu.bme.caffshare.util.toolbar
 import kotlinx.android.synthetic.main.fragment_caff_details.*
 import kotlinx.android.synthetic.main.layout_comments.*
 
@@ -33,6 +34,8 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
 
     companion object {
         private const val CAFF_FILE_ID = "CAFF_FILE_ID"
+
+        private const val SCREEN_NAME = "Comments"
 
         @Suppress("DEPRECATION")
         fun newInstance(caffFileId: String): CommentsFragment {
@@ -59,6 +62,11 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
         setupRecyclerView()
         setupCommentInput()
         setupSendCommentButton()
+        setupToolbar()
+    }
+
+    private fun setupToolbar() {
+        toolbar.title = SCREEN_NAME
     }
 
     private fun setupRecyclerView() {
