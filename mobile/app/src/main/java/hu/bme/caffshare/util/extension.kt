@@ -14,6 +14,8 @@ import hu.bme.caffshare.data.network.NetworkModule
 import hu.bme.caffshare.domain.model.CaffDownloadType
 import hu.bme.caffshare.ui.mainactivity.MainActivity
 import kotlinx.android.synthetic.main.activity_main_caff.*
+import java.io.File
+import java.io.InputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -75,3 +77,9 @@ val Fragment.toolbar: androidx.appcompat.widget.Toolbar
 
 val Fragment.bottomNav: BottomNavigationView
     get() = (activity as MainActivity).bottomNav
+
+fun File.copyInputStreamToFile(inputStream: InputStream) {
+    this.outputStream().use { fileOut ->
+        inputStream.copyTo(fileOut)
+    }
+}

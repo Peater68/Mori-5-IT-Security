@@ -14,9 +14,8 @@ import hu.bme.caffshare.ui.caffdetails.CaffDetailsFragment
 import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
 import hu.bme.caffshare.ui.comments.CommentsFragment
 import hu.bme.caffshare.util.*
-import kotlinx.android.synthetic.main.fragment_caff_details.*
+import kotlinx.android.synthetic.main.fragment_uploaded_caff_list.*
 import kotlinx.android.synthetic.main.layout_caff_details.*
-import kotlinx.android.synthetic.main.layout_caff_details.view.*
 
 
 class UploadedCaffDetailsFragment :
