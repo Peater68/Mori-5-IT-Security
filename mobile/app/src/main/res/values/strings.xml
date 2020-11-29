@@ -33,6 +33,6 @@
     <string name="admin">Admin</string>
     <string name="profile">Profile</string>
     <string name="logout">Logout</string>
-    <string name="you_haven_t_bought_any_caff_files_yet">You haven\'t bought any CAFF files yet!</string>
-    <string name="you_haven_t_uploaded_any_caff_files_yet">You haven\'t uploaded any CAFF files yet!</string>
+    <string name="you_haven_t_bought_any_caff_files_yet">You haven\'t bought any\n CAFF files yet!</string>
+    <string name="you_haven_t_uploaded_any_caff_files_yet">You haven\'t uploaded any\n CAFF files yet!</string>
 </resources>
