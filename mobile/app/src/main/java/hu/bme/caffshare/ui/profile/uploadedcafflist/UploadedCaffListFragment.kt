@@ -118,20 +118,23 @@ class UploadedCaffListFragment :
     override fun render(viewState: UploadedCaffListViewState) {
         when (viewState) {
             is UploadedCaffListContent -> {
-                viewFlipper.displayedChild = 0
-                contentViewFlipper.displayedChild = 0
+                val caffFiles = viewState.caffFiles
 
-                adapter.submitList(viewState.caffFiles)
+                if (caffFiles.isEmpty()) {
+                    viewFlipper.displayedChild = 0
+                    contentViewFlipper.displayedChild = 1
+                } else {
+                    viewFlipper.displayedChild = 0
+                    contentViewFlipper.displayedChild = 0
+
+                    adapter.submitList(viewState.caffFiles)
+                }
             }
             is Loading -> {
                 viewFlipper.displayedChild = 1
             }
             is Error -> {
                 viewFlipper.displayedChild = 2
-            }
-            is Empty -> {
-                viewFlipper.displayedChild = 0
-                contentViewFlipper.displayedChild = 1
             }
         }
     }
