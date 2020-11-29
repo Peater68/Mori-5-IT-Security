@@ -3,36 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gridBackgroundColor"
-    android:orientation="vertical"
-    android:paddingTop="12dp">
+    android:orientation="vertical">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/profileNameText"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:maxLines="1"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        tools:text="Borsy BB Béla" />
+        android:background="@color/gridBackgroundColor"
+        android:orientation="vertical"
+        android:paddingVertical="16dp">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/profileUsernameText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
-        android:textSize="16sp"
-        tools:text="username" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/profileNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:maxLines="1"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Borsy BB Béla" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/profileUsernameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp"
+            tools:text="username" />
+
+    </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/profileViewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_weight="1" />
-
 
 </LinearLayout>

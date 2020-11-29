@@ -1,38 +1,17 @@
 package hu.bme.caffshare.ui.profile.boughtcafflist
 
 import co.zsmb.rainbowcake.withIOContext
+import hu.bme.caffshare.domain.CaffInteractor
+import hu.bme.caffshare.domain.model.DomainCaffSum
 import hu.bme.caffshare.ui.cafflist.model.CaffFile
+import hu.bme.caffshare.ui.cafflist.model.toUIModel
 import javax.inject.Inject
 
-class BoughtCaffListPresenter @Inject constructor() {
+class BoughtCaffListPresenter @Inject constructor(
+    private val caffInteractor: CaffInteractor
+) {
 
-    suspend fun getCaffFiles(): List<CaffFile> = withIOContext {
-        listOf(
-            CaffFile(
-                id = "0",
-                author = "Kapitány Interceptor Erik",
-            ),
-            CaffFile(
-                id = "0",
-                author = "Borsy President Béla",
-            ),
-            CaffFile(
-                id = "0",
-                author = "Kapitány Interceptor Erik",
-            ),
-            CaffFile(
-                id = "0",
-                author = "Laki Sketch Dávid",
-            ),
-            CaffFile(
-                id = "0",
-                author = "Deák Wiki Dávid",
-            ),
-            CaffFile(
-                id = "0",
-                author = "Borsy President Béla",
-            ),
-        )
+    suspend fun getCaffFiles(): List<CaffFile>? = withIOContext {
+        caffInteractor.getBoughtCaffs()?.map(DomainCaffSum::toUIModel)
     }
-
 }
