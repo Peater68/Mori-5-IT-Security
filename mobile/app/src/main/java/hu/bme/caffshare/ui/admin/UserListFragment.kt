@@ -10,7 +10,6 @@ import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.admin.adapter.UserListAdapter
-import hu.bme.caffshare.ui.admin.model.User
 import hu.bme.caffshare.util.showErrorSnackBar
 import hu.bme.caffshare.util.toolbar
 import kotlinx.android.synthetic.main.fragment_caff_list.*
@@ -37,11 +36,6 @@ class UserListFragment : RainbowCakeFragment<UserListViewState, UserListViewMode
     private fun setupRecyclerView() {
         adapter = UserListAdapter()
 
-        adapter.listener = object : UserListAdapter.Listener {
-            override fun onListItemDeleteButtonClicked(item: User) {
-                viewModel.banUser(item.id)
-            }
-        }
         userFileList.layoutManager = StaggeredGridLayoutManager(1, RecyclerView.VERTICAL)
         userFileList.adapter = adapter
     }
@@ -91,11 +85,10 @@ class UserListFragment : RainbowCakeFragment<UserListViewState, UserListViewMode
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         when (item.title) {
-            "Adminná teszem" -> {
+            "Make user admin" -> {
                 viewModel.makeUserAdmin(adapter.getUserAt(item.groupId).id)
             }
-
-            "Letiltom" -> {
+            "Ban user" -> {
                 viewModel.banUser(adapter.getUserAt(item.groupId).id)
             }
         }

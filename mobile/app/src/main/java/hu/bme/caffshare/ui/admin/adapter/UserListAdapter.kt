@@ -5,6 +5,7 @@ import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -15,8 +16,6 @@ import kotlinx.android.synthetic.main.row_user.view.*
 
 class UserListAdapter :
     ListAdapter<User, UserListAdapter.UserViewHolder>(UserComparator) {
-
-    var listener: Listener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view =
@@ -34,10 +33,11 @@ class UserListAdapter :
             email.text = user.email
             username.text = user.username
 
-            if (user.isBanned) card.strokeColor = rgb(255,0,0)
+            if (user.isBanned) {
+                card.strokeColor = rgb(255, 0, 0)
+                bannedIcon.visibility = View.VISIBLE
+            }
         }
-
-
     }
 
     fun getUserAt(position: Int): User = getItem(position)
@@ -53,14 +53,11 @@ class UserListAdapter :
         val username: TextView = itemView.usernameText
 
         val card: MaterialCardView = itemView.userCard
+        val bannedIcon: ImageView = itemView.banUserIcon
 
         var user: User? = null
 
         init {
-            itemView.banUserButton.setOnClickListener {
-                user?.let { listener?.onListItemDeleteButtonClicked(it) }
-            }
-
             itemView.setOnCreateContextMenuListener(this)
         }
 
@@ -68,14 +65,10 @@ class UserListAdapter :
                 menu: ContextMenu?,
                 v: View?,
                 menuInfo: ContextMenu.ContextMenuInfo?
-        )  {
-            menu?.setHeaderTitle("Mit szeretnél tenni?");
-            menu?.add(adapterPosition, v?.id!!, 0, "Adminná teszem")
-            menu?.add(adapterPosition, v?.id!!, 0, "Letiltom")
+        ) {
+            menu?.setHeaderTitle("What would you like to do?");
+            menu?.add(adapterPosition, v?.id!!, 0, "Make user admin")
+            menu?.add(adapterPosition, v?.id!!, 0, "Ban user")
         }
-    }
-
-    interface Listener {
-        fun onListItemDeleteButtonClicked(item: User)
     }
 }
