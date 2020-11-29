@@ -4,17 +4,17 @@ itsecurity:
     host:
 
   admin:
-    username: admin
-    password: admin
+    username:
+    password:
 
   minio:
     endpoint: http://localhost:9000
-    accesskey: minioadmin
-    secretkey: minioadmin
+    accesskey:
+    secretkey:
 
   security:
     token:
-      secret: tokensecret
+      secret:
 
 server:
   port: 8080
@@ -41,9 +41,9 @@ spring:
       is-getter: none
 
   datasource:
-    username: postgres
-    password: admin
-    url: jdbc:postgresql://localhost:5432/itsecurity
+    username:
+    password:
+    url: jdbc:postgresql://localhost:15432/itsecurity
     driver-class-name: org.postgresql.Driver
     initialization-mode: always
     platform: itsecurity
@@ -94,4 +94,3 @@ logging:
             instrument:
               web:
                 ExceptionLoggingFilter: off
-
