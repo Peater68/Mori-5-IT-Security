@@ -30,10 +30,7 @@ class UserInteractor @Inject constructor(
         email = email,
     )
 
-    suspend fun getCurrentUserRole(): DomainRole? {
-        tokenDataSource.accessToken = "1"
-        return getCurrentUserProfile()?.role
-    }
+    suspend fun getCurrentUserRole() = getCurrentUserProfile()?.role
 
     suspend fun isUserAdmin() = getCurrentUserRole() == DomainRole.ADMIN
 }

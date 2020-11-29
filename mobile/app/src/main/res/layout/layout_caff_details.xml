@@ -110,7 +110,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="24dp"
         android:textAllCaps="false"
-        android:textColor="@color/textColorPrimary"
         app:layout_constraintBottom_toBottomOf="@id/commentsButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/commentsButton" />
