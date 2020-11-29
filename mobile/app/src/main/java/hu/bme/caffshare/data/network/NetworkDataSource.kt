@@ -3,10 +3,7 @@ package hu.bme.caffshare.data.network
 import android.content.Context
 import android.net.Uri
 import hu.bme.caffshare.data.local.TokenDataSource
-import hu.bme.caffshare.data.network.api.AuthApi
-import hu.bme.caffshare.data.network.api.CaffApi
-import hu.bme.caffshare.data.network.api.CommentApi
-import hu.bme.caffshare.data.network.api.UserApi
+import hu.bme.caffshare.data.network.api.*
 import hu.bme.caffshare.data.network.model.*
 import hu.bme.caffshare.domain.model.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -21,6 +18,7 @@ class NetworkDataSource @Inject constructor(
     private val caffApi: CaffApi,
     private val commentApi: CommentApi,
     private val userApi: UserApi,
+    private val tagsApi: TagsApi,
     private val tokenDataSource: TokenDataSource,
     private val context: Context
 ) {
@@ -95,12 +93,6 @@ class NetworkDataSource @Inject constructor(
         return response.isSuccessful
     }
 
-    suspend fun deleteCurrentUser(): Boolean {
-        val response = userApi.deleteMe()
-
-        return response.isSuccessful
-    }
-
     suspend fun getAllUsers(): List<DomainUser>? {
         val response = userApi.getUsers()
 
@@ -135,6 +127,24 @@ class NetworkDataSource @Inject constructor(
 
     // region Caff
 
+    suspend fun buyCaff(caffId: String): Boolean {
+        val response = caffApi.buyCaff(caffId)
+
+        return response.isSuccessful
+    }
+
+    suspend fun getBoughtCaffs(): List<DomainCaffSum>? {
+        val response = caffApi.getBoughtCaffs()
+
+        return response.body()?.map(CaffSumDTO::toDomainModel)
+    }
+
+    suspend fun getUploadedCaffs(): List<DomainCaffSum>? {
+        val response = caffApi.getUploadedCaffs()
+
+        return response.body()?.map(CaffSumDTO::toDomainModel)
+    }
+
     suspend fun deleteCaffById(caffId: String): Boolean {
         val response = caffApi.deleteCaffById(caffId)
 
@@ -160,7 +170,7 @@ class NetworkDataSource @Inject constructor(
     }
 
     suspend fun uploadCaffFile(caffFileUri: Uri): Boolean {
-        val formDataName = "caffFile"
+        val formDataName = "file"
         val body = createMultipartBodyFromUri(caffFileUri, formDataName)
         val response = caffApi.uploadCaff(body)
 
@@ -171,7 +181,7 @@ class NetworkDataSource @Inject constructor(
         caffFileUri: Uri,
         formDataName: String
     ): MultipartBody.Part {
-        val caffFile = File(caffFileUri.path!!)
+        val caffFile = File(caffFileUri.path!!.removePrefix("/document/raw:"))
         val requestFile = caffFile.asRequestBody(
             context.contentResolver.getType(caffFileUri)!!.toMediaTypeOrNull()
         )
@@ -199,6 +209,16 @@ class NetworkDataSource @Inject constructor(
         val response = commentApi.postComment(caffId, body)
 
         return response.isSuccessful
+    }
+
+    // endregion
+
+    // region Tags
+
+    suspend fun getTags(): List<DomainTag>? {
+        val response = tagsApi.getTags()
+
+        return response.body()?.map(TagDTO::toDomainModel)
     }
 
     // endregion

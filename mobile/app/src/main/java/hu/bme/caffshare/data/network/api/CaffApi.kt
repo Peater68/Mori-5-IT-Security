@@ -54,10 +54,11 @@ interface CaffApi {
      *  - 403: Forbidden
      *  - 500: Internal Server Error
      *
+     * @param filterTag Identifier of a tag. (optional)
      * @return [kotlin.collections.List<CaffSumDTO>]
      */
     @GET("api/caffs")
-    suspend fun getAllCaffs(): Response<kotlin.collections.List<CaffSumDTO>>
+    suspend fun getAllCaffs(@Query("filterTag") filterTag: kotlin.String? = null): Response<kotlin.collections.List<CaffSumDTO>>
 
     /**
      * Your GET endpoint
@@ -92,4 +93,44 @@ interface CaffApi {
     @POST("api/caffs")
     suspend fun uploadCaff(@Part file: MultipartBody.Part): Response<Unit>
 
+    /**
+     *
+     *
+     * Responses:
+     *  - 200: OK
+     *  - 401: Unauthorized
+     *  - 403: Forbidden
+     *  - 404: Not Found
+     *
+     * @param caffId
+     * @return [CaffDetailsDTO]
+     */
+    @POST("api/caffs/{caffId}/buy")
+    suspend fun buyCaff(@Path("caffId") caffId: kotlin.String): Response<CaffDetailsDTO>
+
+    /**
+     * Your GET endpoint
+     * Returns the user&#39;s bought caffs.
+     * Responses:
+     *  - 200: OK
+     *  - 401: Unauthorized
+     *  - 403: Forbidden
+     *
+     * @return [kotlin.collections.List<CaffSumDTO>]
+     */
+    @GET("api/caffs/bought")
+    suspend fun getBoughtCaffs(): Response<kotlin.collections.List<CaffSumDTO>>
+
+    /**
+     * Your GET endpoint
+     * Returns the user&#39;s uploaded caffs.
+     * Responses:
+     *  - 200: OK
+     *  - 401: Unauthorized
+     *  - 403: Forbidden
+     *
+     * @return [kotlin.collections.List<CaffSumDTO>]
+     */
+    @GET("api/caffs/uploaded")
+    suspend fun getUploadedCaffs(): Response<kotlin.collections.List<CaffSumDTO>>
 }

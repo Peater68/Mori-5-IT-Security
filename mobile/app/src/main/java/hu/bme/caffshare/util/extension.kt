@@ -1,27 +1,21 @@
 package hu.bme.caffshare.util
 
 import android.app.Activity
-import android.content.Context
 import android.graphics.Color
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import co.zsmb.rainbowcake.navigation.Navigator
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import hu.bme.caffshare.R
 import hu.bme.caffshare.data.network.GlideApp
 import hu.bme.caffshare.data.network.NetworkModule
 import hu.bme.caffshare.domain.model.CaffDownloadType
-import hu.bme.caffshare.ui.admin.UserListFragment
-import hu.bme.caffshare.ui.cafflist.CaffListFragment
-import hu.bme.caffshare.ui.profile.ProfileFragment
-import kotlinx.android.synthetic.main.backdrop.view.*
-import kotlinx.android.synthetic.main.layout_user_list.view.*
+import hu.bme.caffshare.ui.mainactivity.MainActivity
+import kotlinx.android.synthetic.main.activity_main_caff.*
+import java.io.File
+import java.io.InputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -63,33 +57,6 @@ fun Fragment.hideKeyboard() {
     imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun View.setupBackDropMenu(navigator: Navigator) {
-    this.admin_menu_button.setOnClickListener {
-        navigator.replace(UserListFragment())
-    }
-    this.cafflist_menu_button.setOnClickListener {
-        navigator.replace(CaffListFragment())
-    }
-    this.account_menu_button.setOnClickListener {
-        navigator.replace(ProfileFragment())
-    }
-
-}
-
-fun View.setNavigationOnClickListener(activity: FragmentActivity, context: Context) {
-    // Set up the toolbar.
-    (activity as AppCompatActivity).setSupportActionBar(this.app_bar)
-
-    this.app_bar.setNavigationOnClickListener(
-        NavigationIconClickListener(
-            activity,
-            this.nested_scroll_view,
-            openIcon = ContextCompat.getDrawable(context, R.drawable.menu_open_icon),
-            closeIcon = ContextCompat.getDrawable(context, R.drawable.menu_close_icon)
-        )
-    )
-}
-
 fun String.toLocalDateTime(): LocalDateTime {
     val localDateTimeFormat = if (contains('.')) {
         substringBeforeLast('.')
@@ -103,4 +70,16 @@ fun ImageView.loadCaffPreview(caffId: String) {
     GlideApp.with(context)
         .load("${NetworkModule.BASE_URL}/api/caffs/$caffId/download?type=${CaffDownloadType.PREVIEW}")
         .into(this)
+}
+
+val Fragment.toolbar: androidx.appcompat.widget.Toolbar
+    get() = (activity as MainActivity).appBar
+
+val Fragment.bottomNav: BottomNavigationView
+    get() = (activity as MainActivity).bottomNav
+
+fun File.copyInputStreamToFile(inputStream: InputStream) {
+    this.outputStream().use { fileOut ->
+        inputStream.copyTo(fileOut)
+    }
 }

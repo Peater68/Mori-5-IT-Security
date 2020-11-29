@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/blankFragmentRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,13 +13,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textStyle="bold"
             android:gravity="center"
             android:padding="12dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/curved_background"
-            android:backgroundTint="@color/gridBackgroundColor"
-            android:text="@string/my_caff_files" />
+            android:text="@string/my_caff_files"
+            android:textStyle="bold" />
 
     </FrameLayout>
 
@@ -31,17 +27,9 @@
 
         <include layout="@layout/layout_uploaded_caff_list" />
 
-
         <include layout="@layout/loading_layout" />
 
         <include layout="@layout/error_layout" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/no_caff_files_found"
-            android:textSize="22sp" />
 
     </ViewFlipper>
 

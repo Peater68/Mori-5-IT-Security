@@ -3,25 +3,20 @@ package hu.bme.caffshare.ui.comments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.navigation.extensions.applyArgs
 import co.zsmb.rainbowcake.navigation.extensions.requireString
-import co.zsmb.rainbowcake.navigation.navigator
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.comments.adapter.CommentsAdapter
 import hu.bme.caffshare.ui.comments.model.Comment
 import hu.bme.caffshare.util.hideKeyboard
 import hu.bme.caffshare.util.showErrorSnackBar
-import kotlinx.android.synthetic.main.fragment_caff_details.viewFlipper
+import hu.bme.caffshare.util.toolbar
+import kotlinx.android.synthetic.main.fragment_caff_details.*
 import kotlinx.android.synthetic.main.layout_comments.*
-import kotlinx.android.synthetic.main.layout_comments.view.*
 
 
 class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewModel> {
@@ -39,6 +34,8 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
 
     companion object {
         private const val CAFF_FILE_ID = "CAFF_FILE_ID"
+
+        private const val SCREEN_NAME = "Comments"
 
         @Suppress("DEPRECATION")
         fun newInstance(caffFileId: String): CommentsFragment {
@@ -58,29 +55,6 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
 
     //endregion
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        // Inflate the layout for this fragment with the ProductGrid theme
-        val view = inflater.inflate(R.layout.fragment_comments, container, false)
-
-        with(view) {
-            // Set up the toolbar.
-            (activity as AppCompatActivity).setSupportActionBar(this.app_bar)
-
-            this.app_bar.setNavigationOnClickListener {
-                navigator!!.pop()
-            }
-        }
-
-        view.nested_scroll_view.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.curved_background)
-        view.nested_scroll_view.isFillViewport = true
-
-        return view
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -88,6 +62,11 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
         setupRecyclerView()
         setupCommentInput()
         setupSendCommentButton()
+        setupToolbar()
+    }
+
+    private fun setupToolbar() {
+        toolbar.title = SCREEN_NAME
     }
 
     private fun setupRecyclerView() {
@@ -116,7 +95,7 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
         sendCommentButton.isEnabled = false
         sendCommentButton.setOnClickListener {
             commentHandlingProgressBar.visibility = View.VISIBLE
-            viewModel.addComment(commentInput.text.toString())
+            viewModel.addComment(caffFileId, commentInput.text.toString())
         }
     }
 
@@ -162,6 +141,7 @@ class CommentsFragment : RainbowCakeFragment<CommentsViewState, CommentsViewMode
                 viewFlipper.displayedChild = 2
             }
             is Empty -> {
+                viewFlipper.displayedChild = 0
                 contentViewFlipper.displayedChild = 1
             }
         }

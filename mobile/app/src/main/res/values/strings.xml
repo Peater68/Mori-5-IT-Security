@@ -23,4 +23,16 @@
     <string name="first_name">First name</string>
     <string name="email_address">Email address</string>
     <string name="last_name">Last name</string>
+    <string name="new_password">New password</string>
+    <string name="current_password">Current password</string>
+    <string name="change_password">Change password</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="caff_list">Caff list</string>
+    <string name="admin">Admin</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="you_haven_t_bought_any_caff_files_yet">You haven\'t bought any\n CAFF files yet!</string>
+    <string name="you_haven_t_uploaded_any_caff_files_yet">You haven\'t uploaded any\n CAFF files yet!</string>
 </resources>

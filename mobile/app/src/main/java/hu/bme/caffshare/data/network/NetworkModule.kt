@@ -4,10 +4,7 @@ import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import hu.bme.caffshare.data.local.TokenDataSource
-import hu.bme.caffshare.data.network.api.AuthApi
-import hu.bme.caffshare.data.network.api.CaffApi
-import hu.bme.caffshare.data.network.api.CommentApi
-import hu.bme.caffshare.data.network.api.UserApi
+import hu.bme.caffshare.data.network.api.*
 import hu.bme.caffshare.data.network.interceptor.AccessTokenInterceptor
 import hu.bme.caffshare.data.network.interceptor.RefreshTokenInterceptor
 import okhttp3.OkHttpClient
@@ -66,4 +63,8 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideUserApi(retrofit: Retrofit): UserApi = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun provideTagsApi(retrofit: Retrofit): TagsApi = retrofit.create()
 }

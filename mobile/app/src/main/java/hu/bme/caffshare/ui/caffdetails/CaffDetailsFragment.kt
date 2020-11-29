@@ -1,11 +1,7 @@
 package hu.bme.caffshare.ui.caffdetails
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
@@ -15,12 +11,9 @@ import co.zsmb.rainbowcake.navigation.navigator
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
 import hu.bme.caffshare.ui.comments.CommentsFragment
-import hu.bme.caffshare.util.loadCaffPreview
-import hu.bme.caffshare.util.showErrorSnackBar
-import hu.bme.caffshare.util.showSuccessSnackBar
+import hu.bme.caffshare.util.*
 import kotlinx.android.synthetic.main.fragment_caff_details.*
 import kotlinx.android.synthetic.main.layout_caff_details.*
-import kotlinx.android.synthetic.main.layout_caff_details.view.*
 
 class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetailsViewModel> {
 
@@ -38,6 +31,8 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
     companion object {
         private const val CAFF_FILE_ID = "CAFF_FILE_ID"
 
+        const val SCREEN_NAME = "CAFF details"
+
         @Suppress("DEPRECATION")
         fun newInstance(caffFileId: String): CaffDetailsFragment {
             return CaffDetailsFragment().applyArgs {
@@ -54,30 +49,6 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
 
     //endregion
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        // Inflate the layout for this fragment with the ProductGrid theme
-        val view = inflater.inflate(R.layout.fragment_caff_details, container, false)
-
-        with(view) {
-            // Set up the toolbar.
-            (activity as AppCompatActivity).setSupportActionBar(this.app_bar)
-
-            this.app_bar.setNavigationOnClickListener {
-                navigator!!.pop()
-            }
-        }
-
-        view.nested_scroll_view.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.curved_background)
-
-        view.nested_scroll_view.isFillViewport = true
-
-        return view
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -85,6 +56,7 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
         setupCommentsButton()
         setupPurchaseButton()
         setupDeleteButton()
+        setupToolbar()
     }
 
     private fun setupCommentsButton() {
@@ -110,6 +82,17 @@ class CaffDetailsFragment : RainbowCakeFragment<CaffDetailsViewState, CaffDetail
 
             viewModel.deleteCaffFile()
         }
+    }
+
+    private fun setupToolbar() {
+        toolbar.apply {
+            title = SCREEN_NAME
+            setNavigationIcon(R.drawable.ic_arrow_back)
+            setNavigationOnClickListener {
+                navigator?.pop()
+            }
+        }
+        bottomNav.visibility = View.GONE
     }
 
     override fun onStart() {

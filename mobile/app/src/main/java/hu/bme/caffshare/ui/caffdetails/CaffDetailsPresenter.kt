@@ -1,34 +1,29 @@
 package hu.bme.caffshare.ui.caffdetails
 
 import co.zsmb.rainbowcake.withIOContext
+import hu.bme.caffshare.domain.CaffInteractor
+import hu.bme.caffshare.domain.UserInteractor
 import hu.bme.caffshare.ui.caffdetails.model.CaffDetails
-import kotlinx.coroutines.delay
-import java.time.LocalDateTime
+import hu.bme.caffshare.ui.caffdetails.model.toUIModel
 import javax.inject.Inject
 
-class CaffDetailsPresenter @Inject constructor() {
+class CaffDetailsPresenter @Inject constructor(
+    private val caffInteractor: CaffInteractor,
+    private val userInteractor: UserInteractor
+) {
     suspend fun getCaffFileDetails(caffFileId: String): CaffDetails? = withIOContext {
-        CaffDetails(
-            id = caffFileId,
-            author = "Borsy President Béla",
-            tags = listOf("my house", "bb"),
-            caption = "Pres Béla is the new man in town",
-            date = LocalDateTime.now().toString(),
-        )
+        caffInteractor.getCaffFileDetails(caffFileId)?.toUIModel()
     }
 
-    suspend fun purchaseCaffFile(id: String) = withIOContext {
-        delay(1000)
-        true
+    suspend fun purchaseCaffFile(caffId: String): Boolean = withIOContext {
+        caffInteractor.purchaseCaffFile(caffId)
     }
 
-    suspend fun deleteCaffFile(id: String): Boolean = withIOContext {
-        delay(1000)
-        true
+    suspend fun deleteCaffFile(caffId: String): Boolean = withIOContext {
+        caffInteractor.deleteCaffById(caffId)
     }
 
     suspend fun isUserAdmin(): Boolean = withIOContext {
-        delay(1000)
-        false
+        userInteractor.isUserAdmin()
     }
 }

@@ -1,36 +1,24 @@
 package hu.bme.caffshare.ui.admin
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
-import co.zsmb.rainbowcake.navigation.navigator
 import hu.bme.caffshare.R
 import hu.bme.caffshare.ui.admin.adapter.UserListAdapter
-import hu.bme.caffshare.ui.admin.model.User
-import hu.bme.caffshare.ui.caffdetails.CaffDetailsFragment
-import hu.bme.caffshare.ui.cafflist.adapter.CaffListAdapter
-import hu.bme.caffshare.ui.cafflist.adapter.SpacesItemDecoration
-import hu.bme.caffshare.ui.cafflist.model.CaffFile
-import hu.bme.caffshare.util.setNavigationOnClickListener
-import hu.bme.caffshare.util.setupBackDropMenu
-import kotlinx.android.synthetic.main.backdrop.view.*
+import hu.bme.caffshare.util.showErrorSnackBar
+import hu.bme.caffshare.util.toolbar
 import kotlinx.android.synthetic.main.fragment_caff_list.*
-import kotlinx.android.synthetic.main.fragment_caff_list.viewFlipper
-import kotlinx.android.synthetic.main.fragment_user_list.*
 import kotlinx.android.synthetic.main.layout_user_list.*
-import kotlinx.android.synthetic.main.layout_user_list.view.*
 
 class UserListFragment : RainbowCakeFragment<UserListViewState, UserListViewModel>() {
 
     companion object {
-        private const val LIST_ITEM_TOP_MARGIN = 150
+        private const val SCREEN_NAME = "Admin"
     }
 
     override fun provideViewModel() = getViewModelFromFactory()
@@ -38,53 +26,42 @@ class UserListFragment : RainbowCakeFragment<UserListViewState, UserListViewMode
 
     private lateinit var adapter: UserListAdapter
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        // Inflate the layout for this fragment with the ProductGrid theme
-        val view = inflater.inflate(R.layout.fragment_user_list, container, false)
-
-        with(view) {
-            setupBackDropMenu(navigator!!)
-
-            if (viewModel.isUserAdmin()) {
-                this.admin_menu_button.visibility = View.GONE
-            }
-
-            setNavigationOnClickListener(requireActivity(), requireContext())
-        }
-
-        view.nested_scroll_view.background =
-            ContextCompat.getDrawable(requireContext(), R.drawable.curved_background)
-        view.nested_scroll_view.isFillViewport = true
-
-        return view
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+        setupToolbar()
     }
 
     private fun setupRecyclerView() {
         adapter = UserListAdapter()
 
-        adapter.listener = object : UserListAdapter.Listener {
-            override fun onListItemDeleteButtonClicked(item: User) {
-                viewModel.deleteUser(item)
-            }
-        }
         userFileList.layoutManager = StaggeredGridLayoutManager(1, RecyclerView.VERTICAL)
         userFileList.adapter = adapter
+    }
+
+    private fun setupToolbar() {
+        toolbar.apply {
+            title = SCREEN_NAME
+            menu.clear()
+        }
     }
 
     override fun onStart() {
         super.onStart()
 
         viewModel.load()
+    }
+
+    override fun onEvent(event: OneShotEvent) {
+        when (event) {
+            is UserListViewModel.BanError -> {
+                showErrorSnackBar("Error while banning user!")
+            }
+            is UserListViewModel.MakeUserAdminError -> {
+                showErrorSnackBar("Error while making user admin user!")
+            }
+        }
     }
 
     override fun render(viewState: UserListViewState) {
@@ -108,12 +85,11 @@ class UserListFragment : RainbowCakeFragment<UserListViewState, UserListViewMode
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         when (item.title) {
-            "Adminná teszem" -> {
-                viewModel.makeUserAdmin(adapter.getUserAt(item.groupId))
+            "Make user admin" -> {
+                viewModel.makeUserAdmin(adapter.getUserAt(item.groupId).id)
             }
-
-            "Letiltom" -> {
-                viewModel.banUser(adapter.getUserAt(item.groupId))
+            "Ban user" -> {
+                viewModel.banUser(adapter.getUserAt(item.groupId).id)
             }
         }
         return super.onContextItemSelected(item)

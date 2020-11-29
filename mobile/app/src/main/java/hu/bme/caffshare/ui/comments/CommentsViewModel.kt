@@ -28,8 +28,8 @@ class CommentsViewModel @Inject constructor(
         }
     }
 
-    fun addComment(comment: String) = execute {
-        val isSuccessful = commentsPresenter.addComment(comment)
+    fun addComment(caffFileId: String, comment: String) = execute {
+        val isSuccessful = commentsPresenter.addComment(caffFileId, comment)
 
         if (isSuccessful) {
             postEvent(CommentSentSuccessfully)

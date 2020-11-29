@@ -19,7 +19,7 @@ class TokenDataSource @Inject constructor(context: Context) {
             if (_inMemoryAccessToken == null) {
                 _inMemoryAccessToken = store.accessToken
             }
-            return "$BEARER_PREFIX $_inMemoryAccessToken"
+            return _inMemoryAccessToken
         }
         set(value) {
             _inMemoryAccessToken = value
@@ -35,6 +35,11 @@ class TokenDataSource @Inject constructor(context: Context) {
     fun saveTokens(tokensDTO: TokensDTO) {
         accessToken = tokensDTO.accessToken
         refreshToken = tokensDTO.refreshToken
+    }
+
+    fun removeTokens() {
+        accessToken = null
+        refreshToken = null
     }
 }
 

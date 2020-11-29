@@ -10,7 +10,11 @@ class CaffListViewModel @Inject constructor(
     fun load() = execute {
         val caffList = caffListPresenter.getCaffFiles()
 
-        viewState = CaffListContent(caffList)
+        viewState = when {
+            caffList == null -> Error
+            caffList.isEmpty() -> Empty
+            else -> CaffListContent(caffList)
+        }
     }
 
 }

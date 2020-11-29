@@ -24,6 +24,8 @@ import com.squareup.moshi.JsonClass
  * @param role
  * @param createdAt
  * @param updatedAt
+ * @param email
+ * @param banned
  */
 
 @JsonClass(generateAdapter = true)
@@ -41,18 +43,21 @@ data class UserDTO(
     @Json(name = "createdAt")
     val createdAt: String,
     @Json(name = "updatedAt")
-    val updatedAt: String
+    val updatedAt: String,
+    @Json(name = "email")
+    val email: kotlin.String? = null,
+    @Json(name = "banned")
+    val banned: kotlin.Boolean? = null
 ) {
 
     /**
      *
-     * Values: ADMIN,WORKER
+     * Values: ADMIN,CUSTOMER
      */
 
     enum class Role(val value: kotlin.String) {
         @Json(name = "ADMIN")
         ADMIN("ADMIN"),
-
         @Json(name = "CUSTOMER")
         CUSTOMER("CUSTOMER");
     }

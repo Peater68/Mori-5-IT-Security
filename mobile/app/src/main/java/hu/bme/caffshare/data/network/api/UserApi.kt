@@ -41,20 +41,6 @@ interface UserApi {
     suspend fun createUser(@Body userRegistrationDTO: UserRegistrationDTO? = null): Response<UserDTO>
 
     /**
-     *
-     * Delete current user profile
-     * Responses:
-     *  - 204: Non-Authoritative Information
-     *  - 401: Unauthorized
-     *  - 403: Forbidden
-     *  - 500: Internal Server Error
-     *
-     * @return [Unit]
-     */
-    @DELETE("api/users/me")
-    suspend fun deleteMe(): Response<Unit>
-
-    /**
      * Your GET endpoint
      * Get current user profile
      * Responses:

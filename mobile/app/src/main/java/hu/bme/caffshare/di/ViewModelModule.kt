@@ -5,12 +5,13 @@ import co.zsmb.rainbowcake.dagger.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import hu.bme.caffshare.ui.boughtcaffdetails.BoughtCaffDetailsViewModel
 import hu.bme.caffshare.ui.admin.UserListViewModel
+import hu.bme.caffshare.ui.boughtcaffdetails.BoughtCaffDetailsViewModel
 import hu.bme.caffshare.ui.caffdetails.CaffDetailsViewModel
 import hu.bme.caffshare.ui.cafflist.CaffListViewModel
 import hu.bme.caffshare.ui.comments.CommentsViewModel
 import hu.bme.caffshare.ui.login.LoginViewModel
+import hu.bme.caffshare.ui.mainactivity.MainViewModel
 import hu.bme.caffshare.ui.profile.ProfileViewModel
 import hu.bme.caffshare.ui.profile.boughtcafflist.BoughtCaffListViewModel
 import hu.bme.caffshare.ui.profile.uploadedcafflist.UploadedCaffListViewModel
@@ -75,4 +76,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(UploadedCaffDetailsViewModel::class)
     abstract fun bindUploadedCaffDetailsViewModel(uploadedCaffListViewModel: UploadedCaffDetailsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel::class)
+    abstract fun bindMainViewModel(mainViewModel: MainViewModel): ViewModel
 }

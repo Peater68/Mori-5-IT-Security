@@ -9,8 +9,6 @@ object Loading : UploadedCaffListViewState()
 
 object Error : UploadedCaffListViewState()
 
-object Empty : UploadedCaffListViewState()
-
 data class UploadedCaffListContent(
     val caffFiles: List<CaffFile> = emptyList(),
     val selectedFileUri: Uri? = null
