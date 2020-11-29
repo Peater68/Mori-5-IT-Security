@@ -8,6 +8,7 @@ import com.mori5.itsecurity.domain.User;
 import com.mori5.itsecurity.errorhandling.domain.ItSecurityErrors;
 import com.mori5.itsecurity.errorhandling.exception.ConflictException;
 import com.mori5.itsecurity.errorhandling.exception.EntityNotFoundException;
+import com.mori5.itsecurity.errorhandling.exception.InvalidOperationException;
 import com.mori5.itsecurity.errorhandling.exception.NoUserInContextException;
 import com.mori5.itsecurity.mapper.UserMapper;
 import com.mori5.itsecurity.repository.UserRepository;
@@ -97,6 +98,10 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void banUserById(String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
+        if (user.getRole().equals(Role.ADMIN)) {
+            throw new InvalidOperationException("Admin cannot be banned!", ItSecurityErrors.INVALID_OPERATION);
+        }
+
         user.setIsBanned(true);
     }
 

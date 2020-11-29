@@ -219,6 +219,19 @@ public class DocumentServiceImpl implements DocumentService {
 
         Document document = documentRepository.findById(documentId)
                 .orElseThrow(() -> new EntityNotFoundException(DOCUMENT_NOT_FOUND, ItSecurityErrors.ENTITY_NOT_FOUND));
+
+        boolean isBought = false;
+        for (Document doc : user.getDownloads()) {
+            if (doc.getId().equals(documentId)) {
+                isBought = true;
+                break;
+            }
+        }
+
+        if (isBought) {
+            throw new InvalidOperationException("Caff is already bought", ItSecurityErrors.INVALID_OPERATION);
+        }
+
         document.getCustomers().add(user);
 
         user.getDownloads().add(document);
