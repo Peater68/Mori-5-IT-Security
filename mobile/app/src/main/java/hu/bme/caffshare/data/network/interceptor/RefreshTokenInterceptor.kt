@@ -39,7 +39,7 @@ class RefreshTokenInterceptor(
                             .removeHeader(TokenDataSource.ACCESS_TOKEN_HEADER)
                             .addHeader(
                                 TokenDataSource.ACCESS_TOKEN_HEADER,
-                                tokenDataSource.accessToken!!
+                                "${TokenDataSource.BEARER_PREFIX} ${tokenDataSource.accessToken!!}"
                             ).build()
                     )
                 } else {

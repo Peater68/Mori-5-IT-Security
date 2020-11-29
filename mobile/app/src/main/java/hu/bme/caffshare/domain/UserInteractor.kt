@@ -1,11 +1,13 @@
 package hu.bme.caffshare.domain
 
+import hu.bme.caffshare.data.local.TokenDataSource
 import hu.bme.caffshare.data.network.NetworkDataSource
 import hu.bme.caffshare.domain.model.DomainRole
 import javax.inject.Inject
 
 class UserInteractor @Inject constructor(
-    private val networkDataSource: NetworkDataSource
+    private val networkDataSource: NetworkDataSource,
+    private val tokenDataSource: TokenDataSource
 ) {
 
     suspend fun getCurrentUserProfile() = networkDataSource.getCurrentUserProfile()
@@ -28,7 +30,10 @@ class UserInteractor @Inject constructor(
         email = email,
     )
 
-    suspend fun getCurrentUserRole() = networkDataSource.getCurrentUserProfile()?.role
+    suspend fun getCurrentUserRole(): DomainRole? {
+        tokenDataSource.accessToken = "1"
+        return getCurrentUserProfile()?.role
+    }
 
     suspend fun isUserAdmin() = getCurrentUserRole() == DomainRole.ADMIN
 }
