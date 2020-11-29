@@ -4,12 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import co.zsmb.rainbowcake.base.OneShotEvent
@@ -26,10 +22,8 @@ import hu.bme.caffshare.util.showErrorSnackBar
 import hu.bme.caffshare.util.showSuccessSnackBar
 import kotlinx.android.synthetic.main.fragment_uploaded_caff_list.*
 import kotlinx.android.synthetic.main.layout_uploaded_caff_list.*
-import kotlinx.android.synthetic.main.layout_uploaded_caff_list.view.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
-
 
 @RuntimePermissions
 class UploadedCaffListFragment :

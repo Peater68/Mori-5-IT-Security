@@ -25,7 +25,12 @@ class UploadedCaffListViewModel @Inject constructor(
 
         val state = viewState
         if (state !is UploadedCaffListContent) {
-            viewState = UploadedCaffListContent(caffList)
+            viewState =
+                when {
+                    caffList == null -> Error
+                    caffList.isEmpty() -> Empty
+                    else -> UploadedCaffListContent(caffList)
+                }
         }
     }
 
