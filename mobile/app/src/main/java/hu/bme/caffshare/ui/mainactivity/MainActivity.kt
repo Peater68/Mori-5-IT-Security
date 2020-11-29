@@ -22,6 +22,10 @@ class MainActivity : NavActivity<MainViewState, MainViewModel>() {
         setContentView(R.layout.activity_main_caff)
 
         viewModel.load()
+        setupBottomNav()
+    }
+
+    private fun setupBottomNav() {
         bottomNav.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.caffList -> {
