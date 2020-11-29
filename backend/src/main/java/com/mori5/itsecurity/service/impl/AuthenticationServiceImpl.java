@@ -70,7 +70,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return createLoginResponseDTO(user);
         } else {
             loggingService.logLogin(user, false);
-            throw new CredentialException(INVALID_PASSWORD, ItSecurityErrors.INVALID_PASSWORD);
+            throw new CredentialException(INCORRECT, ItSecurityErrors.UNAUTHORIZED);
         }
     }
 
